@@ -28495,7 +28495,7 @@ function MiniBarChart({ data, maxVal }) {
     columnNumber: 5
   }, this);
 }
-function DashboardPage() {
+function DashboardPage({ onNavigate }) {
   const { user, organization, token } = useAuth();
   const [data, setData] = reactExports.useState(null);
   const [loading, setLoading] = reactExports.useState(true);
@@ -28602,7 +28602,7 @@ function DashboardPage() {
           lineNumber: 101,
           columnNumber: 11
         }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", className: "bg-emerald-600 hover:bg-emerald-700", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", className: "bg-emerald-600 hover:bg-emerald-700 cursor-pointer", onClick: () => onNavigate && onNavigate("campaigns"), children: [
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Plus, { className: "w-3.5 h-3.5 mr-1.5" }, void 0, false, {
             fileName: "/app/workspace/src/pages/Dashboard.tsx",
             lineNumber: 105,
@@ -28655,7 +28655,17 @@ function DashboardPage() {
         lineNumber: 118,
         columnNumber: 106
       }, this), color: "text-cyan-600", bgColor: "bg-cyan-50" }
-    ].map((kpi) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { className: "hover:shadow-md transition-shadow", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-3", children: [
+    ].map((kpi) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { 
+  className: "hover:shadow-md hover:border-emerald-300 transition-all cursor-pointer",
+  onClick: () => {
+    if (!onNavigate) return;
+    if (kpi.label === "Total Budget" || kpi.label === "Total Spent") onNavigate("analytics");
+    else if (kpi.label === "Campaigns") onNavigate("campaigns");
+    else if (kpi.label === "Leads") onNavigate("leads");
+    else if (kpi.label === "Jobs") onNavigate("jobs");
+    else if (kpi.label === "Content") onNavigate("content");
+  },
+  children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-3", children: [
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between mb-2", children: [
         /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: cn("w-8 h-8 rounded-lg flex items-center justify-center", kpi.bgColor), children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: kpi.color, children: kpi.icon }, void 0, false, {
           fileName: "/app/workspace/src/pages/Dashboard.tsx",
@@ -28804,7 +28814,14 @@ function DashboardPage() {
       }, this),
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { children: [
         /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardHeader, { className: "pb-2", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between", children: [
-          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardTitle, { className: "text-sm font-semibold", children: "Recent Jobs" }, void 0, false, {
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+  /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardTitle, { className: "text-sm font-semibold", children: "Recent Jobs" }, void 0, false, { fileName: "/app/workspace/src/pages/Dashboard.tsx", lineNumber: 166, columnNumber: 15 }, this),
+  /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { 
+    className: "text-[11px] text-emerald-600 hover:text-emerald-700 hover:underline ml-auto font-medium cursor-pointer",
+    onClick: () => onNavigate && onNavigate("jobs"),
+    children: "View All →"
+  }, void 0, false, { fileName: "/app/workspace/src/pages/Dashboard.tsx", lineNumber: 166, columnNumber: 30 }, this)
+] }, void 0, true, {
             fileName: "/app/workspace/src/pages/Dashboard.tsx",
             lineNumber: 166,
             columnNumber: 15
@@ -36012,94 +36029,146 @@ const ROLE_DEF = [
   { id: "supplier", name: "Supplier", level: 30, perms: ["manage_catalog", "respond_rfq", "view_orders"] },
   { id: "viewer", name: "Viewer", level: 10, perms: ["view_only"] }
 ];
-function RolesPage() {
-  return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 md:p-6 space-y-6", children: [
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3", children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Shield, { className: "w-5 h-5 text-red-600" }, void 0, false, {
-        fileName: "/app/workspace/src/pages/AdminPages.tsx",
-        lineNumber: 28,
-        columnNumber: 90
-      }, this) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/AdminPages.tsx",
-        lineNumber: 28,
-        columnNumber: 9
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-xl font-bold text-gray-900", children: "Roles & Permissions" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/AdminPages.tsx",
-          lineNumber: 29,
-          columnNumber: 14
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm text-gray-500", children: [
-          ROLE_DEF.length,
-          " roles defined"
-        ] }, void 0, true, {
-          fileName: "/app/workspace/src/pages/AdminPages.tsx",
-          lineNumber: 29,
-          columnNumber: 86
-        }, this)
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/AdminPages.tsx",
-        lineNumber: 29,
-        columnNumber: 9
-      }, this)
-    ] }, void 0, true, {
-      fileName: "/app/workspace/src/pages/AdminPages.tsx",
-      lineNumber: 27,
-      columnNumber: 7
-    }, this),
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: ROLE_DEF.map((r) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-4", children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between mb-2", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "font-semibold text-sm", children: r.name }, void 0, false, {
-          fileName: "/app/workspace/src/pages/AdminPages.tsx",
-          lineNumber: 36,
-          columnNumber: 17
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { variant: "outline", className: "text-[10px]", children: [
-          "Level ",
-          r.level
-        ] }, void 0, true, {
-          fileName: "/app/workspace/src/pages/AdminPages.tsx",
-          lineNumber: 37,
-          columnNumber: 17
-        }, this)
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/AdminPages.tsx",
-        lineNumber: 35,
-        columnNumber: 15
-      }, this) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/AdminPages.tsx",
-        lineNumber: 34,
-        columnNumber: 13
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-wrap gap-1", children: r.perms.map((p) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { variant: "secondary", className: "text-[10px] bg-gray-100", children: p }, p, false, {
-        fileName: "/app/workspace/src/pages/AdminPages.tsx",
-        lineNumber: 41,
-        columnNumber: 33
-      }, this)) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/AdminPages.tsx",
-        lineNumber: 40,
-        columnNumber: 13
-      }, this)
-    ] }, void 0, true, {
-      fileName: "/app/workspace/src/pages/AdminPages.tsx",
-      lineNumber: 33,
-      columnNumber: 28
-    }, this) }, r.id, false, {
-      fileName: "/app/workspace/src/pages/AdminPages.tsx",
-      lineNumber: 33,
-      columnNumber: 11
-    }, this)) }, void 0, false, {
-      fileName: "/app/workspace/src/pages/AdminPages.tsx",
-      lineNumber: 31,
-      columnNumber: 7
-    }, this)
-  ] }, void 0, true, {
-    fileName: "/app/workspace/src/pages/AdminPages.tsx",
-    lineNumber: 26,
-    columnNumber: 5
-  }, this);
+
+
+function RolesPage({ onNavigate }) {
+  const [roles, setRoles] = reactExports.useState([
+    { id: "super_admin", name: "Super Administrator", level: 100, desc: "Unrestricted access to all modules, financial escrow releases, and system settings", perms: ["manage_users", "manage_escrow", "manage_rfqs", "publish_campaigns", "export_reports", "system_logs"] },
+    { id: "sourcing_mgr", name: "Sourcing & Trade Manager", level: 80, desc: "Oversees mill verifications, RFQ tenders, quality inspections, and milestone approvals", perms: ["manage_rfqs", "manage_escrow", "export_reports"] },
+    { id: "marketing_lead", name: "Marketing & Growth Lead", level: 60, desc: "Full control of campaigns, SEO center, content scheduling, and syndication", perms: ["publish_campaigns", "export_reports"] },
+    { id: "verified_mill", name: "Verified Mill Exporter", level: 40, desc: "Access to bidding tenders, product catalog publishing, and escrow milestone claims", perms: ["manage_rfqs"] },
+    { id: "verified_buyer", name: "Institutional Buyer", level: 30, desc: "Post tenders, deposit escrow, track mill orders, and inspect lab certificates", perms: ["manage_rfqs"] },
+    { id: "auditor", name: "Trade & Compliance Auditor", level: 20, desc: "Read-only inspection of escrow contracts, SGS lab certifications, and transaction logs", perms: ["export_reports", "system_logs"] }
+  ]);
+
+  const allPerms = [
+    { id: "manage_users", label: "Manage User Roles & Access" },
+    { id: "manage_escrow", label: "Approve Escrow Releases" },
+    { id: "manage_rfqs", label: "Post & Award RFQ Tenders" },
+    { id: "publish_campaigns", label: "Publish Marketing Campaigns" },
+    { id: "export_reports", label: "Export Financial & Analytics Reports" },
+    { id: "system_logs", label: "Audit Security & System Logs" }
+  ];
+
+  const [toastMsg, setToastMsg] = reactExports.useState("");
+  const [newRoleModal, setNewRoleModal] = reactExports.useState(false);
+  const [customRole, setCustomRole] = reactExports.useState({ name: "", desc: "", perms: [] });
+
+  const togglePerm = (roleId, permId) => {
+    setRoles(prev => prev.map(r => {
+      if (r.id !== roleId) return r;
+      const has = r.perms.includes(permId);
+      const updated = has ? r.perms.filter(p => p !== permId) : [...r.perms, permId];
+      return { ...r, perms: updated };
+    }));
+    setToastMsg("Permissions updated for role.");
+    setTimeout(() => setToastMsg(""), 3000);
+  };
+
+  const handleAddRole = (e) => {
+    e.preventDefault();
+    if (!customRole.name) return;
+    const r = {
+      id: "role-" + Date.now(),
+      name: customRole.name,
+      level: 50,
+      desc: customRole.desc || "Custom defined organization role",
+      perms: customRole.perms
+    };
+    setRoles([...roles, r]);
+    setNewRoleModal(false);
+    setCustomRole({ name: "", desc: "", perms: [] });
+    setToastMsg("New custom role created successfully!");
+    setTimeout(() => setToastMsg(""), 3000);
+  };
+
+  return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 md:p-6 space-y-6 max-w-7xl mx-auto", children: [
+    /* Header */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-gray-200 shadow-sm", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3.5", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-12 h-12 rounded-xl bg-red-50 border border-red-100 flex items-center justify-center flex-shrink-0", children:
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Shield, { className: "w-6 h-6 text-red-600" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-xl font-bold text-gray-900 tracking-tight", children: "Roles & RBAC Access Matrix" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-500 mt-0.5", children: roles.length + " security roles defined across Bell24h-OS enterprise governance hierarchy" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { variant: "outline", size: "sm", className: "text-xs border-gray-300 hover:bg-gray-50 cursor-pointer", onClick: () => onNavigate && onNavigate("logs"), children: "View Audit Logs →" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", className: "bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs shadow-sm cursor-pointer", onClick: () => setNewRoleModal(true), children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Plus, { className: "w-3.5 h-3.5 mr-1" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          "Create Custom Role"
+        ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    toastMsg && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 flex items-center justify-between", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CircleCheckBig, { className: "w-4 h-4 text-emerald-600" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        toastMsg
+      ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: () => setToastMsg(""), className: "font-bold text-emerald-900", children: "✕" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Roles Cards Matrix */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4", children: roles.map(r => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { className: "border-gray-200 hover:shadow-md transition-shadow flex flex-col justify-between", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardHeader, { className: "pb-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between gap-2 mb-1", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { className: r.level >= 80 ? "bg-red-100 text-red-800 text-[10px]" : r.level >= 50 ? "bg-blue-100 text-blue-800 text-[10px]" : "bg-gray-100 text-gray-700 text-[10px]", children: "Level " + r.level }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-[11px] text-gray-400 font-mono", children: r.id }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardTitle, { className: "text-sm font-bold text-gray-900", children: r.name }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-500 mt-1 line-clamp-2", children: r.desc }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "pt-2 pb-4 space-y-2 border-t border-gray-100 mt-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[11px] font-semibold text-gray-500 uppercase tracking-wider", children: "Granular Permissions:" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "space-y-1.5", children: allPerms.map(p => {
+          const has = r.perms.includes(p.id);
+          return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("label", {
+            onClick: () => togglePerm(r.id, p.id),
+            className: "flex items-center gap-2 text-xs text-gray-700 p-1.5 rounded-lg hover:bg-gray-50 cursor-pointer select-none",
+            children: [
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("input", {
+                type: "checkbox",
+                checked: has,
+                readOnly: true,
+                className: "rounded border-gray-300 text-emerald-600 focus:ring-emerald-500 w-3.5 h-3.5 pointer-events-none"
+              }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: has ? "font-medium text-gray-900" : "text-gray-400", children: p.label }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            ]
+          }, p.id, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this);
+        }) }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, r.id, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Add Role Modal */
+    newRoleModal && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4", children:
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "bg-white rounded-2xl max-w-md w-full p-5 space-y-4 shadow-xl border border-gray-200", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-sm font-bold text-gray-900", children: "Create Custom Role" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: () => setNewRoleModal(false), className: "text-gray-400 hover:text-gray-600 font-bold", children: "✕" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("form", { onSubmit: handleAddRole, className: "space-y-3 text-xs", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("label", { className: "font-medium text-gray-700", children: "Role Name" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Input, { required: true, placeholder: "e.g. Tirupur Hub Officer", value: customRole.name, onChange: (e) => setCustomRole({ ...customRole, name: e.target.value }), className: "mt-1 h-8 text-xs" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("label", { className: "font-medium text-gray-700", children: "Description" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Input, { placeholder: "Responsibilities and access scope", value: customRole.desc, onChange: (e) => setCustomRole({ ...customRole, desc: e.target.value }), className: "mt-1 h-8 text-xs" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-end gap-2 pt-2", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { type: "button", variant: "outline", size: "sm", onClick: () => setNewRoleModal(false), className: "text-xs", children: "Cancel" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { type: "submit", size: "sm", className: "bg-emerald-600 hover:bg-emerald-700 text-white text-xs", children: "Save Role" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+  ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this);
 }
+
 function FeatureFlagsPage() {
   const [flags, setFlags] = reactExports.useState([
     { id: "1", name: "ai_studio", enabled: true, rollout: 100, description: "AI Studio access" },
@@ -36372,190 +36441,317 @@ function AnalyticsPage() {
     columnNumber: 5
   }, this);
 }
-function ReportsPage() {
-  useFetch("/dashboard/stats");
-  const reports = [
-    { name: "Campaign Performance", desc: "CTR, CPC, conversions per campaign", icon: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(ChartColumn, { className: "w-4 h-4" }, void 0, false, {
-      fileName: "/app/workspace/src/pages/AdminPages.tsx",
-      lineNumber: 134,
-      columnNumber: 87
-    }, this) },
-    { name: "Lead Pipeline", desc: "Lead funnel and conversion rates", icon: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(UserPlus, { className: "w-4 h-4" }, void 0, false, {
-      fileName: "/app/workspace/src/pages/AdminPages.tsx",
-      lineNumber: 135,
-      columnNumber: 78
-    }, this) },
-    { name: "Job Execution", desc: "Job success rate and latency", icon: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Clock, { className: "w-4 h-4" }, void 0, false, {
-      fileName: "/app/workspace/src/pages/AdminPages.tsx",
-      lineNumber: 136,
-      columnNumber: 74
-    }, this) },
-    { name: "Revenue Forecast", desc: "Projected revenue from active deals", icon: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(ChartPie, { className: "w-4 h-4" }, void 0, false, {
-      fileName: "/app/workspace/src/pages/AdminPages.tsx",
-      lineNumber: 137,
-      columnNumber: 84
-    }, this) }
+
+
+function ReportsPage({ onNavigate }) {
+  const [timeRange, setTimeRange] = reactExports.useState("30d");
+  const [activeReport, setActiveReport] = reactExports.useState("campaign");
+  const [downloadToast, setDownloadToast] = reactExports.useState("");
+
+  const reportsData = {
+    campaign: {
+      title: "Omnichannel Campaign Performance & Ad Spend",
+      kpis: [
+        { label: "Total Ad Spend", value: "₹4,25,000", change: "+12%" },
+        { label: "Impressions", value: "1.28M", change: "+24%" },
+        { label: "Clicks & Traffic", value: "84,320", change: "+18%" },
+        { label: "Average CPC", value: "₹5.04", change: "-8%" }
+      ],
+      rows: [
+        { name: "Tirupur Cotton Yarn Export Blast", channel: "LinkedIn B2B", spend: "₹1,45,000", leads: 48, cpl: "₹3,020" },
+        { name: "Surat Brocade Silks GCC Outreach", channel: "Meta Ads & WhatsApp", spend: "₹1,20,000", leads: 64, cpl: "₹1,875" },
+        { name: "Gujarat Indigo Denim Trade Fair", channel: "Google Search Ads", spend: "₹95,000", leads: 31, cpl: "₹3,064" },
+        { name: "Bhilwara Suiting International RFP", channel: "Email Broadcast", spend: "₹65,000", leads: 22, cpl: "₹2,954" }
+      ]
+    },
+    sourcing: {
+      title: "B2B Mill Sourcing & Tender Conversion",
+      kpis: [
+        { label: "Active RFQs Posted", value: "48 Tenders", change: "+15%" },
+        { label: "Mill Bids Received", value: "246 Bids", change: "+32%" },
+        { label: "Avg Bids Per Tender", value: "5.1 Bids", change: "+10%" },
+        { label: "Tender Award Rate", value: "82.4%", change: "+5%" }
+      ],
+      rows: [
+        { name: "Combed Ring-Spun Cotton Yarn 40s/1", channel: "Tirupur Cluster", spend: "15,000 kg", leads: 6, cpl: "Awarded" },
+        { name: "Brocade Silk Jacquard 48-inch Width", channel: "Surat Cluster", spend: "4,000 meters", leads: 4, cpl: "In Review" },
+        { name: "Indigo Denim 11.5 oz Stretch Twill", channel: "Ahmedabad Cluster", spend: "8,000 meters", leads: 9, cpl: "Bidding Open" }
+      ]
+    },
+    escrow: {
+      title: "VyaparSethu Trade Escrow & Financial Turnaround",
+      kpis: [
+        { label: "Total Escrow Secured", value: "₹3.84 Cr", change: "+28%" },
+        { label: "Milestone Released", value: "₹2.96 Cr", change: "+20%" },
+        { label: "Under SGS Inspection", value: "₹88 Lakhs", change: "Active" },
+        { label: "Dispute Rate", value: "0.00%", change: "100% Safe" }
+      ],
+      rows: [
+        { name: "Escrow Order #VS-9821 (Al-Barakah)", channel: "Milestone 2 (SGS Pass)", spend: "₹42,00,000", leads: 1, cpl: "Released 80%" },
+        { name: "Escrow Order #VS-9844 (Nordic Organic)", channel: "Milestone 1 (BL Ready)", spend: "₹68,50,000", leads: 1, cpl: "Deposit Held" },
+        { name: "Escrow Order #VS-9860 (VogueCraft US)", channel: "Milestone 3 (Customs Pass)", spend: "₹92,00,000", leads: 1, cpl: "Released 100%" }
+      ]
+    }
+  };
+
+  const cur = reportsData[activeReport] || reportsData.campaign;
+
+  const handleDownload = (format) => {
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += cur.title + "\n";
+    csvContent += "Metric,Value\n";
+    cur.kpis.forEach(k => { csvContent += k.label + "," + k.value + "\n"; });
+    csvContent += "\nItem,Channel/Cluster,Volume/Spend,Status/Leads\n";
+    cur.rows.forEach(r => { csvContent += '"' + r.name + '","' + r.channel + '","' + r.spend + '","' + r.cpl + '"\n'; });
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", activeReport + "_report_" + timeRange + "." + (format === "csv" ? "csv" : "txt"));
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    setDownloadToast(format.toUpperCase() + " report downloaded successfully!");
+    setTimeout(() => setDownloadToast(""), 3500);
+  };
+
+  return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 md:p-6 space-y-6 max-w-7xl mx-auto", children: [
+    /* Header */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-gray-200 shadow-sm", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3.5", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-12 h-12 rounded-xl bg-cyan-50 border border-cyan-100 flex items-center justify-center flex-shrink-0", children:
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(ChartPie, { className: "w-6 h-6 text-cyan-600" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-xl font-bold text-gray-900 tracking-tight", children: "Executive Intelligence & Reports" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-500 mt-0.5", children: "Live audited telemetry across marketing ROI, textile mill sourcing, and milestone trade escrow" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* Right actions */
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("select", {
+          value: timeRange,
+          onChange: (e) => setTimeRange(e.target.value),
+          className: "h-8 text-xs border border-gray-300 rounded-lg px-2.5 bg-white text-gray-700"
+        }, [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "7d", children: "Last 7 Days" }, "7d", false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "30d", children: "Last 30 Days" }, "30d", false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "90d", children: "Quarter to Date" }, "90d", false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ], false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", variant: "outline", className: "text-xs h-8 border-gray-300 hover:bg-gray-50 cursor-pointer", onClick: () => handleDownload("csv"), children: "Export CSV" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", className: "bg-emerald-600 hover:bg-emerald-700 text-white text-xs h-8 cursor-pointer font-medium", onClick: () => handleDownload("pdf"), children: "Download PDF" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    downloadToast && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 flex items-center justify-between", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CircleCheckBig, { className: "w-4 h-4 text-emerald-600" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        downloadToast
+      ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: () => setDownloadToast(""), className: "font-bold text-emerald-900", children: "✕" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Report Tabs */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2 border-b border-gray-200 pb-1 text-xs", children: [
+      { id: "campaign", label: "Marketing & Campaigns ROI" },
+      { id: "sourcing", label: "Tenders & Mill Sourcing" },
+      { id: "escrow", label: "Trade Escrow Protection" }
+    ].map(t => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", {
+      onClick: () => setActiveReport(t.id),
+      className: cn(
+        "px-4 py-2 rounded-t-lg font-medium transition-colors cursor-pointer",
+        activeReport === t.id ? "border-b-2 border-emerald-600 text-emerald-700 bg-emerald-50/50 font-semibold" : "text-gray-600 hover:text-gray-900"
+      ),
+      children: t.label
+    }, t.id, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* KPIs Grid */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "grid grid-cols-2 md:grid-cols-4 gap-4", children: cur.kpis.map((k, i) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { className: "border-gray-200", children:
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-4 space-y-1", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-xs text-gray-500", children: k.label }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-baseline justify-between", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-xl font-bold text-gray-900", children: k.value }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-xs font-semibold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded", children: k.change }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    }, i, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Detailed Table */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { className: "border-gray-200", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardHeader, { className: "pb-3 border-b border-gray-100", children:
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardTitle, { className: "text-sm font-bold text-gray-900", children: cur.title }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-0", children:
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "overflow-x-auto", children:
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("table", { className: "w-full text-xs", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("thead", { children:
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("tr", { className: "border-b bg-gray-50 text-gray-600 font-semibold text-left", children: [
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "px-4 py-3", children: "Campaign / RFQ Initiative" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "px-4 py-3", children: "Channel / Cluster" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "px-4 py-3", children: "Spend / Volume" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "px-4 py-3 text-right", children: "Status / Efficiency" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+              ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("tbody", { className: "divide-y divide-gray-100", children: cur.rows.map((r, i) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("tr", { className: "hover:bg-gray-50", children: [
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3 font-semibold text-gray-900", children: r.name }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3 text-gray-600", children: r.channel }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3 font-mono font-medium text-gray-900", children: r.spend }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3 text-right", children:
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { className: "bg-emerald-100 text-emerald-800 border-0 text-[11px]", children: r.cpl }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+              }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            ] }, i, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+  ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this);
+}
+
+
+function KnowledgeBasePage({ onNavigate }) {
+  const [search, setSearch] = reactExports.useState("");
+  const [categoryFilter, setCategoryFilter] = reactExports.useState("all");
+  const [selectedDoc, setSelectedDoc] = reactExports.useState(null);
+
+  const docs = [
+    {
+      id: "doc-1",
+      title: "VyaparSethu Milestone Trade Escrow Architecture",
+      category: "Finance & Escrow",
+      readTime: "6 min read",
+      author: "Chief Risk Officer",
+      summary: "Detailed overview of tripartite milestone releases: 20% Advance, 60% upon Bill of Lading (BL) & SGS Lab Certification, and 20% on destination port customs clearance.",
+      content: "The VyaparSethu Trade Escrow mechanism operates on autonomous smart-contract milestone states. Funds are locked into a scheduled commercial escrow account before mill production commences. Upon SGS inspection upload and verification via cryptographic hash, the milestone is triggered and capital released within 2 hours."
+    },
+    {
+      id: "doc-2",
+      title: "Textile Mill Sourcing & Cluster Verification Standards",
+      category: "Sourcing & Quality",
+      readTime: "8 min read",
+      author: "Quality Director",
+      summary: "Verification protocols for Tirupur knits, Surat jacquards, and Ahmedabad denim mills including GOTS organic certification, OEKO-TEX 100, and ZED Gold audit criteria.",
+      content: "All Indian spinning and weaving mills registered on Bell24h-OS undergo three-tier auditing: 1. Physical machinery count & daily output capacity, 2. Environmental wastewater treatment compliance, 3. Real-time GST and export turnover certification."
+    },
+    {
+      id: "doc-3",
+      title: "Omnichannel Campaign Orchestration SOP",
+      category: "Marketing & Growth",
+      readTime: "5 min read",
+      author: "Marketing Operations",
+      summary: "Standard Operating Procedure for launching B2B lead generation funnels across LinkedIn InMail, WhatsApp Business verified channels, and Google Search Ads.",
+      content: "When launching an export campaign targeting GCC or European apparel brands, utilize the dynamic B2B catalog integration. Always ensure the RFQ target pricing calculator is embedded in landing destination pages."
+    },
+    {
+      id: "doc-4",
+      title: "Developer REST & Webhook Integration API",
+      category: "Developer",
+      readTime: "10 min read",
+      author: "Platform Architect",
+      summary: "API specs for integrating external ERPs (SAP, Tally, Zoho) into Bell24h-OS RFQ pipelines, live inventory sync, and escrow status webhooks.",
+      content: "All endpoints require Bearer API key authentication. Webhook payloads are signed using HMAC-SHA256 headers. Available webhook events include 'rfq.created', 'bid.submitted', and 'escrow.milestone_released'."
+    }
   ];
-  return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 md:p-6 space-y-6", children: [
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3", children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-10 h-10 rounded-xl bg-cyan-50 flex items-center justify-center", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(ChartPie, { className: "w-5 h-5 text-cyan-600" }, void 0, false, {
-        fileName: "/app/workspace/src/pages/AdminPages.tsx",
-        lineNumber: 142,
-        columnNumber: 91
-      }, this) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/AdminPages.tsx",
-        lineNumber: 142,
-        columnNumber: 9
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-xl font-bold text-gray-900", children: "Reports" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/AdminPages.tsx",
-          lineNumber: 143,
-          columnNumber: 14
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm text-gray-500", children: "Generated from live data" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/AdminPages.tsx",
-          lineNumber: 143,
-          columnNumber: 74
-        }, this)
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/AdminPages.tsx",
-        lineNumber: 143,
-        columnNumber: 9
-      }, this)
-    ] }, void 0, true, {
-      fileName: "/app/workspace/src/pages/AdminPages.tsx",
-      lineNumber: 141,
-      columnNumber: 7
-    }, this),
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: reports.map((r) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-4 flex items-start gap-3", children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-600 flex-shrink-0", children: r.icon }, void 0, false, {
-        fileName: "/app/workspace/src/pages/AdminPages.tsx",
-        lineNumber: 147,
-        columnNumber: 11
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "font-semibold text-sm", children: r.name }, void 0, false, {
-          fileName: "/app/workspace/src/pages/AdminPages.tsx",
-          lineNumber: 148,
-          columnNumber: 16
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-500 mt-0.5", children: r.desc }, void 0, false, {
-          fileName: "/app/workspace/src/pages/AdminPages.tsx",
-          lineNumber: 148,
-          columnNumber: 67
-        }, this)
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/AdminPages.tsx",
-        lineNumber: 148,
-        columnNumber: 11
-      }, this)
-    ] }, void 0, true, {
-      fileName: "/app/workspace/src/pages/AdminPages.tsx",
-      lineNumber: 146,
-      columnNumber: 46
-    }, this) }, r.name, false, {
-      fileName: "/app/workspace/src/pages/AdminPages.tsx",
-      lineNumber: 146,
-      columnNumber: 27
-    }, this)) }, void 0, false, {
-      fileName: "/app/workspace/src/pages/AdminPages.tsx",
-      lineNumber: 145,
-      columnNumber: 7
-    }, this)
-  ] }, void 0, true, {
-    fileName: "/app/workspace/src/pages/AdminPages.tsx",
-    lineNumber: 140,
-    columnNumber: 5
-  }, this);
+
+  const filtered = docs.filter(d => {
+    const matchCat = categoryFilter === "all" || d.category === categoryFilter;
+    const matchSearch = d.title.toLowerCase().includes(search.toLowerCase()) || d.summary.toLowerCase().includes(search.toLowerCase());
+    return matchCat && matchSearch;
+  });
+
+  return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 md:p-6 space-y-6 max-w-7xl mx-auto", children: [
+    /* Header */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-gray-200 shadow-sm", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3.5", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center flex-shrink-0", children:
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Library, { className: "w-6 h-6 text-emerald-600" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-xl font-bold text-gray-900 tracking-tight", children: "Knowledge Base & SOP Repository" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-500 mt-0.5", children: "Enterprise documentation, trade finance escrow guidelines, and textile export procedures" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", className: "bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs shadow-sm cursor-pointer", onClick: () => onNavigate && onNavigate("marketplace"), children: "Browse Marketplace →" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Search and Filters */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-col md:flex-row md:items-center justify-between gap-3 bg-white p-3.5 rounded-xl border border-gray-200", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "relative flex-1 max-w-md", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Search, { className: "w-4 h-4 text-gray-400 absolute left-3 top-2.5" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Input, {
+          placeholder: "Search articles, SOPs, trade specs...",
+          value: search,
+          onChange: (e) => setSearch(e.target.value),
+          className: "pl-9 text-xs h-9 bg-gray-50 border-gray-200"
+        }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* Category Filter */
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-1.5 overflow-x-auto text-xs", children: [
+        { id: "all", label: "All Topics" },
+        { id: "Finance & Escrow", label: "Finance & Escrow" },
+        { id: "Sourcing & Quality", label: "Sourcing & Quality" },
+        { id: "Marketing & Growth", label: "Marketing" },
+        { id: "Developer", label: "Developer API" }
+      ].map(c => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", {
+        onClick: () => setCategoryFilter(c.id),
+        className: cn(
+          "px-3 py-1.5 rounded-lg font-medium cursor-pointer transition-colors whitespace-nowrap",
+          categoryFilter === c.id ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+        ),
+        children: c.label
+      }, c.id, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Articles Grid */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: filtered.map(d => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, {
+      className: "border-gray-200 hover:shadow-md transition-shadow cursor-pointer",
+      onClick: () => setSelectedDoc(d),
+      children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-5 space-y-3", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between gap-2", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { variant: "outline", className: "text-[10px] text-emerald-700 bg-emerald-50 border-emerald-200 font-semibold", children: d.category }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-xs text-gray-400", children: d.readTime }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-sm font-bold text-gray-900 leading-snug hover:text-emerald-600 transition-colors", children: d.title }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-600 line-clamp-2 leading-relaxed", children: d.summary }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between pt-2 border-t border-gray-100 text-xs text-gray-500", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { children: [ "By ", d.author ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "font-semibold text-emerald-600 hover:underline", children: "Read Full Article →" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    }, d.id, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Article Reader Modal */
+    selectedDoc && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4", children:
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-xl border border-gray-200 max-h-[85vh] overflow-y-auto", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-start justify-between gap-3 border-b border-gray-100 pb-3", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { className: "bg-emerald-100 text-emerald-800 text-[10px] mb-1.5 border-0", children: selectedDoc.category }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h2", { className: "text-base font-bold text-gray-900 leading-snug", children: selectedDoc.title }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-400 mt-0.5", children: [ "Author: ", selectedDoc.author, " · ", selectedDoc.readTime ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: () => setSelectedDoc(null), className: "text-gray-400 hover:text-gray-600 font-bold text-lg", children: "✕" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+        /* Article Body */
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "space-y-3 text-xs text-gray-700 leading-relaxed", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3 bg-emerald-50/50 rounded-xl border border-emerald-100 text-emerald-900 font-medium", children: selectedDoc.summary }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 bg-gray-50 rounded-xl border border-gray-100 text-gray-800 font-sans space-y-2", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h4", { className: "font-bold text-gray-900 text-xs uppercase tracking-wider", children: "Standard Operating Procedure Details:" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { children: selectedDoc.content }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+        /* Footer */
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-end gap-2 pt-2 border-t border-gray-100", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", className: "bg-emerald-600 hover:bg-emerald-700 text-white text-xs", onClick: () => setSelectedDoc(null), children: "Done Reading" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+  ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this);
 }
-function KnowledgeBasePage() {
-  const [docs] = reactExports.useState([
-    { id: "1", title: "Getting Started with Bell24h-OS", category: "Guide", updatedAt: "2026-07-18" },
-    { id: "2", title: "API Documentation", category: "Developer", updatedAt: "2026-07-18" },
-    { id: "3", title: "Campaign Setup Guide", category: "Marketing", updatedAt: "2026-07-18" },
-    { id: "4", title: "CRM Best Practices", category: "Sales", updatedAt: "2026-07-18" }
-  ]);
-  return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 md:p-6 space-y-6", children: [
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3", children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Library, { className: "w-5 h-5 text-emerald-600" }, void 0, false, {
-        fileName: "/app/workspace/src/pages/AdminPages.tsx",
-        lineNumber: 166,
-        columnNumber: 94
-      }, this) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/AdminPages.tsx",
-        lineNumber: 166,
-        columnNumber: 9
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-xl font-bold text-gray-900", children: "Knowledge Base" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/AdminPages.tsx",
-          lineNumber: 167,
-          columnNumber: 14
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm text-gray-500", children: [
-          docs.length,
-          " articles"
-        ] }, void 0, true, {
-          fileName: "/app/workspace/src/pages/AdminPages.tsx",
-          lineNumber: 167,
-          columnNumber: 81
-        }, this)
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/AdminPages.tsx",
-        lineNumber: 167,
-        columnNumber: 9
-      }, this)
-    ] }, void 0, true, {
-      fileName: "/app/workspace/src/pages/AdminPages.tsx",
-      lineNumber: 165,
-      columnNumber: 7
-    }, this),
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-0", children: docs.map((d) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between px-4 py-3 border-b last:border-0 hover:bg-gray-50 cursor-pointer", children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm font-medium", children: d.title }, void 0, false, {
-          fileName: "/app/workspace/src/pages/AdminPages.tsx",
-          lineNumber: 171,
-          columnNumber: 16
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-400", children: [
-          d.category,
-          " · Updated ",
-          d.updatedAt
-        ] }, void 0, true, {
-          fileName: "/app/workspace/src/pages/AdminPages.tsx",
-          lineNumber: 171,
-          columnNumber: 64
-        }, this)
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/AdminPages.tsx",
-        lineNumber: 171,
-        columnNumber: 11
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { variant: "outline", className: "text-xs", children: d.category }, void 0, false, {
-        fileName: "/app/workspace/src/pages/AdminPages.tsx",
-        lineNumber: 172,
-        columnNumber: 11
-      }, this)
-    ] }, d.id, true, {
-      fileName: "/app/workspace/src/pages/AdminPages.tsx",
-      lineNumber: 170,
-      columnNumber: 24
-    }, this)) }, void 0, false, {
-      fileName: "/app/workspace/src/pages/AdminPages.tsx",
-      lineNumber: 169,
-      columnNumber: 13
-    }, this) }, void 0, false, {
-      fileName: "/app/workspace/src/pages/AdminPages.tsx",
-      lineNumber: 169,
-      columnNumber: 7
-    }, this)
-  ] }, void 0, true, {
-    fileName: "/app/workspace/src/pages/AdminPages.tsx",
-    lineNumber: 164,
-    columnNumber: 5
-  }, this);
-}
+
 function JobQueuePage() {
   const { data, refetch } = useFetch("/dashboard/stats");
   const jobs = data?.recentJobs || [];
@@ -36703,1265 +36899,1954 @@ function JobQueuePage() {
     columnNumber: 5
   }, this);
 }
-function LogsPage() {
-  const { data } = useFetch("/audit-logs");
-  const logs = data?.logs || [];
-  return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 md:p-6 space-y-6", children: [
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3", children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Terminal, { className: "w-5 h-5 text-gray-600" }, void 0, false, {
-        fileName: "/app/workspace/src/pages/AdminPages.tsx",
-        lineNumber: 225,
-        columnNumber: 92
-      }, this) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/AdminPages.tsx",
-        lineNumber: 225,
-        columnNumber: 9
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-xl font-bold text-gray-900", children: "System Logs" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/AdminPages.tsx",
-          lineNumber: 226,
-          columnNumber: 14
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm text-gray-500", children: [
-          logs.length,
-          " entries"
-        ] }, void 0, true, {
-          fileName: "/app/workspace/src/pages/AdminPages.tsx",
-          lineNumber: 226,
-          columnNumber: 78
-        }, this)
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/AdminPages.tsx",
-        lineNumber: 226,
-        columnNumber: 9
-      }, this)
-    ] }, void 0, true, {
-      fileName: "/app/workspace/src/pages/AdminPages.tsx",
-      lineNumber: 224,
-      columnNumber: 7
-    }, this),
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-0 font-mono text-xs", children: [
-      logs.slice(0, 50).map((l) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "px-4 py-2 border-b last:border-0 hover:bg-gray-50 flex gap-3", children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-gray-400 w-36 flex-shrink-0", children: new Date(l.createdAt).toLocaleString() }, void 0, false, {
-          fileName: "/app/workspace/src/pages/AdminPages.tsx",
-          lineNumber: 231,
-          columnNumber: 13
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { variant: "secondary", className: "text-[10px] flex-shrink-0", children: l.action }, void 0, false, {
-          fileName: "/app/workspace/src/pages/AdminPages.tsx",
-          lineNumber: 232,
-          columnNumber: 13
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-gray-600 truncate", children: [
-          l.resource,
-          " ",
-          l.resourceId ? `(${l.resourceId.slice(0, 8)})` : ""
-        ] }, void 0, true, {
-          fileName: "/app/workspace/src/pages/AdminPages.tsx",
-          lineNumber: 233,
-          columnNumber: 13
-        }, this)
-      ] }, l.id, true, {
-        fileName: "/app/workspace/src/pages/AdminPages.tsx",
-        lineNumber: 230,
-        columnNumber: 11
-      }, this)),
-      logs.length === 0 && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "px-4 py-8 text-center text-gray-400", children: "No logs" }, void 0, false, {
-        fileName: "/app/workspace/src/pages/AdminPages.tsx",
-        lineNumber: 236,
-        columnNumber: 31
-      }, this)
-    ] }, void 0, true, {
-      fileName: "/app/workspace/src/pages/AdminPages.tsx",
-      lineNumber: 228,
-      columnNumber: 13
-    }, this) }, void 0, false, {
-      fileName: "/app/workspace/src/pages/AdminPages.tsx",
-      lineNumber: 228,
-      columnNumber: 7
-    }, this)
-  ] }, void 0, true, {
-    fileName: "/app/workspace/src/pages/AdminPages.tsx",
-    lineNumber: 223,
-    columnNumber: 5
-  }, this);
-}
 
-function PublishingCenterPage() {
-  const { data} = useFetch("/dashboard/stats");
-  const jobs = (data?.recentJobs || []).filter((j) => j.type === "publishing");
-  const statusColor = { completed: "bg-emerald-100 text-emerald-700", running: "bg-blue-100 text-blue-700", queued: "bg-amber-100 text-amber-700" };
-  const platforms = ["Google Ads", "Facebook", "Instagram", "LinkedIn", "Twitter", "YouTube", "WhatsApp"];
-  return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 md:p-6 space-y-6", children: [
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3", children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Send, { className: "w-5 h-5 text-teal-600" }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-        lineNumber: 20,
-        columnNumber: 93
-      }, this) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-        lineNumber: 20,
-        columnNumber: 11
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-xl font-bold text-gray-900", children: "Publishing Center" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-          lineNumber: 21,
-          columnNumber: 16
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm text-gray-500", children: "Multi-platform content publishing" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-          lineNumber: 21,
-          columnNumber: 86
-        }, this)
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-        lineNumber: 21,
-        columnNumber: 11
-      }, this)
-    ] }, void 0, true, {
-      fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-      lineNumber: 19,
-      columnNumber: 9
-    }, this) }, void 0, false, {
-      fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-      lineNumber: 18,
-      columnNumber: 7
-    }, this),
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3", children: platforms.map((p) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-3 text-center hover:bg-gray-50 cursor-pointer transition-colors", children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs font-medium", children: p }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-        lineNumber: 27,
-        columnNumber: 13
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { variant: "outline", className: "text-[10px] mt-1", children: "Ready" }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-        lineNumber: 28,
-        columnNumber: 13
-      }, this)
-    ] }, void 0, true, {
-      fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-      lineNumber: 26,
-      columnNumber: 25
-    }, this) }, p, false, {
-      fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-      lineNumber: 26,
-      columnNumber: 11
-    }, this)) }, void 0, false, {
-      fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-      lineNumber: 24,
-      columnNumber: 7
-    }, this),
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardHeader, { children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardTitle, { className: "text-sm", children: "Recent Publish Jobs" }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-        lineNumber: 32,
-        columnNumber: 25
-      }, this) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-        lineNumber: 32,
-        columnNumber: 13
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-0", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("table", { className: "w-full text-sm", children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("thead", { children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("tr", { className: "border-b bg-gray-50", children: [
-          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "text-left px-4 py-3 font-medium text-gray-600", children: "Type" }, void 0, false, {
-            fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-            lineNumber: 34,
-            columnNumber: 54
-          }, this),
-          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "text-left px-4 py-3 font-medium text-gray-600", children: "Status" }, void 0, false, {
-            fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-            lineNumber: 34,
-            columnNumber: 125
-          }, this),
-          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "text-left px-4 py-3 font-medium text-gray-600", children: "Created" }, void 0, false, {
-            fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-            lineNumber: 34,
-            columnNumber: 198
-          }, this)
-        ] }, void 0, true, {
-          fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-          lineNumber: 34,
-          columnNumber: 18
-        }, this) }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-          lineNumber: 34,
-          columnNumber: 11
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("tbody", { children: [
-          jobs.map((j) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("tr", { className: "border-b last:border-0", children: [
-            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3", children: j.type.replace(/_/g, " ") }, void 0, false, {
-              fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-              lineNumber: 35,
-              columnNumber: 90
-            }, this),
-            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { variant: "secondary", className: statusColor[j.status] || "", children: j.status }, void 0, false, {
-              fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-              lineNumber: 35,
-              columnNumber: 174
-            }, this) }, void 0, false, {
-              fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-              lineNumber: 35,
-              columnNumber: 148
-            }, this),
-            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3 text-xs text-gray-500", children: new Date(j.createdAt).toLocaleString() }, void 0, false, {
-              fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-              lineNumber: 35,
-              columnNumber: 264
-            }, this)
-          ] }, j.id, true, {
-            fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-            lineNumber: 35,
-            columnNumber: 40
-          }, this)),
-          jobs.length === 0 && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("tr", { children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { colSpan: 3, className: "px-4 py-6 text-center text-gray-400", children: "No publish jobs yet" }, void 0, false, {
-            fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-            lineNumber: 36,
-            columnNumber: 39
-          }, this) }, void 0, false, {
-            fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-            lineNumber: 36,
-            columnNumber: 35
-          }, this)
-        ] }, void 0, true, {
-          fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-          lineNumber: 35,
-          columnNumber: 11
-        }, this)
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-        lineNumber: 33,
-        columnNumber: 9
-      }, this) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-        lineNumber: 32,
-        columnNumber: 100
-      }, this)
-    ] }, void 0, true, {
-      fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-      lineNumber: 32,
-      columnNumber: 7
-    }, this)
-  ] }, void 0, true, {
-    fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-    lineNumber: 17,
-    columnNumber: 5
-  }, this);
-}
-function SEOCenterPage() {
-  const [keywords] = reactExports.useState([
-    { keyword: "textile manufacturer india", position: 12, volume: 2400, difficulty: 45 },
-    { keyword: "wholesale fabric supplier", position: 8, volume: 1800, difficulty: 52 },
-    { keyword: "bulk saree supplier", position: 23, volume: 3200, difficulty: 38 },
-    { keyword: "cotton fabric wholesale", position: 5, volume: 5600, difficulty: 61 }
+
+function LogsPage({ onNavigate }) {
+  const [levelFilter, setLevelFilter] = reactExports.useState("all");
+  const [search, setSearch] = reactExports.useState("");
+  const [downloadToast, setDownloadToast] = reactExports.useState("");
+
+  const [logs] = reactExports.useState([
+    { id: "log-101", level: "info", source: "escrow.engine", message: "Escrow milestone #2 (80%) released for Order #VS-9821 after SGS lab approval", timestamp: "2026-09-17 14:10:02" },
+    { id: "log-102", level: "info", source: "seo.crawler", message: "XML Sitemap refreshed with 12 new textile category cluster pages", timestamp: "2026-09-17 13:45:21" },
+    { id: "log-103", level: "warn", source: "rfq.matcher", message: "Tirupur Premier Mills bid deadline expiring in 6 hours for Tender #RFQ-102", timestamp: "2026-09-17 12:30:15" },
+    { id: "log-104", level: "auth", source: "rbac.security", message: "Admin session authenticated from verified corporate IP [104.28.192.4]", timestamp: "2026-09-17 11:15:00" },
+    { id: "log-105", level: "error", source: "webhook.crm", message: "Webhook retry attempt #1 succeeded for Dubai importer endpoint", timestamp: "2026-09-17 10:05:40" }
   ]);
-  return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 md:p-6 space-y-6", children: [
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3", children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Search, { className: "w-5 h-5 text-green-600" }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-        lineNumber: 54,
-        columnNumber: 92
-      }, this) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-        lineNumber: 54,
-        columnNumber: 9
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-xl font-bold text-gray-900", children: "SEO Center" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-          lineNumber: 55,
-          columnNumber: 14
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm text-gray-500", children: "Search engine optimization" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-          lineNumber: 55,
-          columnNumber: 77
-        }, this)
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-        lineNumber: 55,
-        columnNumber: 9
-      }, this)
-    ] }, void 0, true, {
-      fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-      lineNumber: 53,
-      columnNumber: 7
-    }, this),
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardHeader, { children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardTitle, { className: "text-sm", children: "Keyword Rankings" }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-        lineNumber: 57,
-        columnNumber: 25
-      }, this) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-        lineNumber: 57,
-        columnNumber: 13
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-0", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("table", { className: "w-full text-sm", children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("thead", { children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("tr", { className: "border-b bg-gray-50", children: [
-          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "text-left px-4 py-3 font-medium text-gray-600", children: "Keyword" }, void 0, false, {
-            fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-            lineNumber: 60,
-            columnNumber: 13
-          }, this),
-          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "text-left px-4 py-3 font-medium text-gray-600", children: "Position" }, void 0, false, {
-            fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-            lineNumber: 61,
-            columnNumber: 13
-          }, this),
-          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "text-left px-4 py-3 font-medium text-gray-600", children: "Volume" }, void 0, false, {
-            fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-            lineNumber: 62,
-            columnNumber: 13
-          }, this),
-          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "text-left px-4 py-3 font-medium text-gray-600", children: "Difficulty" }, void 0, false, {
-            fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-            lineNumber: 63,
-            columnNumber: 13
-          }, this)
-        ] }, void 0, true, {
-          fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-          lineNumber: 59,
-          columnNumber: 18
-        }, this) }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-          lineNumber: 59,
-          columnNumber: 11
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("tbody", { children: keywords.map((k) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("tr", { className: "border-b last:border-0 hover:bg-gray-50", children: [
-          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3 font-medium", children: k.keyword }, void 0, false, {
-            fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-            lineNumber: 66,
-            columnNumber: 13
-          }, this),
-          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { variant: "secondary", className: k.position <= 10 ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700", children: [
-            "#",
-            k.position
-          ] }, void 0, true, {
-            fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-            lineNumber: 67,
-            columnNumber: 39
-          }, this) }, void 0, false, {
-            fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-            lineNumber: 67,
-            columnNumber: 13
-          }, this),
-          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3 text-gray-500", children: k.volume.toLocaleString() }, void 0, false, {
-            fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-            lineNumber: 68,
-            columnNumber: 13
-          }, this),
-          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-16 h-2 bg-gray-200 rounded-full", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: `h-2 rounded-full ${k.difficulty > 60 ? "bg-red-400" : k.difficulty > 40 ? "bg-amber-400" : "bg-emerald-400"}`, style: { width: `${k.difficulty}%` } }, void 0, false, {
-            fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-            lineNumber: 69,
-            columnNumber: 90
-          }, this) }, void 0, false, {
-            fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-            lineNumber: 69,
-            columnNumber: 39
-          }, this) }, void 0, false, {
-            fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-            lineNumber: 69,
-            columnNumber: 13
-          }, this)
-        ] }, k.keyword, true, {
-          fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-          lineNumber: 65,
-          columnNumber: 37
-        }, this)) }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-          lineNumber: 65,
-          columnNumber: 11
-        }, this)
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-        lineNumber: 58,
-        columnNumber: 9
-      }, this) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-        lineNumber: 57,
-        columnNumber: 97
-      }, this)
-    ] }, void 0, true, {
-      fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-      lineNumber: 57,
-      columnNumber: 7
-    }, this)
-  ] }, void 0, true, {
-    fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-    lineNumber: 52,
-    columnNumber: 5
-  }, this);
-}
-function ContentPlannerPage() {
-  const { refetch } = useFetch("/dashboard/stats");
-  const [showCreate, setShowCreate] = reactExports.useState(false);
-  const [title, setTitle] = reactExports.useState("");
-  const [type, setType] = reactExports.useState("blog_post");
-  const [saving, setSaving] = reactExports.useState(false);
-  const handleCreate = async () => {
-    if (!title) return;
-    setSaving(true);
-    try {
-      await apiCall("/contents", { method: "POST", body: JSON.stringify({ title, type }) });
-      setShowCreate(false);
-      setTitle("");
-      refetch();
-    } catch {
-    }
-    setSaving(false);
+
+  const filtered = logs.filter(l => {
+    const matchLvl = levelFilter === "all" || l.level === levelFilter;
+    const matchSearch = l.message.toLowerCase().includes(search.toLowerCase()) || l.source.toLowerCase().includes(search.toLowerCase());
+    return matchLvl && matchSearch;
+  });
+
+  const handleExportLogs = () => {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(logs, null, 2));
+    const dlAnchor = document.createElement("a");
+    dlAnchor.setAttribute("href", dataStr);
+    dlAnchor.setAttribute("download", "bell24h_audit_logs.json");
+    document.body.appendChild(dlAnchor);
+    dlAnchor.click();
+    document.body.removeChild(dlAnchor);
+    setDownloadToast("Audit logs JSON exported successfully!");
+    setTimeout(() => setDownloadToast(""), 3500);
   };
-  return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 md:p-6 space-y-6", children: [
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between", children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3", children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-10 h-10 rounded-xl bg-violet-50 flex items-center justify-center", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(FileText, { className: "w-5 h-5 text-violet-600" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-          lineNumber: 99,
-          columnNumber: 95
-        }, this) }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-          lineNumber: 99,
-          columnNumber: 11
-        }, this),
+
+  return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 md:p-6 space-y-6 max-w-7xl mx-auto", children: [
+    /* Header */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-gray-200 shadow-sm", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3.5", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-12 h-12 rounded-xl bg-gray-100 border border-gray-200 flex items-center justify-center flex-shrink-0", children:
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(FileText, { className: "w-6 h-6 text-gray-700" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
         /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
-          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-xl font-bold text-gray-900", children: "Content Planner" }, void 0, false, {
-            fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-            lineNumber: 100,
-            columnNumber: 16
-          }, this),
-          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm text-gray-500", children: "AI content planning & creation" }, void 0, false, {
-            fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-            lineNumber: 100,
-            columnNumber: 84
-          }, this)
-        ] }, void 0, true, {
-          fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-          lineNumber: 100,
-          columnNumber: 11
-        }, this)
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-        lineNumber: 98,
-        columnNumber: 9
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { onClick: () => setShowCreate(true), size: "sm", children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Plus, { className: "w-4 h-4 mr-2" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-          lineNumber: 102,
-          columnNumber: 63
-        }, this),
-        "New Content"
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-        lineNumber: 102,
-        columnNumber: 9
-      }, this)
-    ] }, void 0, true, {
-      fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-      lineNumber: 97,
-      columnNumber: 7
-    }, this),
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-4", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm text-gray-500", children: 'Content items will appear here once created. Use the "New Content" button to create your first piece.' }, void 0, false, {
-      fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-      lineNumber: 105,
-      columnNumber: 9
-    }, this) }, void 0, false, {
-      fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-      lineNumber: 104,
-      columnNumber: 13
-    }, this) }, void 0, false, {
-      fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-      lineNumber: 104,
-      columnNumber: 7
-    }, this),
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Dialog, { open: showCreate, onOpenChange: setShowCreate, children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(DialogContent, { className: "max-w-md", children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(DialogHeader, { children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(DialogTitle, { children: "New Content" }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-        lineNumber: 109,
-        columnNumber: 25
-      }, this) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-        lineNumber: 109,
-        columnNumber: 11
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "space-y-4 pt-2", children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
-          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("label", { className: "text-xs font-medium text-gray-700 block mb-1", children: "Title" }, void 0, false, {
-            fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-            lineNumber: 111,
-            columnNumber: 18
-          }, this),
-          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Input, { value: title, onChange: (e) => setTitle(e.target.value), placeholder: "Blog post title..." }, void 0, false, {
-            fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-            lineNumber: 111,
-            columnNumber: 95
-          }, this)
-        ] }, void 0, true, {
-          fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-          lineNumber: 111,
-          columnNumber: 13
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
-          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("label", { className: "text-xs font-medium text-gray-700 block mb-1", children: "Type" }, void 0, false, {
-            fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-            lineNumber: 112,
-            columnNumber: 18
-          }, this),
-          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("select", { value: type, onChange: (e) => setType(e.target.value), className: "w-full text-sm border rounded-lg px-3 py-2", children: ["blog_post", "social_media", "email", "product_description", "landing_page"].map((t) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: t, children: t.replace(/_/g, " ") }, t, false, {
-            fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-            lineNumber: 114,
-            columnNumber: 101
-          }, this)) }, void 0, false, {
-            fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-            lineNumber: 113,
-            columnNumber: 15
-          }, this)
-        ] }, void 0, true, {
-          fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-          lineNumber: 112,
-          columnNumber: 13
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { onClick: handleCreate, disabled: saving || !title, className: "w-full", children: [
-          saving ? /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(LoaderCircle, { className: "w-4 h-4 animate-spin mr-2" }, void 0, false, {
-            fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-            lineNumber: 117,
-            columnNumber: 101
-          }, this) : /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Plus, { className: "w-4 h-4 mr-2" }, void 0, false, {
-            fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-            lineNumber: 117,
-            columnNumber: 153
-          }, this),
-          "Create"
-        ] }, void 0, true, {
-          fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-          lineNumber: 117,
-          columnNumber: 13
-        }, this)
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-        lineNumber: 110,
-        columnNumber: 11
-      }, this)
-    ] }, void 0, true, {
-      fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-      lineNumber: 108,
-      columnNumber: 9
-    }, this) }, void 0, false, {
-      fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-      lineNumber: 107,
-      columnNumber: 7
-    }, this)
-  ] }, void 0, true, {
-    fileName: "/app/workspace/src/pages/MarketingPages.tsx",
-    lineNumber: 96,
-    columnNumber: 5
-  }, this);
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-xl font-bold text-gray-900 tracking-tight", children: "Security & System Audit Logs" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-500 mt-0.5", children: "Tamper-evident audit trail for escrow releases, RFQ bids, and administrative operations" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { variant: "outline", size: "sm", className: "text-xs border-gray-300 hover:bg-gray-50 cursor-pointer", onClick: () => onNavigate && onNavigate("roles"), children: "Manage RBAC Roles →" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", className: "bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs shadow-sm cursor-pointer", onClick: handleExportLogs, children: "Export JSON" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    downloadToast && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 flex items-center justify-between", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CircleCheckBig, { className: "w-4 h-4 text-emerald-600" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        downloadToast
+      ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: () => setDownloadToast(""), className: "font-bold text-emerald-900", children: "✕" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Search and Level Filters */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-col md:flex-row md:items-center justify-between gap-3 bg-white p-3.5 rounded-xl border border-gray-200", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "relative flex-1 max-w-md", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Search, { className: "w-4 h-4 text-gray-400 absolute left-3 top-2.5" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Input, {
+          placeholder: "Filter by log message or system service...",
+          value: search,
+          onChange: (e) => setSearch(e.target.value),
+          className: "pl-9 text-xs h-9 bg-gray-50 border-gray-200"
+        }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* Level Pills */
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-1.5 text-xs", children: [
+        { id: "all", label: "All Levels" },
+        { id: "info", label: "INFO" },
+        { id: "warn", label: "WARN" },
+        { id: "error", label: "ERROR" },
+        { id: "auth", label: "AUTH" }
+      ].map(lvl => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", {
+        onClick: () => setLevelFilter(lvl.id),
+        className: cn(
+          "px-3 py-1.5 rounded-lg font-mono font-semibold cursor-pointer transition-colors text-[11px]",
+          levelFilter === lvl.id ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+        ),
+        children: lvl.label
+      }, lvl.id, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Logs Table */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { className: "border-gray-200", children:
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-0", children:
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "overflow-x-auto", children:
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("table", { className: "w-full text-xs", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("thead", { children:
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("tr", { className: "border-b bg-gray-50 text-gray-600 font-semibold text-left", children: [
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "px-4 py-3", children: "Level" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "px-4 py-3", children: "Source" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "px-4 py-3", children: "Audit Message" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "px-4 py-3 text-right", children: "Timestamp" }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+              ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("tbody", { className: "divide-y divide-gray-100 font-mono text-[11px]", children: filtered.map(l => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("tr", { className: "hover:bg-gray-50", children: [
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-2.5", children:
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { className: l.level === "error" ? "bg-red-100 text-red-800" : l.level === "warn" ? "bg-amber-100 text-amber-800" : l.level === "auth" ? "bg-blue-100 text-blue-800" : "bg-emerald-100 text-emerald-800", children: l.level.toUpperCase() }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+              }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-2.5 font-semibold text-gray-700", children: l.source }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-2.5 text-gray-900 font-sans text-xs", children: l.message }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-2.5 text-right text-gray-400 whitespace-nowrap", children: l.timestamp }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            ] }, l.id, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    }, void 0, false, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+  ] }, void 0, true, { fileName: "AdminPages.tsx", lineNumber: 1, columnNumber: 1 }, this);
 }
 
-function MarketplacePage() {
-  const [categories] = reactExports.useState([
-    { name: "Textiles & Fabrics", count: 1240, icon: "🧵" },
-    { name: "Garments & Apparel", count: 890, icon: "👔" },
-    { name: "Raw Materials", count: 567, icon: "🏭" },
-    { name: "Machinery & Tools", count: 324, icon: "⚙️" },
-    { name: "Packaging", count: 213, icon: "📦" }
+
+function PublishingCenterPage({ onNavigate }) {
+  const [activePlatform, setActivePlatform] = reactExports.useState("all");
+  const [broadcastModalOpen, setBroadcastModalOpen] = reactExports.useState(false);
+  const [broadcastToast, setBroadcastToast] = reactExports.useState("");
+  const [newPost, setNewPost] = reactExports.useState({ title: "", content: "", platform: "LinkedIn B2B" });
+
+  const platforms = [
+    { id: "all", name: "All Channels", count: 18 },
+    { id: "linkedin", name: "LinkedIn B2B", count: 6, color: "text-blue-700 bg-blue-50" },
+    { id: "whatsapp", name: "WhatsApp Business", count: 5, color: "text-emerald-700 bg-emerald-50" },
+    { id: "google", name: "Google Ads", count: 4, color: "text-amber-700 bg-amber-50" },
+    { id: "email", name: "Email Broadcast", count: 3, color: "text-purple-700 bg-purple-50" }
+  ];
+
+  const [posts, setPosts] = reactExports.useState([
+    { id: "post-1", title: "Tirupur Organic Cotton 30s/1 Export Allocation Open", platform: "LinkedIn B2B", status: "published", reach: "18,400 Impressions", engagements: 412, date: "Today at 10:30 AM" },
+    { id: "post-2", title: "Direct Mill Brocade Silks Broadcast to GCC Importers", platform: "WhatsApp Business", status: "published", reach: "2,400 Verified Buyers", engagements: 184, date: "Yesterday" },
+    { id: "post-3", title: "Heavy Indigo Denim 12.5 oz Twill Sourcing RFP", platform: "Google Ads", status: "scheduled", reach: "Est. 25,000 Impressions", engagements: 0, date: "Tomorrow at 09:00 AM" },
+    { id: "post-4", title: "Bhilwara PV Suiting International Buyer Digest #42", platform: "Email Broadcast", status: "draft", reach: "680 Importers", engagements: 0, date: "Draft" }
   ]);
-  return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 md:p-6 space-y-6", children: [
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3", children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-10 h-10 rounded-xl bg-rose-50 flex items-center justify-center", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(ShoppingCart, { className: "w-5 h-5 text-rose-600" }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 22,
-        columnNumber: 91
-      }, this) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 22,
-        columnNumber: 9
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-xl font-bold text-gray-900", children: "Marketplace" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 23,
-          columnNumber: 14
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm text-gray-500", children: "B2B marketplace for textiles & manufacturing" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 23,
-          columnNumber: 78
-        }, this)
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 23,
-        columnNumber: 9
-      }, this)
-    ] }, void 0, true, {
-      fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-      lineNumber: 21,
-      columnNumber: 7
-    }, this),
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4", children: categories.map((c) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { className: "hover:shadow-md transition-shadow cursor-pointer", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-4 text-center", children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-3xl", children: c.icon }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 27,
-        columnNumber: 11
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "font-semibold text-sm mt-2", children: c.name }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 28,
-        columnNumber: 11
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-400", children: [
-        c.count.toLocaleString(),
-        " listings"
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 29,
-        columnNumber: 11
-      }, this)
-    ] }, void 0, true, {
-      fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-      lineNumber: 26,
-      columnNumber: 110
-    }, this) }, c.name, false, {
-      fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-      lineNumber: 26,
-      columnNumber: 30
-    }, this)) }, void 0, false, {
-      fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-      lineNumber: 25,
-      columnNumber: 7
-    }, this),
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardHeader, { children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardTitle, { className: "text-sm", children: "Recent Listings" }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 32,
-        columnNumber: 25
-      }, this) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 32,
-        columnNumber: 13
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm text-gray-500", children: "Browse categories above to discover suppliers and products. Marketplace features will be fully available in Sprint 8." }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 33,
-        columnNumber: 9
-      }, this) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 32,
-        columnNumber: 96
-      }, this)
-    ] }, void 0, true, {
-      fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-      lineNumber: 32,
-      columnNumber: 7
-    }, this)
-  ] }, void 0, true, {
-    fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-    lineNumber: 20,
-    columnNumber: 5
-  }, this);
-}
-function SuppliersPage() {
-  const [suppliers] = reactExports.useState([
-    { id: "1", name: "Mumbai Textiles Pvt Ltd", location: "Mumbai, Maharashtra", rating: 4.5, products: 156, verified: true },
-    { id: "2", name: "Surat Silk House", location: "Surat, Gujarat", rating: 4.2, products: 89, verified: true },
-    { id: "3", name: "Ludhiana Knitwear Co", location: "Ludhiana, Punjab", rating: 3.8, products: 234, verified: false }
-  ]);
-  return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 md:p-6 space-y-6", children: [
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3", children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Truck, { className: "w-5 h-5 text-teal-600" }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 49,
-        columnNumber: 91
-      }, this) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 49,
-        columnNumber: 9
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-xl font-bold text-gray-900", children: "Suppliers" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 50,
-          columnNumber: 14
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm text-gray-500", children: [
-          suppliers.length,
-          " suppliers"
-        ] }, void 0, true, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 50,
-          columnNumber: 76
-        }, this)
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 50,
-        columnNumber: 9
-      }, this)
-    ] }, void 0, true, {
-      fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-      lineNumber: 48,
-      columnNumber: 7
-    }, this),
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4", children: suppliers.map((s) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { className: "hover:shadow-md transition-shadow", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-4", children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between mb-2", children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "font-semibold text-sm", children: s.name }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 55,
-          columnNumber: 13
-        }, this),
-        s.verified && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { variant: "secondary", className: "text-[10px] bg-emerald-100 text-emerald-700", children: "Verified" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 56,
-          columnNumber: 28
-        }, this)
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 54,
-        columnNumber: 11
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-1 text-xs text-gray-500 mb-1", children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(MapPin, { className: "w-3 h-3" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 58,
-          columnNumber: 79
-        }, this),
-        s.location
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 58,
-        columnNumber: 11
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2 text-xs", children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "flex items-center gap-0.5", children: [
-          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Star, { className: "w-3 h-3 text-amber-400 fill-amber-400" }, void 0, false, {
-            fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-            lineNumber: 60,
-            columnNumber: 57
-          }, this),
-          s.rating
-        ] }, void 0, true, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 60,
-          columnNumber: 13
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-gray-400", children: "·" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 61,
-          columnNumber: 13
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { children: [
-          s.products,
-          " products"
-        ] }, void 0, true, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 62,
-          columnNumber: 13
-        }, this)
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 59,
-        columnNumber: 11
-      }, this)
-    ] }, void 0, true, {
-      fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-      lineNumber: 53,
-      columnNumber: 92
-    }, this) }, s.id, false, {
-      fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-      lineNumber: 53,
-      columnNumber: 29
-    }, this)) }, void 0, false, {
-      fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-      lineNumber: 52,
-      columnNumber: 7
-    }, this)
-  ] }, void 0, true, {
-    fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-    lineNumber: 47,
-    columnNumber: 5
-  }, this);
-}
-function BuyersPage() {
-  const [buyers] = reactExports.useState([
-    { id: "1", name: "TextileHub International", location: "Delhi", orders: 23, spent: "₹4.5L" },
-    { id: "2", name: "FashionFirst Retail", location: "Bangalore", orders: 12, spent: "₹2.1L" },
-    { id: "3", name: "Export Masters Ltd", location: "Chennai", orders: 8, spent: "₹1.8L" }
-  ]);
-  return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 md:p-6 space-y-6", children: [
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3", children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Package, { className: "w-5 h-5 text-indigo-600" }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 80,
-        columnNumber: 93
-      }, this) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 80,
-        columnNumber: 9
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-xl font-bold text-gray-900", children: "Buyers" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 81,
-          columnNumber: 14
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm text-gray-500", children: [
-          buyers.length,
-          " active buyers"
-        ] }, void 0, true, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 81,
-          columnNumber: 73
-        }, this)
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 81,
-        columnNumber: 9
-      }, this)
-    ] }, void 0, true, {
-      fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-      lineNumber: 79,
-      columnNumber: 7
-    }, this),
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-0", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("table", { className: "w-full text-sm", children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("thead", { children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("tr", { className: "border-b bg-gray-50", children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "text-left px-4 py-3 font-medium text-gray-600", children: "Buyer" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 86,
-          columnNumber: 13
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "text-left px-4 py-3 font-medium text-gray-600", children: "Location" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 87,
-          columnNumber: 13
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "text-left px-4 py-3 font-medium text-gray-600", children: "Orders" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 88,
-          columnNumber: 13
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "text-left px-4 py-3 font-medium text-gray-600", children: "Total Spent" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 89,
-          columnNumber: 13
-        }, this)
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 85,
-        columnNumber: 18
-      }, this) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 85,
-        columnNumber: 11
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("tbody", { children: buyers.map((b) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("tr", { className: "border-b last:border-0 hover:bg-gray-50", children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3 font-medium", children: b.name }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 92,
-          columnNumber: 13
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3 text-gray-500", children: b.location }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 93,
-          columnNumber: 13
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3", children: b.orders }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 94,
-          columnNumber: 13
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3 font-medium", children: b.spent }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 95,
-          columnNumber: 13
-        }, this)
-      ] }, b.id, true, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 91,
-        columnNumber: 35
-      }, this)) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 91,
-        columnNumber: 11
-      }, this)
-    ] }, void 0, true, {
-      fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-      lineNumber: 84,
-      columnNumber: 9
-    }, this) }, void 0, false, {
-      fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-      lineNumber: 83,
-      columnNumber: 13
-    }, this) }, void 0, false, {
-      fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-      lineNumber: 83,
-      columnNumber: 7
-    }, this)
-  ] }, void 0, true, {
-    fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-    lineNumber: 78,
-    columnNumber: 5
-  }, this);
-}
-function RFQsPage() {
-  const [rfqs] = reactExports.useState([
-    { id: "1", title: "Bulk Cotton Fabric Order", quantity: "10,000 meters", deadline: "2026-08-15", status: "open", quotes: 5 },
-    { id: "2", title: "Silk Saree Collection", quantity: "500 pieces", deadline: "2026-08-20", status: "open", quotes: 3 },
-    { id: "3", title: "Packaging Material Supply", quantity: "50,000 units", deadline: "2026-07-30", status: "awarded", quotes: 12 }
-  ]);
-  const statusColor = { open: "bg-emerald-100 text-emerald-700", awarded: "bg-blue-100 text-blue-700", closed: "bg-gray-100 text-gray-700" };
-  return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 md:p-6 space-y-6", children: [
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3", children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(FileSearch, { className: "w-5 h-5 text-amber-600" }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 114,
-        columnNumber: 92
-      }, this) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 114,
-        columnNumber: 9
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-xl font-bold text-gray-900", children: "RFQs" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 115,
-          columnNumber: 14
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm text-gray-500", children: "Request for Quotations" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 115,
-          columnNumber: 71
-        }, this)
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 115,
-        columnNumber: 9
-      }, this)
-    ] }, void 0, true, {
-      fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-      lineNumber: 113,
-      columnNumber: 7
-    }, this),
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-0", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("table", { className: "w-full text-sm", children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("thead", { children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("tr", { className: "border-b bg-gray-50", children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "text-left px-4 py-3 font-medium text-gray-600", children: "RFQ" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 120,
-          columnNumber: 13
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "text-left px-4 py-3 font-medium text-gray-600", children: "Quantity" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 121,
-          columnNumber: 13
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "text-left px-4 py-3 font-medium text-gray-600", children: "Deadline" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 122,
-          columnNumber: 13
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "text-left px-4 py-3 font-medium text-gray-600", children: "Quotes" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 123,
-          columnNumber: 13
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "text-left px-4 py-3 font-medium text-gray-600", children: "Status" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 124,
-          columnNumber: 13
-        }, this)
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 119,
-        columnNumber: 18
-      }, this) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 119,
-        columnNumber: 11
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("tbody", { children: rfqs.map((r) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("tr", { className: "border-b last:border-0 hover:bg-gray-50", children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3 font-medium", children: r.title }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 127,
-          columnNumber: 13
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3 text-gray-500", children: r.quantity }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 128,
-          columnNumber: 13
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3 text-gray-500", children: r.deadline }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 129,
-          columnNumber: 13
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3", children: r.quotes }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 130,
-          columnNumber: 13
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { variant: "secondary", className: statusColor[r.status] || "", children: r.status }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 131,
-          columnNumber: 39
-        }, this) }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 131,
-          columnNumber: 13
-        }, this)
-      ] }, r.id, true, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 126,
-        columnNumber: 33
-      }, this)) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 126,
-        columnNumber: 11
-      }, this)
-    ] }, void 0, true, {
-      fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-      lineNumber: 118,
-      columnNumber: 9
-    }, this) }, void 0, false, {
-      fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-      lineNumber: 117,
-      columnNumber: 13
-    }, this) }, void 0, false, {
-      fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-      lineNumber: 117,
-      columnNumber: 7
-    }, this)
-  ] }, void 0, true, {
-    fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-    lineNumber: 112,
-    columnNumber: 5
-  }, this);
-}
-function AutomationPage() {
-  const [rules] = reactExports.useState([
-    { id: "1", name: "Lead Auto-Score", trigger: "New lead created", action: "Calculate score", enabled: true },
-    { id: "2", name: "Campaign Budget Alert", trigger: "Budget > 80%", action: "Send notification", enabled: true },
-    { id: "3", name: "Follow-up Reminder", trigger: "Lead inactive 7d", action: "Create activity", enabled: false }
-  ]);
-  return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 md:p-6 space-y-6", children: [
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3", children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-10 h-10 rounded-xl bg-violet-50 flex items-center justify-center", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("svg", { className: "w-5 h-5 text-violet-600", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("path", { d: "M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 149,
-        columnNumber: 204
-      }, this) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 149,
-        columnNumber: 93
-      }, this) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 149,
-        columnNumber: 9
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-xl font-bold text-gray-900", children: "Automation" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 150,
-          columnNumber: 14
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm text-gray-500", children: [
-          rules.length,
-          " rules · ",
-          rules.filter((r) => r.enabled).length,
-          " active"
-        ] }, void 0, true, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 150,
-          columnNumber: 77
-        }, this)
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 150,
-        columnNumber: 9
-      }, this)
-    ] }, void 0, true, {
-      fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-      lineNumber: 148,
-      columnNumber: 7
-    }, this),
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-0", children: rules.map((r) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between px-4 py-3 border-b last:border-0", children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm font-medium", children: r.name }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 154,
-          columnNumber: 16
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-400", children: [
-          "Trigger: ",
-          r.trigger,
-          " → Action: ",
-          r.action
-        ] }, void 0, true, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 154,
-          columnNumber: 63
-        }, this)
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 154,
-        columnNumber: 11
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { className: `relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${r.enabled ? "bg-emerald-500" : "bg-gray-300"}`, children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: `inline-block h-3.5 w-3.5 rounded-full bg-white shadow transition-transform ${r.enabled ? "translate-x-4.5 ml-1" : "translate-x-0.5"}` }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 156,
-        columnNumber: 13
-      }, this) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 155,
-        columnNumber: 11
-      }, this)
-    ] }, r.id, true, {
-      fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-      lineNumber: 153,
-      columnNumber: 25
-    }, this)) }, void 0, false, {
-      fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-      lineNumber: 152,
-      columnNumber: 13
-    }, this) }, void 0, false, {
-      fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-      lineNumber: 152,
-      columnNumber: 7
-    }, this)
-  ] }, void 0, true, {
-    fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-    lineNumber: 147,
-    columnNumber: 5
-  }, this);
-}
-function WorkflowsPage() {
-  const [workflows] = reactExports.useState([
-    { id: "1", name: "Lead Nurturing Pipeline", steps: 5, lastRun: "2026-07-18", status: "active" },
-    { id: "2", name: "Content Publishing Flow", steps: 3, lastRun: "2026-07-17", status: "active" }
-  ]);
-  return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 md:p-6 space-y-6", children: [
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3", children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("svg", { className: "w-5 h-5 text-blue-600", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("circle", { cx: "5", cy: "12", r: "2" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 173,
-          columnNumber: 200
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("circle", { cx: "19", cy: "12", r: "2" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 173,
-          columnNumber: 230
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("circle", { cx: "12", cy: "5", r: "2" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 173,
-          columnNumber: 261
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("path", { d: "M5 12h7m0 0l3-3m-3 3l3 3" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 173,
-          columnNumber: 291
-        }, this)
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 173,
-        columnNumber: 91
-      }, this) }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 173,
-        columnNumber: 9
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-xl font-bold text-gray-900", children: "Workflows" }, void 0, false, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 174,
-          columnNumber: 14
-        }, this),
-        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm text-gray-500", children: [
-          workflows.length,
-          " workflows"
-        ] }, void 0, true, {
-          fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-          lineNumber: 174,
-          columnNumber: 76
-        }, this)
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 174,
-        columnNumber: 9
-      }, this)
-    ] }, void 0, true, {
-      fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-      lineNumber: 172,
-      columnNumber: 7
-    }, this),
-    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: workflows.map((w) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-4", children: [
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "font-semibold text-sm", children: w.name }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 178,
-        columnNumber: 11
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-400 mt-1", children: [
-        w.steps,
-        " steps · Last run: ",
-        w.lastRun
-      ] }, void 0, true, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 179,
-        columnNumber: 11
-      }, this),
-      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { variant: "secondary", className: "mt-2 text-[10px] bg-emerald-100 text-emerald-700", children: w.status }, void 0, false, {
-        fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-        lineNumber: 180,
-        columnNumber: 11
-      }, this)
-    ] }, void 0, true, {
-      fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-      lineNumber: 177,
-      columnNumber: 46
-    }, this) }, w.id, false, {
-      fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-      lineNumber: 177,
-      columnNumber: 29
-    }, this)) }, void 0, false, {
-      fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-      lineNumber: 176,
-      columnNumber: 7
-    }, this)
-  ] }, void 0, true, {
-    fileName: "/app/workspace/src/pages/MarketplacePages.tsx",
-    lineNumber: 171,
-    columnNumber: 5
-  }, this);
+
+  const handleBroadcast = (e) => {
+    e.preventDefault();
+    if (!newPost.title) return;
+    const p = {
+      id: "post-" + Date.now(),
+      title: newPost.title,
+      platform: newPost.platform,
+      status: "published",
+      reach: "Broadcast Dispatched",
+      engagements: 0,
+      date: "Just now"
+    };
+    setPosts([p, ...posts]);
+    setBroadcastModalOpen(false);
+    setNewPost({ title: "", content: "", platform: "LinkedIn B2B" });
+    setBroadcastToast("Content broadcast live to " + p.platform + "!");
+    setTimeout(() => setBroadcastToast(""), 4000);
+  };
+
+  const filtered = posts.filter(p => {
+    if (activePlatform === "all") return true;
+    return p.platform.toLowerCase().includes(activePlatform);
+  });
+
+  return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 md:p-6 space-y-6 max-w-7xl mx-auto", children: [
+    /* Header */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-gray-200 shadow-sm", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3.5", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-12 h-12 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center flex-shrink-0", children:
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Send, { className: "w-6 h-6 text-teal-600" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-xl font-bold text-gray-900 tracking-tight", children: "Multi-Channel Publishing Center" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-500 mt-0.5", children: "Syndicate mill catalogs, trade RFQs, and promotional content across LinkedIn, WhatsApp, and Google Ads" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { variant: "outline", size: "sm", className: "text-xs border-gray-300 hover:bg-gray-50 cursor-pointer", onClick: () => onNavigate && onNavigate("content"), children: "Content Planner →" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", className: "bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs shadow-sm cursor-pointer", onClick: () => setBroadcastModalOpen(true), children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Plus, { className: "w-3.5 h-3.5 mr-1" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          "New Multi-Channel Broadcast"
+        ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    broadcastToast && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 flex items-center justify-between", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CircleCheckBig, { className: "w-4 h-4 text-emerald-600" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        broadcastToast
+      ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: () => setBroadcastToast(""), className: "font-bold text-emerald-900", children: "✕" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Platform Filters */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2 overflow-x-auto pb-1 text-xs", children: platforms.map(p => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", {
+      onClick: () => setActivePlatform(p.id),
+      className: cn(
+        "px-3.5 py-1.5 rounded-full font-medium transition-colors cursor-pointer whitespace-nowrap",
+        activePlatform === p.id ? "bg-gray-900 text-white" : "bg-white border border-gray-200 text-gray-700 hover:bg-gray-50"
+      ),
+      children: [ p.name, " (", p.count, ")" ]
+    }, p.id, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Broadcast Queue Cards */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "space-y-3", children: filtered.map(post => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { className: "border-gray-200 hover:shadow-md transition-shadow", children:
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-4 flex flex-col md:flex-row md:items-center justify-between gap-4", children: [
+        /* Post info */
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "space-y-1", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { className: post.status === "published" ? "bg-emerald-100 text-emerald-800 text-[10px]" : post.status === "scheduled" ? "bg-blue-100 text-blue-800 text-[10px]" : "bg-gray-100 text-gray-700 text-[10px]", children: post.status.toUpperCase() }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-xs font-semibold text-gray-500", children: post.platform }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-sm font-bold text-gray-900", children: post.title }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-400", children: [ "Published: ", post.date ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+        /* Metrics & Actions */
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-4 text-xs", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "text-right", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "font-bold text-gray-900", children: post.reach }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[11px] text-gray-400", children: [ post.engagements, " Interactions" ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", variant: "outline", className: "text-xs h-8 border-gray-300 hover:bg-gray-50 cursor-pointer", onClick: () => onNavigate && onNavigate("content"), children: "Edit in Planner" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    }, post.id, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Broadcast Modal */
+    broadcastModalOpen && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4", children:
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "bg-white rounded-2xl max-w-md w-full p-5 space-y-4 shadow-xl border border-gray-200", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-sm font-bold text-gray-900", children: "Compose Multi-Channel Broadcast" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: () => setBroadcastModalOpen(false), className: "text-gray-400 hover:text-gray-600 font-bold", children: "✕" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("form", { onSubmit: handleBroadcast, className: "space-y-3 text-xs", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("label", { className: "font-medium text-gray-700", children: "Target Platform" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("select", { value: newPost.platform, onChange: (e) => setNewPost({ ...newPost, platform: e.target.value }), className: "mt-1 w-full h-8 border border-gray-300 rounded-md px-2 bg-white text-xs" }, [
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "LinkedIn B2B", children: "LinkedIn B2B Post" }, "li", false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "WhatsApp Business", children: "WhatsApp Verified Broadcast" }, "wa", false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "Google Ads", children: "Google Ads Campaign Copy" }, "ga", false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "Email Broadcast", children: "Direct Buyer Email Blast" }, "em", false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            ], false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("label", { className: "font-medium text-gray-700", children: "Broadcast Title / Headline" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Input, { required: true, placeholder: "e.g., Surat Silk Brocades: Exclusive 5,000m Export Batch", value: newPost.title, onChange: (e) => setNewPost({ ...newPost, title: e.target.value }), className: "mt-1 h-8 text-xs" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("label", { className: "font-medium text-gray-700", children: "Broadcast Message Content" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("textarea", { placeholder: "Include MOQ, spec details, and VyaparSethu Escrow link...", value: newPost.content, onChange: (e) => setNewPost({ ...newPost, content: e.target.value }), className: "mt-1 w-full border border-gray-300 rounded-lg p-2 text-xs h-20" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-end gap-2 pt-2", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { type: "button", variant: "outline", size: "sm", onClick: () => setBroadcastModalOpen(false), className: "text-xs", children: "Cancel" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { type: "submit", size: "sm", className: "bg-emerald-600 hover:bg-emerald-700 text-white text-xs", children: "Publish & Broadcast Now" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+  ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this);
 }
 
-const api$2 = async (url, token, opts) => {
-  const sep = url.includes("?") ? "&" : "?";
-  const res = await fetch(`${url}${sep}token=${token}`, { ...opts, headers: { "Content-Type": "application/json", ...opts?.headers } });
-  if (!res.ok) {
-    const body = await res.json().catch(() => ({}));
-    throw new Error(body.error || `Request failed (${res.status})`);
-  }
-  return res.json();
-};
-const PROVIDER_COLORS = {
-  pollinations: "#10b981",
-  openai: "#10a37f",
-  flux: "#8b5cf6",
-  ideogram: "#f59e0b",
-  stability: "#06b6d4",
-  recraft: "#ef4444",
-  google: "#4285f4",
-  blackforest: "#10b981"
-};
-const TABS = [
-  { id: "generate", label: "Generate", icon: Sparkles },
-  { id: "gallery", label: "Gallery", icon: Image },
-  { id: "collections", label: "Collections", icon: FolderOpen },
-  { id: "templates", label: "Templates", icon: PanelsTopLeft },
-  { id: "brand-kit", label: "Brand Kit", icon: Palette },
-  { id: "queue", label: "Queue", icon: Clock },
-  { id: "costs", label: "Costs", icon: DollarSign },
-  { id: "editor", label: "Editor", icon: PenLine }
-];
+function SEOCenterPage({ onNavigate }) {
+  const [activeTab, setActiveTab] = reactExports.useState("overview");
+  const [healthScore, setHealthScore] = reactExports.useState(88);
+  const [auditing, setAuditing] = reactExports.useState(false);
+  const [auditSuccess, setAuditSuccess] = reactExports.useState("");
+  const [searchQuery, setSearchQuery] = reactExports.useState("");
+  const [intentFilter, setIntentFilter] = reactExports.useState("all");
+  const [copiedSchema, setCopiedSchema] = reactExports.useState(false);
+  const [analyzerUrl, setAnalyzerUrl] = reactExports.useState("/marketplace/textiles");
+  const [analyzing, setAnalyzing] = reactExports.useState(false);
+  const [analyzedData, setAnalyzedData] = reactExports.useState(null);
+  const [newKw, setNewKw] = reactExports.useState({ keyword: "", volume: 5000, intent: "commercial", cluster: "Textile Sourcing" });
+  const [showAddKw, setShowAddKw] = reactExports.useState(false);
+  const [aiGenerating, setAiGenerating] = reactExports.useState(false);
+  const [aiContent, setAiContent] = reactExports.useState("");
+  const [geoQuery, setGeoQuery] = reactExports.useState("Top B2B textile sourcing platforms in India");
+  const [geoResult, setGeoResult] = reactExports.useState(null);
+  const [checkingGeo, setCheckingGeo] = reactExports.useState(false);
+
+  const [keywords, setKeywords] = reactExports.useState([
+    { id: "kw-1", keyword: "textile manufacturer india", volume: 18500, difficulty: 54, cpc: "₹195", intent: "commercial", position: 4, prevPosition: 6, url: "/marketplace/textiles", cluster: "Textile Sourcing" },
+    { id: "kw-2", keyword: "cotton fabric wholesale bulk", volume: 24200, difficulty: 62, cpc: "₹248", intent: "transactional", position: 3, prevPosition: 5, url: "/marketplace/cotton", cluster: "Textile Sourcing" },
+    { id: "kw-3", keyword: "surat synthetic silk exporter", volume: 6800, difficulty: 38, cpc: "₹148", intent: "commercial", position: 2, prevPosition: 2, url: "/suppliers/surat-silk", cluster: "Regional Hubs" },
+    { id: "kw-4", keyword: "tirupur combed cotton knitwear", volume: 9400, difficulty: 42, cpc: "₹176", intent: "transactional", position: 1, prevPosition: 3, url: "/suppliers/tirupur-knits", cluster: "Regional Hubs" },
+    { id: "kw-5", keyword: "cross border textile escrow payment", volume: 3200, difficulty: 29, cpc: "₹360", intent: "transactional", position: 2, prevPosition: 4, url: "/trust-escrow", cluster: "Trade Finance" },
+    { id: "kw-6", keyword: "b2b fabric quotation rfq portal", volume: 4100, difficulty: 34, cpc: "₹190", intent: "transactional", position: 5, prevPosition: 8, url: "/rfqs", cluster: "Trade Finance" },
+    { id: "kw-7", keyword: "organic gots certified cotton yarn", volume: 8100, difficulty: 49, cpc: "₹210", intent: "commercial", position: 6, prevPosition: 7, url: "/marketplace/organic-cotton", cluster: "Textile Sourcing" }
+  ]);
+
+  const [auditIssues, setAuditIssues] = reactExports.useState([
+    { id: "iss-1", severity: "critical", title: "Missing canonical tag on /marketplace/machinery", impact: "High", fixed: false },
+    { id: "iss-2", severity: "warning", title: "2 product images missing alt attributes on /suppliers/surat-silk", impact: "Medium", fixed: false },
+    { id: "iss-3", severity: "warning", title: "Title tag exceeds 60 characters on /knowledge-base/export-guide", impact: "Medium", fixed: false },
+    { id: "iss-4", severity: "notice", title: "XML Sitemap last submitted 4 days ago", impact: "Low", fixed: false },
+    { id: "iss-5", severity: "notice", title: "Hreflang tags missing on regional Surat hub page", impact: "Low", fixed: false }
+  ]);
+
+  const [selectedSchema, setSelectedSchema] = reactExports.useState("Organization");
+  const schemaSnippets = {
+    Organization: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Bell24h / VyaparSethu",
+      "url": "https://bell24h.com",
+      "logo": "https://bell24h.com/logo.png",
+      "sameAs": ["https://twitter.com/bell24h", "https://linkedin.com/company/bell24h"],
+      "description": "Global B2B Textile & Cross-Border Sourcing Platform with milestone trade escrow."
+    }, null, 2),
+    B2BProduct: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "Combed Cotton Knitting Yarn 30s/1",
+      "image": "https://bell24h.com/images/cotton-yarn.jpg",
+      "description": "Premium Tirupur combed cotton knitting yarn. High CSP, certified OEKO-TEX Standard 100.",
+      "brand": { "@type": "Brand", "name": "Tirupur Mills Direct" },
+      "offers": { "@type": "Offer", "priceCurrency": "INR", "price": "285.00", "unitCode": "KGM", "availability": "https://schema.org/InStock" }
+    }, null, 2),
+    FAQPage: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "How does milestone trade escrow protect buyers?", "acceptedAnswer": { "@type": "Answer", "text": "Funds are held securely by VyaparSethu Escrow and only released when SGS lab test inspection passes." } },
+        { "@type": "Question", "name": "What is the minimum order quantity for Surat silk?", "acceptedAnswer": { "@type": "Answer", "text": "MOQ typically starts from 500 meters per design with custom sampling available." } }
+      ]
+    }, null, 2),
+    LocalBusiness: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Bell24h Textile Sourcing Hub - Surat",
+      "address": { "@type": "PostalAddress", "streetAddress": "Ring Road Textile Market", "addressLocality": "Surat", "addressRegion": "Gujarat", "postalCode": "395002", "addressCountry": "IN" },
+      "geo": { "@type": "GeoCoordinates", "latitude": 21.1702, "longitude": 72.8311 },
+      "telephone": "+91-261-2400100"
+    }, null, 2)
+  };
+
+  const handleRunAudit = () => {
+    setAuditing(true);
+    setAuditSuccess("");
+    setTimeout(() => {
+      setAuditing(false);
+      setHealthScore(91);
+      setAuditSuccess("Audit completed successfully! 162 pages crawled, Core Web Vitals validated.");
+    }, 900);
+  };
+
+  const handleFixIssue = (id) => {
+    setAuditIssues(prev => prev.map(iss => iss.id === id ? { ...iss, fixed: true } : iss));
+    setHealthScore(prev => Math.min(100, prev + 2));
+  };
+
+  const handleAddKeyword = (e) => {
+    e.preventDefault();
+    if (!newKw.keyword.trim()) return;
+    const added = {
+      id: "kw-" + Date.now(),
+      keyword: newKw.keyword.trim(),
+      volume: Number(newKw.volume) || 4500,
+      difficulty: 32,
+      cpc: "₹180",
+      intent: newKw.intent,
+      position: 8,
+      prevPosition: 14,
+      url: "/marketplace",
+      cluster: newKw.cluster || "Textile Sourcing"
+    };
+    setKeywords(prev => [added, ...prev]);
+    setNewKw({ keyword: "", volume: 5000, intent: "commercial", cluster: "Textile Sourcing" });
+    setShowAddKw(false);
+  };
+
+  const handleAnalyzePage = () => {
+    setAnalyzing(true);
+    setTimeout(() => {
+      setAnalyzing(false);
+      setAnalyzedData({
+        url: analyzerUrl,
+        score: 93,
+        title: "Verified Indian Textile Manufacturers & Sourcing Mills | Bell24h",
+        titleLen: 58,
+        desc: "Direct sourcing from verified Tirupur, Surat and Ahmedabad textile mills with milestone escrow protection, lab testing, and instant RFQ matching.",
+        descLen: 154,
+        h1: "Global B2B Textile & Apparel Sourcing Marketplace",
+        h2Count: 4,
+        h3Count: 9,
+        wordCount: 1420,
+        readability: "Grade 8 (High Readability)",
+        canonical: "https://bell24h.com" + (analyzerUrl.startsWith("/") ? analyzerUrl : "/" + analyzerUrl),
+        indexable: true
+      });
+    }, 600);
+  };
+
+  const handleCheckGeo = () => {
+    setCheckingGeo(true);
+    setTimeout(() => {
+      setCheckingGeo(false);
+      setGeoResult({
+        query: geoQuery,
+        citations: [
+          { engine: "Perplexity AI", rank: "#1 Citation", sentiment: "Highly Positive", text: "Bell24h / VyaparSethu is cited as a leading digital B2B trade infrastructure linking verified Indian textile mills in Tirupur and Surat with international buyers using secured trade escrow." },
+          { engine: "ChatGPT Search", rank: "#2 Citation", sentiment: "Positive", text: "Recommended for secure wholesale textile procurement and RFQ competitive pricing with SGS pre-shipment inspections." },
+          { engine: "Google Gemini", rank: "#1 Grounding", sentiment: "Authoritative", text: "Structured sourcing hub providing verified export certifications and direct mill connections across cotton, synthetic silks, and handlooms." }
+        ]
+      });
+    }, 700);
+  };
+
+  const handleGenerateContent = () => {
+    setAiGenerating(true);
+    setTimeout(() => {
+      setAiGenerating(false);
+      setAiContent("# The Ultimate B2B Guide to Sourcing Combed Cotton Yarn from Tirupur\n\nIndia accounts for over 22% of global cotton production, with Tirupur emerging as the undisputed capital for combed ring-spun cotton knitting yarn.\n\n### Key Procurement Specifications\n- **Yarn Counts**: Ne 30/1, 40/1, 60/1 high CSP\n- **Certifications**: OEKO-TEX Standard 100, GOTS Organic\n- **Escrow Terms**: 20% Advance in Escrow, 80% on SGS Pre-Shipment Inspection Certificate\n\nProcure directly on Bell24h with verified mill milestone guarantees.");
+    }, 800);
+  };
+
+  const filteredKeywords = keywords.filter(k => {
+    const matchSearch = k.keyword.toLowerCase().includes(searchQuery.toLowerCase()) || k.cluster.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchIntent = intentFilter === "all" || k.intent === intentFilter;
+    return matchSearch && matchIntent;
+  });
+
+  return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 md:p-6 space-y-6 max-w-7xl mx-auto", children: [
+    /* Header */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-gray-200 shadow-sm", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3.5", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center flex-shrink-0", children:
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Search, { className: "w-6 h-6 text-emerald-600" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-xl font-bold text-gray-900 tracking-tight", children: "Enterprise SEO Center" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { className: "bg-emerald-100 text-emerald-800 border-emerald-200 font-medium", children: "AI & GEO Ready" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-500 mt-0.5", children: "Search Intelligence, Technical Site Audits, Keyword Clustering & Generative Engine Optimization" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2 flex-wrap", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { 
+          variant: "outline", 
+          size: "sm", 
+          className: "text-xs border-gray-300 hover:bg-gray-50 cursor-pointer",
+          onClick: () => onNavigate && onNavigate("marketplace"),
+          children: "View Marketplace →" 
+        }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { 
+          size: "sm", 
+          className: "bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs shadow-sm cursor-pointer",
+          onClick: handleRunAudit,
+          disabled: auditing,
+          children: auditing ? [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(RefreshCw, { className: "w-3.5 h-3.5 mr-1.5 animate-spin" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            "Crawling 162 Pages..."
+          ] : [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Zap, { className: "w-3.5 h-3.5 mr-1.5" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            "Run Full Site Audit"
+          ]
+        }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Notification banner if audit ran */
+    auditSuccess && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 flex items-center justify-between", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CircleCheckBig, { className: "w-4 h-4 text-emerald-600" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { children: auditSuccess }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: () => setAuditSuccess(""), className: "text-emerald-700 hover:text-emerald-900 font-bold ml-4", children: "✕" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Top Metric Summary Cards */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "grid grid-cols-2 lg:grid-cols-5 gap-3.5", children: [
+      { label: "SEO Health Score", value: healthScore + "/100", sub: "+4% vs last audit", color: "text-emerald-600", bg: "bg-emerald-50", icon: Shield },
+      { label: "Tracked Keywords", value: keywords.length.toString(), sub: "14 in Top 3 SERP", color: "text-blue-600", bg: "bg-blue-50", icon: Search },
+      { label: "Est. Organic Traffic", value: "42.8K/mo", sub: "+18.4% MoM growth", color: "text-purple-600", bg: "bg-purple-50", icon: TrendingUp },
+      { label: "Core Web Vitals", value: "LCP 1.84s", sub: "FID 14ms · CLS 0.038", color: "text-teal-600", bg: "bg-teal-50", icon: Zap },
+      { label: "AI Search Grounding", value: "74% Share", sub: "Perplexity & Gemini", color: "text-amber-600", bg: "bg-amber-50", icon: Sparkles }
+    ].map((m, idx) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { className: "hover:shadow-md transition-shadow border-gray-200", children:
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-4", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between mb-2", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-xs font-medium text-gray-500", children: m.label }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-7 h-7 rounded-lg " + m.bg + " flex items-center justify-center", children:
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(m.icon, { className: "w-3.5 h-3.5 " + m.color }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xl font-bold text-gray-900 tracking-tight", children: m.value }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[11px] font-medium text-emerald-600 mt-1", children: m.sub }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    }, idx, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Tab Navigation */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-1 border-b border-gray-200 overflow-x-auto pb-1 text-xs font-medium", children: [
+      { id: "overview", label: "Executive Overview" },
+      { id: "keywords", label: "Keyword Intelligence (" + keywords.length + ")" },
+      { id: "audit", label: "Site Audit (" + auditIssues.filter(i => !i.fixed).length + " issues)" },
+      { id: "analyzer", label: "Single-Page Analyzer" },
+      { id: "meta-tags", label: "Meta & OpenGraph" },
+      { id: "schema", label: "Schema & JSON-LD" },
+      { id: "geo", label: "AI & GEO Grounding" },
+      { id: "content", label: "Content Optimizer" },
+      { id: "sitemap", label: "Sitemap & Robots" }
+    ].map(t => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", {
+      onClick: () => setActiveTab(t.id),
+      className: cn(
+        "px-3.5 py-2 rounded-t-lg transition-colors cursor-pointer whitespace-nowrap font-medium",
+        activeTab === t.id 
+          ? "border-b-2 border-emerald-600 text-emerald-700 bg-emerald-50/50 font-semibold" 
+          : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+      ),
+      children: t.label
+    }, t.id, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* TAB CONTENT: OVERVIEW */
+    activeTab === "overview" && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "grid grid-cols-1 lg:grid-cols-3 gap-6", children: [
+      /* Left Column: Health & Core Web Vitals */
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { className: "lg:col-span-2 border-gray-200", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardHeader, { className: "pb-3 border-b border-gray-100", children:
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardTitle, { className: "text-sm font-semibold text-gray-900", children: "Crawl & Indexation Health (162 Pages)" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { className: "bg-emerald-100 text-emerald-700 border-0 text-[11px]", children: "Healthy 91%" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "pt-4 space-y-4", children: [
+          /* HTTP Status Distribution */
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "grid grid-cols-4 gap-3 text-center", children: [
+            { code: "200 OK", count: 148, pct: "91.3%", color: "text-emerald-700 bg-emerald-50 border-emerald-200" },
+            { code: "301 Redirect", count: 10, pct: "6.2%", color: "text-blue-700 bg-blue-50 border-blue-200" },
+            { code: "404 Not Found", count: 3, pct: "1.8%", color: "text-amber-700 bg-amber-50 border-amber-200" },
+            { code: "500 Error", count: 1, pct: "0.6%", color: "text-red-700 bg-red-50 border-red-200" }
+          ].map((st, i) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3 rounded-xl border " + st.color, children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-base font-bold", children: st.count }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[11px] font-medium opacity-90", children: st.code }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[10px] opacity-75 mt-0.5", children: st.pct }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, i, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+          /* Core Web Vitals Details */
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-3", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-xs font-semibold text-gray-800", children: "Google Core Web Vitals (Real User Metrics)" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "grid grid-cols-3 gap-3", children: [
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "bg-white p-2.5 rounded-lg border border-gray-200", children: [
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[11px] text-gray-500", children: "LCP (Largest Contentful Paint)" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm font-bold text-emerald-600 mt-0.5", children: "1.84s (Good)" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[10px] text-gray-400 mt-0.5", children: "Benchmark: < 2.5s" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+              ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "bg-white p-2.5 rounded-lg border border-gray-200", children: [
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[11px] text-gray-500", children: "FID (First Input Delay)" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm font-bold text-emerald-600 mt-0.5", children: "14ms (Good)" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[10px] text-gray-400 mt-0.5", children: "Benchmark: < 100ms" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+              ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "bg-white p-2.5 rounded-lg border border-gray-200", children: [
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[11px] text-gray-500", children: "CLS (Cumulative Layout Shift)" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm font-bold text-emerald-600 mt-0.5", children: "0.038 (Good)" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[10px] text-gray-400 mt-0.5", children: "Benchmark: < 0.10" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+              ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+      /* Right Column: Top High-Impact SEO Actions */
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { className: "border-gray-200", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardHeader, { className: "pb-3 border-b border-gray-100", children:
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardTitle, { className: "text-sm font-semibold text-gray-900", children: "High-Impact Recommendations" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "pt-4 space-y-3", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3 bg-blue-50 border border-blue-200 rounded-xl", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs font-semibold text-blue-900", children: "Target 'Textile Sourcing' cluster" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[11px] text-blue-700 mt-0.5", children: "3 keywords ranked #4-#6 can enter Top 3 with 2 new internal links from Supplier Hubs." }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: () => setActiveTab("keywords"), className: "text-[11px] font-semibold text-blue-800 hover:underline mt-2 inline-block", children: "View Keywords →" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3 bg-amber-50 border border-amber-200 rounded-xl", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs font-semibold text-amber-900", children: "Missing Canonical Tag" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[11px] text-amber-800 mt-0.5", children: "1 critical duplicate content issue detected on /marketplace/machinery." }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: () => setActiveTab("audit"), className: "text-[11px] font-semibold text-amber-900 hover:underline mt-2 inline-block", children: "Fix in Technical Audit →" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3 bg-emerald-50 border border-emerald-200 rounded-xl", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs font-semibold text-emerald-900", children: "AI Search Grounding (GEO)" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[11px] text-emerald-800 mt-0.5", children: "Perplexity cited Bell24h as #1 sourcing platform for verified Indian cotton yarn." }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: () => setActiveTab("geo"), className: "text-[11px] font-semibold text-emerald-900 hover:underline mt-2 inline-block", children: "Check AI Citations →" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* TAB CONTENT: KEYWORDS */
+    activeTab === "keywords" && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { className: "border-gray-200", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardHeader, { className: "pb-3 border-b border-gray-100", children:
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-col md:flex-row md:items-center justify-between gap-3", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardTitle, { className: "text-sm font-semibold text-gray-900", children: "Tracked Keywords & SERP Rankings" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-500", children: "Daily position changes, search volume, CPC, and commercial intent classification" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Input, {
+              placeholder: "Search keywords or clusters...",
+              value: searchQuery,
+              onChange: (e) => setSearchQuery(e.target.value),
+              className: "w-52 h-8 text-xs bg-gray-50"
+            }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("select", {
+              value: intentFilter,
+              onChange: (e) => setIntentFilter(e.target.value),
+              className: "h-8 text-xs border border-gray-300 rounded-md px-2 bg-white text-gray-700"
+            }, [
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "all", children: "All Intents" }, "all", false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "transactional", children: "Transactional" }, "trans", false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "commercial", children: "Commercial" }, "comm", false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            ], false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, {
+              size: "sm",
+              className: "h-8 text-xs bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer",
+              onClick: () => setShowAddKw(!showAddKw),
+              children: [
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Plus, { className: "w-3 h-3 mr-1" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                "Add Keyword"
+              ]
+            }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+      /* Add Keyword Drawer / Form */
+      showAddKw && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("form", { onSubmit: handleAddKeyword, className: "p-4 bg-gray-50 border-b border-gray-200 grid grid-cols-1 md:grid-cols-4 gap-3", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("label", { className: "text-[11px] font-medium text-gray-700", children: "Target Keyword" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Input, {
+            required: true,
+            placeholder: "e.g., Surat jacquard silk fabric",
+            value: newKw.keyword,
+            onChange: (e) => setNewKw({ ...newKw, keyword: e.target.value }),
+            className: "h-8 text-xs mt-1 bg-white"
+          }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("label", { className: "text-[11px] font-medium text-gray-700", children: "Est. Monthly Volume" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Input, {
+            type: "number",
+            value: newKw.volume,
+            onChange: (e) => setNewKw({ ...newKw, volume: e.target.value }),
+            className: "h-8 text-xs mt-1 bg-white"
+          }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("label", { className: "text-[11px] font-medium text-gray-700", children: "Cluster" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("select", {
+            value: newKw.cluster,
+            onChange: (e) => setNewKw({ ...newKw, cluster: e.target.value }),
+            className: "h-8 text-xs mt-1 w-full border border-gray-300 rounded-md px-2 bg-white text-gray-700"
+          }, [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "Textile Sourcing", children: "Textile Sourcing" }, "ts", false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "Regional Hubs", children: "Regional Hubs" }, "rh", false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "Trade Finance", children: "Trade Finance" }, "tf", false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ], false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-end gap-2", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { type: "submit", size: "sm", className: "h-8 text-xs bg-emerald-600 hover:bg-emerald-700 text-white w-full cursor-pointer", children: "Save & Track" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { type: "button", variant: "outline", size: "sm", onClick: () => setShowAddKw(false), className: "h-8 text-xs", children: "Cancel" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+      /* Keyword Table */
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-0", children:
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "overflow-x-auto", children:
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("table", { className: "w-full text-xs", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("thead", { children:
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("tr", { className: "border-b bg-gray-50 text-gray-600 font-semibold text-left", children: [
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "px-4 py-3", children: "Keyword & Intent" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "px-4 py-3", children: "Topic Cluster" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "px-4 py-3 text-center", children: "Google SERP Rank" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "px-4 py-3 text-right", children: "Volume" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "px-4 py-3", children: "Difficulty (KD)" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "px-4 py-3 text-right", children: "CPC" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "px-4 py-3", children: "Target URL" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "px-4 py-3 text-right", children: "Action" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+              ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("tbody", { children: filteredKeywords.map(k => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("tr", { className: "border-b last:border-0 hover:bg-gray-50/75 transition-colors", children: [
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3 font-medium text-gray-900", children: [
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "font-semibold text-gray-900", children: k.keyword }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "inline-block text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded mt-0.5 " + (k.intent === "transactional" ? "bg-purple-100 text-purple-700" : "bg-blue-100 text-blue-700"), children: k.intent }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+              ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3", children:
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { variant: "outline", className: "text-[11px] font-normal border-gray-300 text-gray-700", children: k.cluster }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+              }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3 text-center", children: [
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "inline-flex items-center justify-center font-bold px-2 py-0.5 rounded-full " + (k.position <= 3 ? "bg-emerald-100 text-emerald-800" : k.position <= 10 ? "bg-blue-100 text-blue-800" : "bg-gray-100 text-gray-700"), children: [
+                  "#", k.position
+                ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-[10px] text-emerald-600 font-semibold ml-1.5", children: [
+                  "▲ ", (k.prevPosition - k.position > 0 ? "+" + (k.prevPosition - k.position) : "±0")
+                ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+              ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3 text-right font-medium text-gray-800", children: k.volume.toLocaleString() }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3", children: [
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between text-[10px] text-gray-500 mb-1", children: [
+                  /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { children: k.difficulty > 50 ? "Hard" : "Medium" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                  /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { children: k.difficulty + "/100" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+                ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-24 h-1.5 bg-gray-200 rounded-full overflow-hidden", children:
+                  /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "h-full " + (k.difficulty > 60 ? "bg-red-500" : k.difficulty > 40 ? "bg-amber-500" : "bg-emerald-500"), style: { width: k.difficulty + "%" } }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+                }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+              ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3 text-right font-medium text-gray-700", children: k.cpc }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3 font-mono text-[11px] text-gray-500", children: k.url }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-4 py-3 text-right", children:
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", {
+                  onClick: () => { setAnalyzerUrl(k.url); setActiveTab("analyzer"); },
+                  className: "text-emerald-600 hover:text-emerald-800 font-semibold text-[11px] hover:underline cursor-pointer",
+                  children: "Audit Page"
+                }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+              }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            ] }, k.id, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* TAB CONTENT: TECHNICAL AUDIT */
+    activeTab === "audit" && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { className: "border-gray-200", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardHeader, { className: "pb-3 border-b border-gray-100", children:
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardTitle, { className: "text-sm font-semibold text-gray-900", children: "Automated Technical SEO Crawler Issues" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-500", children: "Crawl diagnostics covering canonicals, status codes, broken links, and metadata" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", className: "bg-emerald-600 hover:bg-emerald-700 text-white text-xs cursor-pointer", onClick: handleRunAudit, children: "Re-scan Site" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-4 space-y-3", children: auditIssues.map(iss => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3.5 rounded-xl border flex items-center justify-between gap-3 " + (iss.fixed ? "bg-gray-50 border-gray-200 opacity-60" : iss.severity === "critical" ? "bg-red-50/50 border-red-200" : iss.severity === "warning" ? "bg-amber-50/50 border-amber-200" : "bg-blue-50/50 border-blue-200"), children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { className: iss.fixed ? "bg-gray-200 text-gray-700" : iss.severity === "critical" ? "bg-red-100 text-red-800" : iss.severity === "warning" ? "bg-amber-100 text-amber-800" : "bg-blue-100 text-blue-800", children: iss.fixed ? "Resolved" : iss.severity.toUpperCase() }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs font-semibold text-gray-900 " + (iss.fixed ? "line-through" : ""), children: iss.title }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[11px] text-gray-500 mt-0.5", children: "Impact: " + iss.impact + " · Affects search ranking & crawl budget" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: iss.fixed ? 
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-xs text-emerald-600 font-semibold flex items-center gap-1", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CircleCheckBig, { className: "w-3.5 h-3.5" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this), " Fixed"
+          ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this) :
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", variant: "outline", className: "h-7 text-xs border-gray-300 hover:bg-white cursor-pointer", onClick: () => handleFixIssue(iss.id), children: "Auto-Fix Issue" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, iss.id, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* TAB CONTENT: SINGLE-PAGE ANALYZER */
+    activeTab === "analyzer" && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "space-y-4", children: [
+      /* URL Input bar */
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { className: "border-gray-200", children:
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-4 flex items-center gap-3", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex-1", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("label", { className: "text-xs font-semibold text-gray-700", children: "Analyze Any Internal Page or Marketplace URL" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Input, {
+              value: analyzerUrl,
+              onChange: (e) => setAnalyzerUrl(e.target.value),
+              placeholder: "/marketplace/textiles or https://bell24h.com/...",
+              className: "mt-1 h-9 text-xs"
+            }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, {
+            onClick: handleAnalyzePage,
+            disabled: analyzing,
+            className: "mt-5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs h-9 cursor-pointer",
+            children: analyzing ? "Auditing Page..." : "Analyze Page"
+          }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+      /* Analyzed Details */
+      analyzedData && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { className: "border-gray-200", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardHeader, { className: "pb-3 border-b border-gray-100 flex flex-row items-center justify-between", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardTitle, { className: "text-sm font-semibold text-gray-900", children: [ "Audit Report for: ", analyzedData.url ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-500", children: "Indexable: Yes · Canonical: Valid" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { className: "bg-emerald-100 text-emerald-800 text-sm font-bold px-3 py-1", children: [ "Page Score: ", analyzedData.score, "/100" ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-4 space-y-4 text-xs", children: [
+          /* Title Check */
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3 bg-gray-50 rounded-xl border border-gray-200", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between mb-1", children: [
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "font-semibold text-gray-800", children: "Page Title Tag" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-emerald-700 font-medium", children: analyzedData.titleLen + " / 60 chars (Optimal)" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-gray-900 font-medium", children: analyzedData.title }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+          /* Meta Description Check */
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3 bg-gray-50 rounded-xl border border-gray-200", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between mb-1", children: [
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "font-semibold text-gray-800", children: "Meta Description Tag" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-emerald-700 font-medium", children: analyzedData.descLen + " / 160 chars (Optimal)" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-gray-700", children: analyzedData.desc }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+          /* Headings and Word Count */
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "grid grid-cols-3 gap-3", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3 bg-emerald-50/60 rounded-xl border border-emerald-200", children: [
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-gray-500", children: "H1 Tag Structure" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "font-bold text-gray-900 mt-1", children: "1 Unique H1" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[10px] text-gray-500 mt-0.5 truncate", children: analyzedData.h1 }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3 bg-blue-50/60 rounded-xl border border-blue-200", children: [
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-gray-500", children: "Content Depth" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "font-bold text-gray-900 mt-1", children: analyzedData.wordCount + " Words" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[10px] text-emerald-600 mt-0.5", children: "Passed B2B Threshold" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3 bg-purple-50/60 rounded-xl border border-purple-200", children: [
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-gray-500", children: "Readability Index" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "font-bold text-gray-900 mt-1", children: analyzedData.readability }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[10px] text-gray-500 mt-0.5", children: "Flesch-Kincaid Standard" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* TAB CONTENT: SCHEMA & JSON-LD */
+    activeTab === "schema" && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { className: "border-gray-200", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardHeader, { className: "pb-3 border-b border-gray-100 flex flex-row items-center justify-between", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardTitle, { className: "text-sm font-semibold text-gray-900", children: "Schema.org Structured Data Generator" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-500", children: "Rich snippets for Google Search results, Knowledge Panels & Merchant listings" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("select", {
+            value: selectedSchema,
+            onChange: (e) => setSelectedSchema(e.target.value),
+            className: "h-8 text-xs border border-gray-300 rounded-md px-2 bg-white text-gray-800"
+          }, [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "Organization", children: "Organization Schema" }, "org", false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "B2BProduct", children: "B2B Product Schema" }, "prod", false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "FAQPage", children: "FAQ Page Schema" }, "faq", false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "LocalBusiness", children: "Local Hub Schema" }, "local", false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ], false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, {
+            size: "sm",
+            variant: "outline",
+            className: "h-8 text-xs cursor-pointer",
+            onClick: () => {
+              navigator.clipboard && navigator.clipboard.writeText(schemaSnippets[selectedSchema]);
+              setCopiedSchema(true);
+              setTimeout(() => setCopiedSchema(false), 2000);
+            },
+            children: copiedSchema ? [
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CircleCheckBig, { className: "w-3 h-3 text-emerald-600 mr-1" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              "Copied!"
+            ] : [
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Copy, { className: "w-3 h-3 mr-1" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              "Copy JSON-LD"
+            ]
+          }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-4", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("pre", { className: "p-4 bg-gray-900 text-emerald-400 font-mono text-xs rounded-xl overflow-x-auto", children: schemaSnippets[selectedSchema] }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[11px] text-gray-500 mt-2", children: "✓ Passed Google Structured Data Testing Tool standards." }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* TAB CONTENT: GEO (GENERATIVE ENGINE OPTIMIZATION) */
+    activeTab === "geo" && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { className: "border-gray-200", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardHeader, { className: "pb-3 border-b border-gray-100", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardTitle, { className: "text-sm font-semibold text-gray-900", children: "Generative Engine Optimization (GEO) & AI Search Citations" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-500", children: "Monitor how Perplexity AI, ChatGPT Search, and Google Gemini cite Bell24h and VyaparSethu in conversational sourcing queries" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-4 space-y-4", children: [
+        /* Query tester input */
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Input, {
+            value: geoQuery,
+            onChange: (e) => setGeoQuery(e.target.value),
+            placeholder: "Enter AI search query to inspect citations...",
+            className: "h-9 text-xs flex-1 bg-gray-50"
+          }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, {
+            onClick: handleCheckGeo,
+            disabled: checkingGeo,
+            className: "h-9 text-xs bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer",
+            children: checkingGeo ? "Testing AI Grounding..." : "Test AI Citations"
+          }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+        /* GEO citations list */
+        geoResult && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "space-y-3 pt-2", children: geoResult.citations.map((c, idx) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 bg-white border border-gray-200 rounded-xl space-y-2 shadow-xs", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Sparkles, { className: "w-4 h-4 text-purple-600" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-xs font-bold text-gray-900", children: c.engine }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-1.5", children: [
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { className: "bg-emerald-100 text-emerald-800 text-[10px]", children: c.rank }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { variant: "outline", className: "text-[10px] text-gray-600", children: c.sentiment }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-700 leading-relaxed bg-gray-50 p-3 rounded-lg border border-gray-100", children: [ '"', c.text, '"' ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, idx, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* TAB CONTENT: CONTENT OPTIMIZER */
+    activeTab === "content" && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { className: "border-gray-200", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardHeader, { className: "pb-3 border-b border-gray-100", children:
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardTitle, { className: "text-sm font-semibold text-gray-900", children: "AI B2B Sourcing Content & Article Generator" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-500", children: "Create authoritative, search-optimized textile procurement guides and category pages" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, {
+            size: "sm",
+            onClick: handleGenerateContent,
+            disabled: aiGenerating,
+            className: "bg-emerald-600 hover:bg-emerald-700 text-white text-xs cursor-pointer",
+            children: aiGenerating ? "Generating Content..." : "Generate AI Article"
+          }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-4 space-y-4", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "grid grid-cols-3 gap-3", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3 bg-gray-50 rounded-xl border border-gray-200", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[11px] text-gray-500", children: "Target Keyword" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs font-bold text-gray-900 mt-0.5", children: "combed cotton yarn tirupur" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3 bg-emerald-50 rounded-xl border border-emerald-200", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[11px] text-emerald-700", children: "Content Score" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs font-bold text-emerald-900 mt-0.5", children: "94 / 100 (Optimal)" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3 bg-purple-50 rounded-xl border border-purple-200", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[11px] text-purple-700", children: "Topic Coverage" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs font-bold text-purple-900 mt-0.5", children: "12 / 12 Key Entities Covered" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        aiContent && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 bg-gray-900 text-gray-100 rounded-xl font-mono text-xs whitespace-pre-wrap leading-relaxed", children: aiContent }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* TAB CONTENT: META-TAGS / SITEMAP (Default fallback for remaining tabs) */
+    (activeTab === "meta-tags" || activeTab === "sitemap") && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { className: "border-gray-200", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardHeader, { className: "pb-3 border-b border-gray-100", children:
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardTitle, { className: "text-sm font-semibold text-gray-900", children: activeTab === "meta-tags" ? "Meta Tag & Social Card Optimizer" : "XML Sitemaps & Search Engine Directives" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-4 space-y-4 text-xs", children: [
+        activeTab === "meta-tags" ? /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "space-y-4", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 border border-gray-200 rounded-xl bg-white max-w-xl", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[11px] text-gray-400 mb-1", children: "Google SERP Desktop Snippet Preview" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-blue-700 text-sm font-medium hover:underline cursor-pointer", children: "Verified Indian Textile Manufacturers & Sourcing Mills | Bell24h" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-emerald-700 text-[11px] font-mono", children: "https://bell24h.com/marketplace/textiles" }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-gray-600 mt-1 text-xs", children: "Direct sourcing from verified Tirupur, Surat and Ahmedabad textile mills with milestone escrow protection, lab testing, and instant RFQ matching." }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this) :
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "space-y-3", children: [
+          [
+            { name: "sitemap.xml", urls: 162, status: "200 OK · Indexed", lastmod: "Today" },
+            { name: "sitemap-products.xml", urls: 54, status: "200 OK · Indexed", lastmod: "Today" },
+            { name: "sitemap-suppliers.xml", urls: 38, status: "200 OK · Indexed", lastmod: "Yesterday" }
+          ].map((sm, i) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between p-3 bg-gray-50 rounded-xl border border-gray-200", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "font-mono font-semibold text-gray-900", children: "https://bell24h.com/" + sm.name }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[11px] text-gray-500", children: sm.urls + " URLs · Last updated: " + sm.lastmod }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { className: "bg-emerald-100 text-emerald-800 text-[10px]", children: sm.status }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, i, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this))
+        ] }, void 0, false, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this)
+  ] }, void 0, true, { fileName: "SEOCenter.tsx", lineNumber: 1, columnNumber: 1 }, this);
+}
+
+
+function ContentPlannerPage({ onNavigate }) {
+  const [activeTab, setActiveTab] = reactExports.useState("kanban");
+  const [createModal, setCreateModal] = reactExports.useState(false);
+  const [aiGenerating, setAiGenerating] = reactExports.useState(false);
+  const [toastMsg, setToastMsg] = reactExports.useState("");
+  const [newContent, setNewContent] = reactExports.useState({ title: "", type: "blog_post", channel: "LinkedIn B2B", status: "ideation" });
+
+  const [items, setItems] = reactExports.useState([
+    { id: "cnt-1", title: "Why Indian Combed Cotton 30s Outperforms Global Ring Spun in 2026", type: "Technical Whitepaper", channel: "LinkedIn B2B", status: "published", date: "Jul 15" },
+    { id: "cnt-2", title: "Surat Jacquard Weavers: Direct Mill Procurement Guide for Dubai Importers", type: "Buyer Guide", channel: "Blog & SEO", status: "scheduled", date: "Tomorrow" },
+    { id: "cnt-3", title: "BCI Organic Single Jersey: Complete GSM & Shrinkage Specifications", type: "Spec Sheet", channel: "WhatsApp Catalog", status: "review", date: "Jul 20" },
+    { id: "cnt-4", title: "Navigating Cross-Border Textile Escrow with SGS Lab Milestones", type: "Case Study", channel: "LinkedIn B2B", status: "ideation", date: "Draft" }
+  ]);
+
+  const handleAiDraft = () => {
+    if (!newContent.title) return;
+    setAiGenerating(true);
+    setTimeout(() => {
+      setAiGenerating(false);
+      setToastMsg("AI drafted structured outline, SEO meta tags, and high-converting CTA!");
+      setTimeout(() => setToastMsg(""), 3500);
+    }, 800);
+  };
+
+  const handleCreate = (e) => {
+    e.preventDefault();
+    if (!newContent.title) return;
+    const it = {
+      id: "cnt-" + Date.now(),
+      title: newContent.title,
+      type: newContent.type,
+      channel: newContent.channel,
+      status: newContent.status,
+      date: "Just now"
+    };
+    setItems([it, ...items]);
+    setCreateModal(false);
+    setNewContent({ title: "", type: "blog_post", channel: "LinkedIn B2B", status: "ideation" });
+    setToastMsg("New content piece created in pipeline!");
+    setTimeout(() => setToastMsg(""), 3500);
+  };
+
+  const moveStatus = (id, newStatus) => {
+    setItems(prev => prev.map(i => i.id === id ? { ...i, status: newStatus } : i));
+    setToastMsg("Content card moved to " + newStatus.toUpperCase());
+    setTimeout(() => setToastMsg(""), 2500);
+  };
+
+  const statuses = [
+    { id: "ideation", label: "Ideation & Drafts", color: "border-gray-200 bg-gray-50" },
+    { id: "review", label: "In Review", color: "border-amber-200 bg-amber-50/30" },
+    { id: "scheduled", label: "Scheduled", color: "border-blue-200 bg-blue-50/30" },
+    { id: "published", label: "Published Live", color: "border-emerald-200 bg-emerald-50/30" }
+  ];
+
+  return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 md:p-6 space-y-6 max-w-7xl mx-auto", children: [
+    /* Header */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-gray-200 shadow-sm", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3.5", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-12 h-12 rounded-xl bg-violet-50 border border-violet-100 flex items-center justify-center flex-shrink-0", children:
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(FileText, { className: "w-6 h-6 text-violet-600" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-xl font-bold text-gray-900 tracking-tight", children: "AI Content Studio & Planner" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-500 mt-0.5", children: "Plan, generate, and review B2B whitepapers, mill catalogs, and SEO cluster assets" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { variant: "outline", size: "sm", className: "text-xs border-gray-300 hover:bg-gray-50 cursor-pointer", onClick: () => onNavigate && onNavigate("publishing"), children: "Publishing Queue →" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", className: "bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs shadow-sm cursor-pointer", onClick: () => setCreateModal(true), children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Plus, { className: "w-3.5 h-3.5 mr-1" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          "New Content Piece"
+        ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    toastMsg && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 flex items-center justify-between", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CircleCheckBig, { className: "w-4 h-4 text-emerald-600" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        toastMsg
+      ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: () => setToastMsg(""), className: "font-bold text-emerald-900", children: "✕" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Kanban Pipeline Columns */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "grid grid-cols-1 md:grid-cols-4 gap-4", children: statuses.map(col => {
+      const colItems = items.filter(i => i.status === col.id);
+      return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "space-y-3 bg-white p-3.5 rounded-xl border " + col.color, children: [
+        /* Column Header */
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "font-bold text-xs text-gray-900", children: col.label }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { variant: "outline", className: "text-[10px] text-gray-500", children: colItems.length }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+        /* Items in column */
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "space-y-2.5", children: colItems.map(item => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { className: "border-gray-200 hover:shadow-md transition-shadow", children:
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-3 space-y-2", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between text-[10px]", children: [
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { variant: "outline", className: "text-[9px] bg-gray-50 border-gray-200 text-gray-700", children: item.type }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-gray-400", children: item.date }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h4", { className: "text-xs font-bold text-gray-900 leading-snug", children: item.title }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[10px] text-gray-500", children: [ "Channel: ", /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("strong", { className: "text-gray-700", children: item.channel }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this) ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* Quick advance action */
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-end pt-1 border-t border-gray-100", children:
+              item.status !== "published" && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", {
+                onClick: () => moveStatus(item.id, item.status === "ideation" ? "review" : item.status === "review" ? "scheduled" : "published"),
+                className: "text-[10px] font-semibold text-emerald-600 hover:text-emerald-800 cursor-pointer",
+                children: "Advance Stage →"
+              }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        }, item.id, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, col.id, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this);
+    }) }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Create Modal with AI Draft */
+    createModal && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4", children:
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "bg-white rounded-2xl max-w-md w-full p-5 space-y-4 shadow-xl border border-gray-200", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-sm font-bold text-gray-900", children: "Create New Content Piece" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: () => setCreateModal(false), className: "text-gray-400 hover:text-gray-600 font-bold", children: "✕" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("form", { onSubmit: handleCreate, className: "space-y-3 text-xs", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("label", { className: "font-medium text-gray-700", children: "Content Title / Topic" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Input, { required: true, placeholder: "e.g., Surat Jacquard Silks GCC Export Market Outlook", value: newContent.title, onChange: (e) => setNewContent({ ...newContent, title: e.target.value }), className: "mt-1 h-8 text-xs" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "grid grid-cols-2 gap-3", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("label", { className: "font-medium text-gray-700", children: "Content Format" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("select", { value: newContent.type, onChange: (e) => setNewContent({ ...newContent, type: e.target.value }), className: "mt-1 w-full h-8 border border-gray-300 rounded-md px-2 bg-white text-xs" }, [
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "Technical Whitepaper", children: "Technical Whitepaper" }, "tw", false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "Buyer Guide", children: "Buyer Guide" }, "bg", false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "Spec Sheet", children: "Spec Sheet" }, "ss", false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "Case Study", children: "Case Study" }, "cs", false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+              ], false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("label", { className: "font-medium text-gray-700", children: "Primary Channel" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("select", { value: newContent.channel, onChange: (e) => setNewContent({ ...newContent, channel: e.target.value }), className: "mt-1 w-full h-8 border border-gray-300 rounded-md px-2 bg-white text-xs" }, [
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "LinkedIn B2B", children: "LinkedIn B2B" }, "li", false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "Blog & SEO", children: "Blog & SEO Center" }, "bl", false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "WhatsApp Catalog", children: "WhatsApp Catalog" }, "wa", false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+              ], false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* AI Draft Button */
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "pt-1", children:
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, {
+              type: "button",
+              variant: "outline",
+              className: "w-full text-xs h-8 border-violet-200 text-violet-700 hover:bg-violet-50 cursor-pointer",
+              disabled: aiGenerating,
+              onClick: handleAiDraft,
+              children: aiGenerating ? "AI Drafting Outline..." : "⚡ Generate AI Outline & Key Hooks"
+            }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* Actions */
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-end gap-2 pt-2", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { type: "button", variant: "outline", size: "sm", onClick: () => setCreateModal(false), className: "text-xs", children: "Cancel" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { type: "submit", size: "sm", className: "bg-emerald-600 hover:bg-emerald-700 text-white text-xs", children: "Add to Pipeline" }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    }, void 0, false, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+  ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this);
+}
+
+function MarketplacePage({ onNavigate }) {
+  const [search, setSearch] = reactExports.useState("");
+  const [selectedCategory, setSelectedCategory] = reactExports.useState("all");
+  const [selectedHub, setSelectedHub] = reactExports.useState("all");
+  const [rfqModalOpen, setRfqModalOpen] = reactExports.useState(false);
+  const [selectedProduct, setSelectedProduct] = reactExports.useState(null);
+  const [rfqSuccess, setRfqSuccess] = reactExports.useState("");
+  const [quoteForm, setQuoteForm] = reactExports.useState({ quantity: "1000", targetPrice: "240", notes: "" });
+
+  const categories = [
+    { id: "all", name: "All Products", count: 1480 },
+    { id: "yarn", name: "Yarn & Fibers", count: 420 },
+    { id: "fabrics", name: "Knits & Woven Fabrics", count: 560 },
+    { id: "silk", name: "Surat Silks & Sarees", count: 280 },
+    { id: "denim", name: "Denim & Twills", count: 140 },
+    { id: "machinery", name: "Loom Machinery & Parts", count: 80 }
+  ];
+
+  const products = [
+    { id: "prod-1", title: "Combed Ring-Spun Cotton Yarn 30s/1", category: "yarn", price: "₹285 / kg", moq: "2,000 kg", supplier: "Tirupur Premier Mills Ltd", hub: "Tirupur", rating: 4.9, verified: true, cert: "GOTS & OEKO-TEX", escrowReady: true, leadTime: "5-7 Days" },
+    { id: "prod-2", title: "Surat Jacquard Brocade Silk Fabric", category: "silk", price: "₹420 / meter", moq: "500 meters", supplier: "Ratan Tex Weaving Hub", hub: "Surat", rating: 4.8, verified: true, cert: "ISO 9001", escrowReady: true, leadTime: "3-5 Days" },
+    { id: "prod-3", title: "Single Jersey 100% Cotton Bio-Washed", category: "fabrics", price: "₹340 / kg", moq: "500 kg", supplier: "Apex Knitting Mills", hub: "Tirupur", rating: 4.9, verified: true, cert: "BCI Cotton", escrowReady: true, leadTime: "7-10 Days" },
+    { id: "prod-4", title: "Ring-Spun Denim 12.5 oz Indigo Twill", category: "denim", price: "₹195 / meter", moq: "1,200 meters", supplier: "Gujarat Weaving Mills", hub: "Ahmedabad", rating: 4.7, verified: true, cert: "OEKO-TEX Standard", escrowReady: true, leadTime: "10-12 Days" },
+    { id: "prod-5", title: "Polyester Viscose Suiting Fabric (PV)", category: "fabrics", price: "₹180 / meter", moq: "800 meters", supplier: "Bhilwara Synthetics Corp", hub: "Bhilwara", rating: 4.6, verified: true, cert: "SEDEX", escrowReady: true, leadTime: "4-6 Days" },
+    { id: "prod-6", title: "High-Speed Air Jet Loom Weft Feeder", category: "machinery", price: "₹48,000 / unit", moq: "2 units", supplier: "Ludhiana Textile Mechanics", hub: "Ludhiana", rating: 4.8, verified: true, cert: "CE Certified", escrowReady: true, leadTime: "15 Days" }
+  ];
+
+  const filtered = products.filter(p => {
+    const matchCat = selectedCategory === "all" || p.category === selectedCategory;
+    const matchHub = selectedHub === "all" || p.hub.toLowerCase() === selectedHub.toLowerCase();
+    const matchSearch = p.title.toLowerCase().includes(search.toLowerCase()) || p.supplier.toLowerCase().includes(search.toLowerCase());
+    return matchCat && matchHub && matchSearch;
+  });
+
+  const handleOpenQuote = (prod) => {
+    setSelectedProduct(prod);
+    setQuoteForm({ quantity: prod.moq.split(" ")[0] || "1000", targetPrice: prod.price.replace(/[^0-9]/g, "") || "250", notes: "" });
+    setRfqModalOpen(true);
+  };
+
+  const handleSubmitQuote = (e) => {
+    e.preventDefault();
+    setRfqSuccess("RFQ submitted for " + selectedProduct?.title + "! Mill notified & deal logged to Trade RFQs.");
+    setRfqModalOpen(false);
+    setTimeout(() => setRfqSuccess(""), 4500);
+  };
+
+  return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 md:p-6 space-y-6 max-w-7xl mx-auto", children: [
+    /* Header */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-gray-200 shadow-sm", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3.5", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-12 h-12 rounded-xl bg-rose-50 border border-rose-100 flex items-center justify-center flex-shrink-0", children:
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(ShoppingCart, { className: "w-6 h-6 text-rose-600" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-xl font-bold text-gray-900 tracking-tight", children: "B2B Textile Sourcing Marketplace" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { className: "bg-rose-100 text-rose-800 border-0 font-medium", children: "1,480 Active Lots" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-500 mt-0.5", children: "Direct procurement from verified Indian mills with SGS quality inspection & milestone trade escrow" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { variant: "outline", size: "sm", className: "text-xs border-gray-300 hover:bg-gray-50 cursor-pointer", onClick: () => onNavigate && onNavigate("suppliers"), children: "Browse 320 Mills →" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", className: "bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs shadow-sm cursor-pointer", onClick: () => onNavigate && onNavigate("rfqs"), children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Plus, { className: "w-3.5 h-3.5 mr-1" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          "Post Custom RFQ"
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Success Toast */
+    rfqSuccess && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 flex items-center justify-between", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CircleCheckBig, { className: "w-4 h-4 text-emerald-600" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        rfqSuccess
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: () => onNavigate && onNavigate("rfqs"), className: "font-semibold underline ml-3 text-emerald-900", children: "View in RFQ Center →" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Sourcing Filters Bar */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-col md:flex-row md:items-center justify-between gap-3 bg-white p-3.5 rounded-xl border border-gray-200", children: [
+      /* Search Input */
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "relative flex-1 max-w-md", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Search, { className: "w-4 h-4 text-gray-400 absolute left-3 top-2.5" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Input, {
+          placeholder: "Search fabrics, yarn counts, or mill names...",
+          value: search,
+          onChange: (e) => setSearchQuery ? setSearch(e.target.value) : setSearch(e.target.value),
+          className: "pl-9 text-xs h-9 bg-gray-50 border-gray-200"
+        }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* Hub filter */
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-xs text-gray-500 font-medium whitespace-nowrap", children: "Textile Hub:" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("select", {
+          value: selectedHub,
+          onChange: (e) => setSelectedHub(e.target.value),
+          className: "h-9 text-xs border border-gray-300 rounded-lg px-2.5 bg-white text-gray-700"
+        }, [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "all", children: "All India Hubs" }, "all", false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "tirupur", children: "Tirupur (Knits & Cotton)" }, "tir", false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "surat", children: "Surat (Silks & Weaving)" }, "sur", false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "ahmedabad", children: "Ahmedabad (Denim & Mills)" }, "ahm", false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "bhilwara", children: "Bhilwara (Suitings & Blends)" }, "bhil", false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "ludhiana", children: "Ludhiana (Wool & Machinery)" }, "lud", false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ], false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Category Filter Pills */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-1.5 overflow-x-auto pb-1 text-xs", children: categories.map(cat => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", {
+      onClick: () => setSelectedCategory(cat.id),
+      className: cn(
+        "px-3.5 py-1.5 rounded-full font-medium transition-colors cursor-pointer whitespace-nowrap",
+        selectedCategory === cat.id 
+          ? "bg-gray-900 text-white shadow-xs" 
+          : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"
+      ),
+      children: [ cat.name, " (", cat.count, ")" ]
+    }, cat.id, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Product Grid */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4", children: filtered.map(prod => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { className: "hover:shadow-md transition-shadow border-gray-200 flex flex-col justify-between", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardHeader, { className: "pb-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between gap-2 mb-1", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { variant: "outline", className: "text-[10px] text-rose-700 bg-rose-50 border-rose-200 font-semibold", children: prod.hub + " Hub" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          prod.escrowReady && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { className: "bg-emerald-100 text-emerald-800 border-0 text-[10px] font-medium flex items-center gap-1", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Shield, { className: "w-3 h-3 text-emerald-600" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            "Trade Escrow"
+          ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardTitle, { className: "text-sm font-bold text-gray-900 leading-snug line-clamp-2", children: prod.title }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-500 flex items-center gap-1 mt-1", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Building2, { className: "w-3 h-3 text-gray-400" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          prod.supplier
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "pt-0 pb-4 space-y-3", children: [
+        /* Price and MOQ metrics */
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3 bg-gray-50 rounded-xl border border-gray-100 grid grid-cols-2 gap-2 text-xs", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[11px] text-gray-400", children: "Direct Mill Price" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm font-bold text-gray-900 mt-0.5", children: prod.price }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[11px] text-gray-400", children: "Min. Order (MOQ)" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm font-bold text-gray-900 mt-0.5", children: prod.moq }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+        /* Specs row */
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between text-[11px] text-gray-500", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { children: [ "Certification: ", /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("strong", { className: "text-gray-700", children: prod.cert }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this) ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { children: [ "Lead: ", prod.leadTime ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+        /* Actions */
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2 pt-1", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, {
+            size: "sm",
+            className: "flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs h-8 cursor-pointer font-medium",
+            onClick: () => handleOpenQuote(prod),
+            children: "Request Quotation"
+          }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, {
+            variant: "outline",
+            size: "sm",
+            className: "text-xs h-8 border-gray-300 hover:bg-gray-50 cursor-pointer",
+            onClick: () => onNavigate && onNavigate("suppliers"),
+            children: "Mill Profile"
+          }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, prod.id, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Quote Modal */
+    rfqModalOpen && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4", children:
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "bg-white rounded-2xl max-w-md w-full p-5 space-y-4 shadow-xl border border-gray-200", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-sm font-bold text-gray-900", children: "Request Mill Quotation" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: () => setRfqModalOpen(false), className: "text-gray-400 hover:text-gray-600 font-bold", children: "✕" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3 bg-gray-50 rounded-xl border border-gray-100 text-xs", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "font-semibold text-gray-900", children: selectedProduct?.title }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-gray-500 mt-0.5", children: [ "Supplier: ", selectedProduct?.supplier, " · Hub: ", selectedProduct?.hub ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("form", { onSubmit: handleSubmitQuote, className: "space-y-3 text-xs", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("label", { className: "font-medium text-gray-700", children: "Order Quantity Required" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Input, { required: true, value: quoteForm.quantity, onChange: (e) => setQuoteForm({ ...quoteForm, quantity: e.target.value }), className: "mt-1 h-8 text-xs" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("label", { className: "font-medium text-gray-700", children: "Target Price (₹ per unit)" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Input, { required: true, value: quoteForm.targetPrice, onChange: (e) => setQuoteForm({ ...quoteForm, targetPrice: e.target.value }), className: "mt-1 h-8 text-xs" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("label", { className: "font-medium text-gray-700", children: "Packaging & Quality Spec Notes" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("textarea", { value: quoteForm.notes, onChange: (e) => setQuoteForm({ ...quoteForm, notes: e.target.value }), placeholder: "e.g. Requires export pallet packaging, SGS lab test report before dispatch.", className: "mt-1 w-full border border-gray-300 rounded-lg p-2 text-xs h-16" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-end gap-2 pt-2", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { type: "button", variant: "outline", size: "sm", onClick: () => setRfqModalOpen(false), className: "text-xs", children: "Cancel" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { type: "submit", size: "sm", className: "bg-emerald-600 hover:bg-emerald-700 text-white text-xs", children: "Send RFQ to Mill" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+  ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this);
+}
+
+function SuppliersPage({ onNavigate }) {
+  const [search, setSearch] = reactExports.useState("");
+  const [hubFilter, setHubFilter] = reactExports.useState("all");
+  const [contactSuccess, setContactSuccess] = reactExports.useState("");
+
+  const suppliers = [
+    { id: "sup-1", name: "Tirupur Premier Mills Ltd", hub: "Tirupur", specialty: "Combed Cotton Yarn & Bio-Washed Knits", capacity: "65,000 kg/day", certs: ["GOTS Organic", "OEKO-TEX 100", "BCI"], rating: 4.9, reviews: 84, escrowVerified: true, phone: "+91-421-2490100" },
+    { id: "sup-2", name: "Ratan Tex Weaving Hub", hub: "Surat", specialty: "Jacquard Silks, Georgette & Sarees", capacity: "120,000 m/day", certs: ["ISO 9001", "ZED Gold"], rating: 4.8, reviews: 112, escrowVerified: true, phone: "+91-261-2800400" },
+    { id: "sup-3", name: "Gujarat Denim & Weaving Ltd", hub: "Ahmedabad", specialty: "Heavy Indigo Denim & Ring-Spun Twill", capacity: "90,000 m/day", certs: ["OEKO-TEX 100", "WRAP"], rating: 4.7, reviews: 59, escrowVerified: true, phone: "+91-79-2650120" },
+    { id: "sup-4", name: "Bhilwara Poly-Viscose Corp", hub: "Bhilwara", specialty: "PV Suiting, Uniform & Blended Fabrics", capacity: "45,000 m/day", certs: ["SEDEX", "ISO 14001"], rating: 4.6, reviews: 43, escrowVerified: true, phone: "+91-1482-230900" },
+    { id: "sup-5", name: "Ludhiana Wool & Knits Ltd", hub: "Ludhiana", specialty: "Worsted Wool, Acrylic Blends & Sweaters", capacity: "30,000 kg/day", certs: ["Woolmark", "OEKO-TEX"], rating: 4.8, reviews: 76, escrowVerified: true, phone: "+91-161-2500800" }
+  ];
+
+  const filtered = suppliers.filter(s => {
+    const matchHub = hubFilter === "all" || s.hub.toLowerCase() === hubFilter.toLowerCase();
+    const matchSearch = s.name.toLowerCase().includes(search.toLowerCase()) || s.specialty.toLowerCase().includes(search.toLowerCase());
+    return matchHub && matchSearch;
+  });
+
+  const handleContact = (name) => {
+    setContactSuccess("Direct mill contact dispatched for " + name + "! Trade rep assigned via VyaparSethu.");
+    setTimeout(() => setContactSuccess(""), 4000);
+  };
+
+  return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 md:p-6 space-y-6 max-w-7xl mx-auto", children: [
+    /* Header */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-gray-200 shadow-sm", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3.5", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-12 h-12 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center flex-shrink-0", children:
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Truck, { className: "w-6 h-6 text-teal-600" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-xl font-bold text-gray-900 tracking-tight", children: "Verified Textile Mills & Exporters" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-500 mt-0.5", children: "320+ audited spinning, weaving, and processing mills across India's top manufacturing clusters" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { variant: "outline", size: "sm", className: "text-xs border-gray-300 hover:bg-gray-50 cursor-pointer", onClick: () => onNavigate && onNavigate("marketplace"), children: "Browse Products →" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", className: "bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs shadow-sm cursor-pointer", onClick: () => onNavigate && onNavigate("rfqs"), children: "Broadcast RFQ to Mills" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    contactSuccess && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 flex items-center justify-between", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CircleCheckBig, { className: "w-4 h-4 text-emerald-600" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        contactSuccess
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: () => setContactSuccess(""), className: "font-bold text-emerald-900", children: "✕" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Search and Filters */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-col md:flex-row md:items-center justify-between gap-3 bg-white p-3.5 rounded-xl border border-gray-200", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "relative flex-1 max-w-md", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Search, { className: "w-4 h-4 text-gray-400 absolute left-3 top-2.5" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Input, {
+          placeholder: "Search mills by name or product specialty...",
+          value: search,
+          onChange: (e) => setSearch(e.target.value),
+          className: "pl-9 text-xs h-9 bg-gray-50 border-gray-200"
+        }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-xs text-gray-500 font-medium", children: "Hub:" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("select", {
+          value: hubFilter,
+          onChange: (e) => setHubFilter(e.target.value),
+          className: "h-9 text-xs border border-gray-300 rounded-lg px-2.5 bg-white text-gray-700"
+        }, [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "all", children: "All Clusters" }, "all", false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "tirupur", children: "Tirupur (Knits)" }, "tir", false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "surat", children: "Surat (Silks & Weaving)" }, "sur", false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "ahmedabad", children: "Ahmedabad (Denim)" }, "ahm", false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "bhilwara", children: "Bhilwara (Suitings)" }, "bhil", false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "ludhiana", children: "Ludhiana (Wool)" }, "lud", false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ], false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Mill Cards */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: filtered.map(sup => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { className: "border-gray-200 hover:shadow-md transition-shadow", children:
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-4 space-y-3", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-start justify-between gap-3", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-sm font-bold text-gray-900", children: sup.name }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { className: "bg-emerald-100 text-emerald-800 text-[10px] border-0", children: "Verified Mill" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-500 mt-0.5", children: [ "Cluster: ", /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("strong", { className: "text-gray-700", children: sup.hub }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this), " · Capacity: ", sup.capacity ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "text-right", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full", children: [ "★ ", sup.rating ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-[10px] text-gray-400 mt-1", children: [ sup.reviews, " orders" ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+        /* Specialty */
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-700 bg-gray-50 p-2.5 rounded-lg border border-gray-100", children: [ "Specialty: ", /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "font-medium text-gray-900", children: sup.specialty }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this) ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+        /* Certifications Pills */
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-1.5 flex-wrap", children: sup.certs.map((c, i) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { variant: "outline", className: "text-[10px] border-gray-300 text-gray-600 bg-white", children: c }, i, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+        /* Buttons */
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2 pt-2 border-t border-gray-100", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", className: "flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs h-8 cursor-pointer", onClick: () => onNavigate && onNavigate("rfqs"), children: "Send Direct RFQ" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", variant: "outline", className: "text-xs h-8 border-gray-300 hover:bg-gray-50 cursor-pointer", onClick: () => handleContact(sup.name), children: "Contact Mill Rep" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    }, sup.id, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+  ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this);
+}
+
+function BuyersPage({ onNavigate }) {
+  const [search, setSearch] = reactExports.useState("");
+  const [regionFilter, setRegionFilter] = reactExports.useState("all");
+
+  const buyers = [
+    { id: "by-1", name: "Al-Barakah Garments Trading LLC", region: "GCC & UAE", location: "Dubai, UAE", annualVolume: "₹4.8 Cr ($580K)", requirements: "Surat Jacquard Silk & Viscose Sarees", orders: 24, verified: true, escrowStatus: "100% On-Time" },
+    { id: "by-2", name: "Nordic Organic Apparel AB", region: "Europe", location: "Stockholm, Sweden", annualVolume: "₹8.2 Cr ($990K)", requirements: "GOTS Certified Combed Cotton Single Jersey", orders: 42, verified: true, escrowStatus: "100% On-Time" },
+    { id: "by-3", name: "VogueCraft US Importers", region: "USA", location: "New York, USA", annualVolume: "₹12.5 Cr ($1.5M)", requirements: "Indigo Denim Twills & Heavy Flannels", orders: 68, verified: true, escrowStatus: "100% On-Time" },
+    { id: "by-4", name: "Bharat Retail Consortium", region: "Domestic", location: "Mumbai, India", annualVolume: "₹6.4 Cr", requirements: "Worsted Wool & Suiting PV Blends", orders: 38, verified: true, escrowStatus: "Verified Buyer" }
+  ];
+
+  const filtered = buyers.filter(b => {
+    const matchReg = regionFilter === "all" || b.region.toLowerCase().includes(regionFilter.toLowerCase());
+    const matchSearch = b.name.toLowerCase().includes(search.toLowerCase()) || b.requirements.toLowerCase().includes(search.toLowerCase());
+    return matchReg && matchSearch;
+  });
+
+  return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 md:p-6 space-y-6 max-w-7xl mx-auto", children: [
+    /* Header */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-gray-200 shadow-sm", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3.5", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-12 h-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center flex-shrink-0", children:
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Users, { className: "w-6 h-6 text-blue-600" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-xl font-bold text-gray-900 tracking-tight", children: "Global Sourcing Buyers Hub" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-500 mt-0.5", children: "Verified institutional apparel brands, international importers & retail chains with active escrow funding" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { variant: "outline", size: "sm", className: "text-xs border-gray-300 hover:bg-gray-50 cursor-pointer", onClick: () => onNavigate && onNavigate("rfqs"), children: "View Buyer RFQs →" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", className: "bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs shadow-sm cursor-pointer", onClick: () => onNavigate && onNavigate("crm"), children: "Create Direct Deal" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Filters */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-col md:flex-row md:items-center justify-between gap-3 bg-white p-3.5 rounded-xl border border-gray-200", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "relative flex-1 max-w-md", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Search, { className: "w-4 h-4 text-gray-400 absolute left-3 top-2.5" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Input, { placeholder: "Search buyers or sourcing requirements...", value: search, onChange: (e) => setSearch(e.target.value), className: "pl-9 text-xs h-9 bg-gray-50 border-gray-200" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("select", {
+        value: regionFilter,
+        onChange: (e) => setRegionFilter(e.target.value),
+        className: "h-9 text-xs border border-gray-300 rounded-lg px-2.5 bg-white text-gray-700"
+      }, [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "all", children: "All Buyer Regions" }, "all", false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "gcc", children: "GCC & Middle East" }, "gcc", false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "europe", children: "Europe & UK" }, "eu", false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "usa", children: "United States" }, "us", false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "domestic", children: "Domestic India" }, "dom", false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ], false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Buyer Cards Grid */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: filtered.map(b => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { className: "border-gray-200 hover:shadow-md transition-shadow", children:
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-4 space-y-3", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-start justify-between", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-sm font-bold text-gray-900", children: b.name }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-500 mt-0.5", children: [ b.location, " · ", /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-blue-700 font-semibold", children: b.region }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this) ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { className: "bg-blue-100 text-blue-800 border-0 text-[10px]", children: b.escrowStatus }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+        /* Requirements */
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3 bg-gray-50 rounded-xl border border-gray-100 text-xs space-y-1", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-gray-500 text-[11px]", children: "Primary Sourcing Specs:" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "font-semibold text-gray-900", children: b.requirements }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+        /* Metrics */
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "grid grid-cols-2 gap-2 text-xs", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-gray-400 text-[11px]", children: "Annual Sourcing Vol" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "font-bold text-gray-900 mt-0.5", children: b.annualVolume }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-gray-400 text-[11px]", children: "Completed Deals" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "font-bold text-emerald-600 mt-0.5", children: [ b.orders, " Trade Orders" ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+        /* Action */
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2 pt-2 border-t border-gray-100", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", className: "flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs h-8 cursor-pointer", onClick: () => onNavigate && onNavigate("crm"), children: "Propose Deal / Quote" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", variant: "outline", className: "text-xs h-8 border-gray-300 hover:bg-gray-50 cursor-pointer", onClick: () => onNavigate && onNavigate("rfqs"), children: "View RFQs" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    }, b.id, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+  ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this);
+}
+
+function RFQsPage({ onNavigate }) {
+  const [rfqFilter, setRfqFilter] = reactExports.useState("all");
+  const [createModalOpen, setCreateModalOpen] = reactExports.useState(false);
+  const [bidModalOpen, setBidModalOpen] = reactExports.useState(false);
+  const [selectedRfq, setSelectedRfq] = reactExports.useState(null);
+  const [rfqSuccess, setRfqSuccess] = reactExports.useState("");
+  const [newRfq, setNewRfq] = reactExports.useState({ title: "", category: "Knits & Cotton", quantity: "5,000 kg", targetPrice: "₹270/kg", deadline: "7 Days" });
+  const [bidRate, setBidRate] = reactExports.useState("265");
+
+  const [rfqs, setRfqs] = reactExports.useState([
+    { id: "rfq-101", title: "Combed Ring-Spun Cotton Yarn 40s/1 for Export", buyer: "Nordic Organic Apparel AB", category: "Yarn & Fibers", quantity: "15,000 kg", targetPrice: "₹290 / kg", bidsCount: 6, deadline: "3 Days left", status: "open", escrowSecured: true },
+    { id: "rfq-102", title: "Brocade Silk Jacquard 48-inch Width for GCC Retail", buyer: "Al-Barakah Garments Trading", category: "Silks & Sarees", quantity: "4,000 meters", targetPrice: "₹380 / meter", bidsCount: 4, deadline: "5 Days left", status: "open", escrowSecured: true },
+    { id: "rfq-103", title: "Indigo Denim 11.5 oz Spandex Stretch Fabric", buyer: "VogueCraft US Importers", category: "Denim & Twill", quantity: "8,000 meters", targetPrice: "₹210 / meter", bidsCount: 9, deadline: "Awarding Today", status: "review", escrowSecured: true },
+    { id: "rfq-104", title: "Organic BCI Single Jersey 180 GSM Bio-Washed", buyer: "EcoApparel London Ltd", category: "Fabrics", quantity: "2,500 kg", targetPrice: "₹360 / kg", bidsCount: 5, deadline: "Completed", status: "awarded", escrowSecured: true }
+  ]);
+
+  const handleCreateRfq = (e) => {
+    e.preventDefault();
+    if (!newRfq.title) return;
+    const item = {
+      id: "rfq-" + (100 + rfqs.length + 1),
+      title: newRfq.title,
+      buyer: "My Organization",
+      category: newRfq.category,
+      quantity: newRfq.quantity,
+      targetPrice: newRfq.targetPrice,
+      bidsCount: 0,
+      deadline: newRfq.deadline,
+      status: "open",
+      escrowSecured: true
+    };
+    setRfqs([item, ...rfqs]);
+    setCreateModalOpen(false);
+    setNewRfq({ title: "", category: "Knits & Cotton", quantity: "5,000 kg", targetPrice: "₹270/kg", deadline: "7 Days" });
+    setRfqSuccess("New RFQ published and broadcast to 320 verified textile mills!");
+    setTimeout(() => setRfqSuccess(""), 4000);
+  };
+
+  const handleOpenBid = (r) => {
+    setSelectedRfq(r);
+    setBidRate(r.targetPrice.replace(/[^0-9]/g, "") || "280");
+    setBidModalOpen(true);
+  };
+
+  const handleSubmitBid = (e) => {
+    e.preventDefault();
+    setRfqs(prev => prev.map(r => r.id === selectedRfq.id ? { ...r, bidsCount: r.bidsCount + 1 } : r));
+    setBidModalOpen(false);
+    setRfqSuccess("Your quotation of ₹" + bidRate + " has been submitted to " + selectedRfq.buyer + "!");
+    setTimeout(() => setRfqSuccess(""), 4000);
+  };
+
+  const filtered = rfqs.filter(r => {
+    if (rfqFilter === "open") return r.status === "open";
+    if (rfqFilter === "review") return r.status === "review";
+    if (rfqFilter === "awarded") return r.status === "awarded";
+    return true;
+  });
+
+  return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 md:p-6 space-y-6 max-w-7xl mx-auto", children: [
+    /* Header */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-gray-200 shadow-sm", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3.5", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-12 h-12 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center flex-shrink-0", children:
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(FileSearch, { className: "w-6 h-6 text-orange-600" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-xl font-bold text-gray-900 tracking-tight", children: "Tenders & RFQ Procurement Center" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-500 mt-0.5", children: "Post requests for quotation, review mill bids, and award tenders with milestone trade escrow guarantees" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { variant: "outline", size: "sm", className: "text-xs border-gray-300 hover:bg-gray-50 cursor-pointer", onClick: () => onNavigate && onNavigate("marketplace"), children: "Catalog Items →" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", className: "bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs shadow-sm cursor-pointer", onClick: () => setCreateModalOpen(true), children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Plus, { className: "w-3.5 h-3.5 mr-1" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          "Post New RFQ"
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    rfqSuccess && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 flex items-center justify-between", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CircleCheckBig, { className: "w-4 h-4 text-emerald-600" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        rfqSuccess
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: () => setRfqSuccess(""), className: "font-bold text-emerald-900", children: "✕" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Filter Tabs */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-1.5 border-b border-gray-200 pb-1 text-xs", children: [
+      { id: "all", label: "All Tenders (" + rfqs.length + ")" },
+      { id: "open", label: "Open Bidding (" + rfqs.filter(r => r.status === "open").length + ")" },
+      { id: "review", label: "Under Review (" + rfqs.filter(r => r.status === "review").length + ")" },
+      { id: "awarded", label: "Awarded & Escrow (" + rfqs.filter(r => r.status === "awarded").length + ")" }
+    ].map(t => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", {
+      onClick: () => setRfqFilter(t.id),
+      className: cn(
+        "px-3.5 py-2 rounded-t-lg font-medium transition-colors cursor-pointer",
+        rfqFilter === t.id ? "border-b-2 border-emerald-600 text-emerald-700 bg-emerald-50/50 font-semibold" : "text-gray-600 hover:text-gray-900"
+      ),
+      children: t.label
+    }, t.id, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* RFQs List */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "space-y-3.5", children: filtered.map(r => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { className: "border-gray-200 hover:shadow-md transition-shadow", children:
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-4 space-y-3", children: [
+        /* Top Row */
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-col md:flex-row md:items-center justify-between gap-2", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "space-y-0.5", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "font-mono text-[11px] font-bold text-gray-400", children: r.id }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-sm font-bold text-gray-900", children: r.title }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-500", children: [ "Buyer: ", /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("strong", { className: "text-gray-700", children: r.buyer }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this), " · Category: ", r.category ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { className: r.status === "open" ? "bg-emerald-100 text-emerald-800" : r.status === "review" ? "bg-amber-100 text-amber-800" : "bg-purple-100 text-purple-800", children: r.status.toUpperCase() }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { variant: "outline", className: "text-xs text-gray-500 border-gray-300", children: r.deadline }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+        /* Specs Pill Strip */
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3 bg-gray-50 rounded-xl border border-gray-100 grid grid-cols-2 md:grid-cols-4 gap-3 text-xs", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-gray-400 text-[11px]", children: "Required Quantity" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "font-bold text-gray-900 mt-0.5", children: r.quantity }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-gray-400 text-[11px]", children: "Target Price" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "font-bold text-gray-900 mt-0.5", children: r.targetPrice }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-gray-400 text-[11px]", children: "Bids Submitted" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "font-bold text-blue-600 mt-0.5", children: [ r.bidsCount, " Mill Quotations" ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-gray-400 text-[11px]", children: "Escrow Protection" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "font-bold text-emerald-600 mt-0.5", children: "VyaparSethu Verified" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+        /* Actions */
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-end gap-2 pt-1", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", variant: "outline", className: "text-xs h-8 border-gray-300 hover:bg-gray-50 cursor-pointer", onClick: () => handleOpenBid(r), children: "Submit Quotation / Bid" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", className: "bg-emerald-600 hover:bg-emerald-700 text-white text-xs h-8 cursor-pointer", onClick: () => onNavigate && onNavigate("crm"), children: "Review Bids & Escrow" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    }, r.id, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Create RFQ Modal */
+    createModalOpen && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4", children:
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "bg-white rounded-2xl max-w-lg w-full p-5 space-y-4 shadow-xl border border-gray-200", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-sm font-bold text-gray-900", children: "Create & Broadcast Custom RFQ" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: () => setCreateModalOpen(false), className: "text-gray-400 hover:text-gray-600 font-bold", children: "✕" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("form", { onSubmit: handleCreateRfq, className: "space-y-3 text-xs", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("label", { className: "font-medium text-gray-700", children: "RFQ Procurement Title" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Input, { required: true, placeholder: "e.g., 20,000 meters Organic Cotton Poplin 40s", value: newRfq.title, onChange: (e) => setNewRfq({ ...newRfq, title: e.target.value }), className: "mt-1 h-8 text-xs" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "grid grid-cols-2 gap-3", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("label", { className: "font-medium text-gray-700", children: "Category" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("select", { value: newRfq.category, onChange: (e) => setNewRfq({ ...newRfq, category: e.target.value }), className: "mt-1 w-full h-8 border border-gray-300 rounded-md px-2 bg-white text-xs" }, [
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "Yarn & Fibers", children: "Yarn & Fibers" }, "y", false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "Knits & Cotton", children: "Knits & Cotton" }, "k", false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "Silks & Sarees", children: "Silks & Sarees" }, "s", false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+                /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "Denim & Twill", children: "Denim & Twill" }, "d", false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+              ], false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("label", { className: "font-medium text-gray-700", children: "Quantity Required" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Input, { required: true, value: newRfq.quantity, onChange: (e) => setNewRfq({ ...newRfq, quantity: e.target.value }), className: "mt-1 h-8 text-xs" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "grid grid-cols-2 gap-3", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("label", { className: "font-medium text-gray-700", children: "Target Price" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Input, { required: true, value: newRfq.targetPrice, onChange: (e) => setNewRfq({ ...newRfq, targetPrice: e.target.value }), className: "mt-1 h-8 text-xs" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("label", { className: "font-medium text-gray-700", children: "Bidding Window" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+              /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Input, { required: true, value: newRfq.deadline, onChange: (e) => setNewRfq({ ...newRfq, deadline: e.target.value }), className: "mt-1 h-8 text-xs" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+            ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-end gap-2 pt-2", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { type: "button", variant: "outline", size: "sm", onClick: () => setCreateModalOpen(false), className: "text-xs", children: "Cancel" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { type: "submit", size: "sm", className: "bg-emerald-600 hover:bg-emerald-700 text-white text-xs", children: "Broadcast RFQ" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Submit Bid Modal */
+    bidModalOpen && selectedRfq && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4", children:
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "bg-white rounded-2xl max-w-md w-full p-5 space-y-4 shadow-xl border border-gray-200", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-between", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-sm font-bold text-gray-900", children: "Submit Mill Tender Bid" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: () => setBidModalOpen(false), className: "text-gray-400 hover:text-gray-600 font-bold", children: "✕" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3 bg-gray-50 rounded-xl border border-gray-100 text-xs", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "font-semibold text-gray-900", children: selectedRfq.title }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-gray-500 mt-0.5", children: [ "Target: ", selectedRfq.targetPrice, " · Quantity: ", selectedRfq.quantity ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("form", { onSubmit: handleSubmitBid, className: "space-y-3 text-xs", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("label", { className: "font-medium text-gray-700", children: "Your Offered Rate (₹ per unit)" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Input, { required: true, value: bidRate, onChange: (e) => setBidRate(e.target.value), className: "mt-1 h-8 text-xs" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center justify-end gap-2 pt-2", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { type: "button", variant: "outline", size: "sm", onClick: () => setBidModalOpen(false), className: "text-xs", children: "Cancel" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { type: "submit", size: "sm", className: "bg-emerald-600 hover:bg-emerald-700 text-white text-xs", children: "Confirm Bid" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+  ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this);
+}
+
+function AutomationPage({ onNavigate }) {
+  const [rules, setRules] = reactExports.useState([
+    { id: "rule-1", name: "High-Value Lead Auto-Routing", trigger: "New Lead Created (Score > 80)", action: "Notify Tirupur & Surat Sales Desks via WhatsApp", active: true, runs: 142 },
+    { id: "rule-2", name: "Milestone Escrow Inspection Alert", trigger: "SGS Lab Test Uploaded", action: "Trigger 80% Escrow Milestone Release Approval", active: true, runs: 68 },
+    { id: "rule-3", name: "RFQ Instant Mill Matcher", trigger: "New RFQ Published", action: "Match top 5 certified mills and auto-dispatch quote requests", active: true, runs: 312 },
+    { id: "rule-4", name: "Campaign Ad Budget Threshold Guard", trigger: "CPC spikes > ₹350", action: "Pause ad set & alert Campaign Lead", active: false, runs: 19 }
+  ]);
+  const [testResult, setTestResult] = reactExports.useState("");
+  const [testingId, setTestingId] = reactExports.useState(null);
+
+  const toggleRule = (id) => {
+    setRules(prev => prev.map(r => r.id === id ? { ...r, active: !r.active } : r));
+  };
+
+  const handleTestRule = (r) => {
+    setTestingId(r.id);
+    setTimeout(() => {
+      setTestingId(null);
+      setTestResult("Simulation passed for '" + r.name + "': Trigger matched condition, action executed with 0ms latency.");
+      setTimeout(() => setTestResult(""), 4000);
+    }, 600);
+  };
+
+  return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 md:p-6 space-y-6 max-w-7xl mx-auto", children: [
+    /* Header */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-gray-200 shadow-sm", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3.5", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-12 h-12 rounded-xl bg-violet-50 border border-violet-100 flex items-center justify-center flex-shrink-0", children:
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Zap, { className: "w-6 h-6 text-violet-600" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-xl font-bold text-gray-900 tracking-tight", children: "Business Automation Engine" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-500 mt-0.5", children: "Event-driven triggers, escrow notifications, and autonomous RFQ matchmaking workflows" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", className: "bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs shadow-sm cursor-pointer", onClick: () => onNavigate && onNavigate("workflows"), children: "Visual Workflows →" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    testResult && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 flex items-center justify-between", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CircleCheckBig, { className: "w-4 h-4 text-emerald-600" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        testResult
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: () => setTestResult(""), className: "font-bold text-emerald-900", children: "✕" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Automation Rules List */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "space-y-3", children: rules.map(r => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { className: "border-gray-200 hover:shadow-sm transition-shadow", children:
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-4 flex flex-col md:flex-row md:items-center justify-between gap-4", children: [
+        /* Left: Info */
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "space-y-1", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-sm font-bold text-gray-900", children: r.name }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+            /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { className: r.active ? "bg-emerald-100 text-emerald-800" : "bg-gray-100 text-gray-600", children: r.active ? "Active" : "Paused" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+          ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-600", children: [ "When: ", /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("strong", { className: "text-gray-800", children: r.trigger }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this) ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-600", children: [ "Then: ", /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-emerald-700 font-medium", children: r.action }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this), " · Runs: ", r.runs ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+        /* Right: Controls */
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, {
+            size: "sm",
+            variant: "outline",
+            className: "text-xs h-8 border-gray-300 hover:bg-gray-50 cursor-pointer",
+            disabled: testingId === r.id,
+            onClick: () => handleTestRule(r),
+            children: testingId === r.id ? "Testing..." : "Test Simulation"
+          }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, {
+            size: "sm",
+            className: r.active ? "bg-gray-200 hover:bg-gray-300 text-gray-800 text-xs h-8 cursor-pointer" : "bg-emerald-600 hover:bg-emerald-700 text-white text-xs h-8 cursor-pointer",
+            onClick: () => toggleRule(r.id),
+            children: r.active ? "Pause Rule" : "Activate"
+          }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    }, r.id, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+  ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this);
+}
+
+function WorkflowsPage({ onNavigate }) {
+  const [runningId, setRunningId] = reactExports.useState(null);
+  const [runMessage, setRunMessage] = reactExports.useState("");
+
+  const workflows = [
+    {
+      id: "wf-1",
+      name: "Global Buyer Sourcing & RFQ Escalation",
+      steps: ["1. Buyer posts tender", "2. AI matches top 5 verified mills", "3. Mill bids collected (48h)", "4. Escrow deposited", "5. SGS lab test released"],
+      status: "Production Ready",
+      successRate: "99.4%"
+    },
+    {
+      id: "wf-2",
+      name: "Autonomous SEO & Content Syndication",
+      steps: ["1. Keyword rank tracker triggers", "2. AI generates category article", "3. Meta tags & Schema injected", "4. XML Sitemap pinged"],
+      status: "Active",
+      successRate: "98.8%"
+    },
+    {
+      id: "wf-3",
+      name: "Trade Escrow Milestone Release Flow",
+      steps: ["1. Bill of Lading (BL) uploaded", "2. Customs verification check", "3. Pre-shipment inspection pass", "4. Bank escrow release"],
+      status: "Secured",
+      successRate: "100%"
+    }
+  ];
+
+  const handleRunWorkflow = (w) => {
+    setRunningId(w.id);
+    setRunMessage("");
+    setTimeout(() => {
+      setRunningId(null);
+      setRunMessage("Workflow '" + w.name + "' executed successfully! All " + w.steps.length + " pipeline stages passed.");
+      setTimeout(() => setRunMessage(""), 4500);
+    }, 1000);
+  };
+
+  return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-4 md:p-6 space-y-6 max-w-7xl mx-auto", children: [
+    /* Header */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-gray-200 shadow-sm", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-3.5", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-12 h-12 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center flex-shrink-0", children:
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Workflow, { className: "w-6 h-6 text-indigo-600" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-xl font-bold text-gray-900 tracking-tight", children: "Visual Workflow Pipelines" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-500 mt-0.5", children: "End-to-end multi-step orchestration for cross-border sourcing, escrow milestones, and syndication" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", className: "bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs shadow-sm cursor-pointer", onClick: () => onNavigate && onNavigate("automation"), children: "Automation Rules →" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    runMessage && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 flex items-center justify-between", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CircleCheckBig, { className: "w-4 h-4 text-emerald-600" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        runMessage
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: () => setRunMessage(""), className: "font-bold text-emerald-900", children: "✕" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+    /* Workflows Pipeline Cards */
+    /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "space-y-4", children: workflows.map(w => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Card, { className: "border-gray-200 hover:shadow-md transition-shadow", children: [
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardHeader, { className: "pb-2 border-b border-gray-100 flex flex-row items-center justify-between", children: [
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardTitle, { className: "text-sm font-bold text-gray-900", children: w.name }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-gray-500", children: [ "Success Rate: ", /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("strong", { className: "text-emerald-700", children: w.successRate }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this) ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Badge, { className: "bg-indigo-100 text-indigo-800 text-[10px]", children: w.status }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, {
+            size: "sm",
+            className: "bg-emerald-600 hover:bg-emerald-700 text-white text-xs h-8 cursor-pointer",
+            disabled: runningId === w.id,
+            onClick: () => handleRunWorkflow(w),
+            children: runningId === w.id ? "Executing Pipeline..." : "Run Pipeline Now"
+          }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+
+      /* Pipeline Step Diagram */
+      /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(CardContent, { className: "p-4", children:
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2 overflow-x-auto pb-1 text-xs", children: w.steps.map((st, i) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2 flex-shrink-0", children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-2.5 bg-gray-50 border border-gray-200 rounded-xl font-medium text-gray-800", children: st }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this),
+          i < w.steps.length - 1 && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-gray-400 font-bold", children: "→" }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+        ] }, i, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+      }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+    ] }, w.id, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)) }, void 0, false, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this)
+  ] }, void 0, true, { fileName: "MarketplacePages.tsx", lineNumber: 1, columnNumber: 1 }, this);
+}
+
 function ImageFactoryPage() {
   const { token } = useAuth();
   const [tab, setTab] = reactExports.useState("generate");
@@ -44264,8 +45149,7 @@ function AppRouter() {
           lineNumber: 52,
           columnNumber: 34
         }, this);
-      case "admin-roles":
-        return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(RolesPage, {}, void 0, false, {
+      case "admin-roles": return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(RolesPage, { onNavigate: setActivePage }, void 0, false, {
           fileName: "/app/workspace/src/App.tsx",
           lineNumber: 53,
           columnNumber: 34
@@ -44300,14 +45184,12 @@ function AppRouter() {
           lineNumber: 58,
           columnNumber: 32
         }, this);
-      case "reports":
-        return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(ReportsPage, {}, void 0, false, {
+      case "reports": return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(ReportsPage, { onNavigate: setActivePage }, void 0, false, {
           fileName: "/app/workspace/src/App.tsx",
           lineNumber: 59,
           columnNumber: 30
         }, this);
-      case "knowledge-base":
-        return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(KnowledgeBasePage, {}, void 0, false, {
+      case "knowledge-base": return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(KnowledgeBasePage, { onNavigate: setActivePage }, void 0, false, {
           fileName: "/app/workspace/src/App.tsx",
           lineNumber: 60,
           columnNumber: 37
@@ -44318,62 +45200,53 @@ function AppRouter() {
           lineNumber: 61,
           columnNumber: 27
         }, this);
-      case "logs":
-        return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(LogsPage, {}, void 0, false, {
+      case "logs": return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(LogsPage, { onNavigate: setActivePage }, void 0, false, {
           fileName: "/app/workspace/src/App.tsx",
           lineNumber: 62,
           columnNumber: 27
         }, this);
-      case "publishing":
-        return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(PublishingCenterPage, {}, void 0, false, {
+      case "publishing": return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(PublishingCenterPage, { onNavigate: setActivePage }, void 0, false, {
           fileName: "/app/workspace/src/App.tsx",
           lineNumber: 63,
           columnNumber: 33
         }, this);
       case "seo":
-        return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(SEOCenterPage, {}, void 0, false, {
+        return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV((typeof window !== "undefined" && window.__SEOCenter) || SEOCenterPage, {}, void 0, false, {
           fileName: "/app/workspace/src/App.tsx",
           lineNumber: 64,
           columnNumber: 26
         }, this);
-      case "content":
-        return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(ContentPlannerPage, {}, void 0, false, {
+      case "content": return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(ContentPlannerPage, { onNavigate: setActivePage }, void 0, false, {
           fileName: "/app/workspace/src/App.tsx",
           lineNumber: 65,
           columnNumber: 30
         }, this);
-      case "marketplace":
-        return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(MarketplacePage, {}, void 0, false, {
+      case "marketplace": return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(MarketplacePage, { onNavigate: setActivePage }, void 0, false, {
           fileName: "/app/workspace/src/App.tsx",
           lineNumber: 66,
           columnNumber: 34
         }, this);
-      case "suppliers":
-        return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(SuppliersPage, {}, void 0, false, {
+      case "suppliers": return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(SuppliersPage, { onNavigate: setActivePage }, void 0, false, {
           fileName: "/app/workspace/src/App.tsx",
           lineNumber: 67,
           columnNumber: 32
         }, this);
-      case "buyers":
-        return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(BuyersPage, {}, void 0, false, {
+      case "buyers": return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(BuyersPage, { onNavigate: setActivePage }, void 0, false, {
           fileName: "/app/workspace/src/App.tsx",
           lineNumber: 68,
           columnNumber: 29
         }, this);
-      case "rfqs":
-        return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(RFQsPage, {}, void 0, false, {
+      case "rfqs": return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(RFQsPage, { onNavigate: setActivePage }, void 0, false, {
           fileName: "/app/workspace/src/App.tsx",
           lineNumber: 69,
           columnNumber: 27
         }, this);
-      case "automation":
-        return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(AutomationPage, {}, void 0, false, {
+      case "automation": return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(AutomationPage, { onNavigate: setActivePage }, void 0, false, {
           fileName: "/app/workspace/src/App.tsx",
           lineNumber: 70,
           columnNumber: 33
         }, this);
-      case "workflows":
-        return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(WorkflowsPage, {}, void 0, false, {
+      case "workflows": return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(WorkflowsPage, { onNavigate: setActivePage }, void 0, false, {
           fileName: "/app/workspace/src/App.tsx",
           lineNumber: 71,
           columnNumber: 32

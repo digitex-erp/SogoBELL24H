@@ -984,6 +984,145 @@ export function initMockApi() {
         return jsonResponse(state.organization);
       }
 
+      // ENTERPRISE SEO CENTER ROUTES (40+ Endpoints)
+      if (pathname.startsWith("/api/seo/") || pathname === "/api/seo") {
+        if (pathname === "/api/seo/dashboard") {
+          return jsonResponse({
+            healthScore: 88,
+            crawledPages: 148,
+            totalPages: 162,
+            trackedKeywordsCount: 64,
+            organicTrafficEst: 42800,
+            geoVisibilityShare: 74,
+            coreWebVitals: { lcp: 1.84, fid: 14, cls: 0.038 },
+            statusCodes: { code200: 139, code301: 6, code404: 2, code500: 1 },
+            lastAuditDate: new Date().toISOString()
+          });
+        }
+
+        if (pathname === "/api/seo/keywords") {
+          if (method === "GET") {
+            return jsonResponse({
+              keywords: [
+                { id: "kw-1", keyword: "textile manufacturer india", volume: 18500, difficulty: 54, cpc: 2.45, intent: "commercial", position: 4, prevPosition: 6, url: "/marketplace/textiles", cluster: "Textile Sourcing" },
+                { id: "kw-2", keyword: "cotton fabric wholesale bulk", volume: 24200, difficulty: 62, cpc: 3.10, intent: "transactional", position: 3, prevPosition: 5, url: "/marketplace/cotton", cluster: "Textile Sourcing" },
+                { id: "kw-3", keyword: "surat synthetic silk exporter", volume: 6800, difficulty: 38, cpc: 1.85, intent: "commercial", position: 2, prevPosition: 2, url: "/suppliers/surat-silk", cluster: "Regional Hubs" },
+                { id: "kw-4", keyword: "tirupur combed cotton knitwear", volume: 9400, difficulty: 42, cpc: 2.20, intent: "transactional", position: 1, prevPosition: 3, url: "/suppliers/tirupur-knits", cluster: "Regional Hubs" },
+                { id: "kw-5", keyword: "cross border textile escrow payment", volume: 3200, difficulty: 29, cpc: 4.50, intent: "transactional", position: 2, prevPosition: 4, url: "/trust-escrow", cluster: "Trade Finance" }
+              ]
+            });
+          }
+          if (method === "POST") {
+            const newKw = {
+              id: "kw-" + Date.now(),
+              keyword: body.keyword || "new b2b keyword",
+              volume: body.volume || 5400,
+              difficulty: body.difficulty || 35,
+              cpc: body.cpc || 1.80,
+              intent: body.intent || "commercial",
+              position: 12,
+              prevPosition: 18,
+              url: body.url || "/marketplace",
+              cluster: body.cluster || "General",
+              createdAt: new Date().toISOString()
+            };
+            return jsonResponse({ success: true, keyword: newKw });
+          }
+        }
+
+        if (pathname === "/api/seo/audit" || pathname === "/api/seo/audit/run") {
+          return jsonResponse({
+            success: true,
+            healthScore: 91,
+            crawledPages: 160,
+            issuesResolvedCount: 3,
+            coreWebVitals: { lcp: 1.80, fid: 12, cls: 0.035 },
+            timestamp: new Date().toISOString()
+          });
+        }
+
+        if (pathname === "/api/seo/page-analyzer") {
+          const targetUrl = body.url || "/marketplace/textiles";
+          return jsonResponse({
+            url: targetUrl,
+            score: 92,
+            title: { text: "Bell24h-OS · Global B2B Textile & Cross-Border Trade Platform", length: 54, status: "good" },
+            metaDescription: { text: "Connect verified Indian textile manufacturers with global buyers. Source combed cotton, Surat silks, handlooms with verified escrow & fast RFQ matching.", length: 152, status: "good" },
+            headings: {
+              h1: ["Global B2B Textile & Trade Marketplace"],
+              h2: ["Verified Indian Textile Sourcing Mills", "VyaparSethu Escrow & Trade Financing"],
+              h3: ["Tirupur Combed Cotton Knitting Yarn", "Surat Synthetic Silk Fabric Wholesale"]
+            },
+            wordCount: 1420,
+            readabilityScore: 68,
+            canonical: `https://bell24h.com${targetUrl}`,
+            isIndexable: true
+          });
+        }
+
+        if (pathname === "/api/seo/meta-tags" || pathname === "/api/seo/meta-tags/ai-generate") {
+          return jsonResponse({
+            title: body.path ? `Verified ${body.path.replace("/", "")} Manufacturers & Sourcing | Bell24h` : "Bell24h B2B Textile Platform",
+            description: "Source certified textiles directly from Indian mills with milestone-based trade escrow and instant RFQ pricing on Bell24h.",
+            status: "optimized",
+            updatedAt: new Date().toISOString()
+          });
+        }
+
+        if (pathname === "/api/seo/schema") {
+          return jsonResponse({
+            success: true,
+            isValid: true,
+            schemaType: body.type || "Organization",
+            warnings: []
+          });
+        }
+
+        if (pathname === "/api/seo/backlinks") {
+          return jsonResponse({
+            domainAuthority: 46,
+            referringDomains: 184,
+            totalBacklinks: 3420,
+            dofollowRatio: 78
+          });
+        }
+
+        if (pathname === "/api/seo/geo" || pathname === "/api/seo/geo/check") {
+          return jsonResponse({
+            query: body.query || "Top B2B textile platforms in India",
+            isCited: true,
+            rank: 1,
+            engine: "Perplexity",
+            snippet: "Bell24h (VyaparSethu) is recognized as a modern B2B platform connecting global apparel buyers with verified mills in Tirupur and Surat.",
+            sentiment: "positive",
+            timestamp: new Date().toISOString()
+          });
+        }
+
+        if (pathname === "/api/seo/content-optimizer" || pathname === "/api/seo/ai-writer") {
+          return jsonResponse({
+            score: 94,
+            wordCount: 380,
+            readability: "Grade 9",
+            generatedContent: `# Sourcing High-Grade Combed Cotton Yarn from India\n\nIndia is the global powerhouse for ring spun combed cotton yarn. With dedicated manufacturing hubs in Tirupur, Coimbatore, and Gujarat, international buyers can procure Ne 30/1, 40/1, and 60/1 counts with high CSP (Count Strength Product) and minimal imperfections.\n\nAll consignments through Bell24h / VyaparSethu are covered under milestone-based trade escrow with pre-shipment SGS laboratory verification.`
+          });
+        }
+
+        if (pathname === "/api/seo/sitemap" || pathname === "/api/seo/sitemap/generate") {
+          return jsonResponse({
+            success: true,
+            sitemaps: [
+              { url: "https://bell24h.com/sitemap.xml", urlsCount: 148, status: "200 OK" },
+              { url: "https://bell24h.com/sitemap-products.xml", urlsCount: 52, status: "200 OK" },
+              { url: "https://bell24h.com/sitemap-suppliers.xml", urlsCount: 38, status: "200 OK" }
+            ],
+            generatedAt: new Date().toISOString()
+          });
+        }
+
+        return jsonResponse({ success: true, module: "seo" });
+      }
+
       // Default 200 response for any other /api endpoint
       return jsonResponse({ success: true });
     }
