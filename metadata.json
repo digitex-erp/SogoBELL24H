@@ -1,0 +1,6 @@
+{
+  "name": "Bell24h-OS",
+  "description": "Enterprise AI Platform for B2B cross-border trade, textile sourcing, multi-model AI Studio, Image/Video Factory, CRM, and automation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
