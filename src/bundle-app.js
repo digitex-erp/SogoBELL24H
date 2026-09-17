@@ -28602,6 +28602,21 @@ function DashboardPage({ onNavigate }) {
           lineNumber: 101,
           columnNumber: 11
         }, this),
+        /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", variant: "outline", className: "border-emerald-200 text-emerald-700 bg-emerald-50 hover:bg-emerald-100 cursor-pointer", onClick: () => {
+          if (typeof window !== "undefined") window.__SEO_INITIAL_TAB = "audit";
+          onNavigate && onNavigate("seo");
+        }, children: [
+          /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Search, { className: "w-3.5 h-3.5 mr-1.5" }, void 0, false, {
+            fileName: "/app/workspace/src/pages/Dashboard.tsx",
+            lineNumber: 103,
+            columnNumber: 13
+          }, this),
+          " Audit Each Page"
+        ] }, void 0, true, {
+          fileName: "/app/workspace/src/pages/Dashboard.tsx",
+          lineNumber: 102,
+          columnNumber: 11
+        }, this),
         /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Button, { size: "sm", className: "bg-emerald-600 hover:bg-emerald-700 cursor-pointer", onClick: () => onNavigate && onNavigate("campaigns"), children: [
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Plus, { className: "w-3.5 h-3.5 mr-1.5" }, void 0, false, {
             fileName: "/app/workspace/src/pages/Dashboard.tsx",
@@ -37158,8 +37173,24 @@ function PublishingCenterPage({ onNavigate }) {
   ] }, void 0, true, { fileName: "MarketingPages.tsx", lineNumber: 1, columnNumber: 1 }, this);
 }
 
-function SEOCenterPage({ onNavigate }) {
-  const [activeTab, setActiveTab] = reactExports.useState("overview");
+function SEOCenterPage({ onNavigate, initialTab }) {
+  const [activeTab, setActiveTab] = reactExports.useState(() => {
+    if (initialTab) return initialTab;
+    if (typeof window !== "undefined" && window.__SEO_INITIAL_TAB) {
+      const tab = window.__SEO_INITIAL_TAB;
+      window.__SEO_INITIAL_TAB = undefined;
+      return tab;
+    }
+    return "overview";
+  });
+
+  reactExports.useEffect(() => {
+    const handleSwitch = (e) => {
+      if (e && e.detail) setActiveTab(e.detail);
+    };
+    window.addEventListener("seo:switchTab", handleSwitch);
+    return () => window.removeEventListener("seo:switchTab", handleSwitch);
+  }, []);
   const [healthScore, setHealthScore] = reactExports.useState(88);
   const [auditing, setAuditing] = reactExports.useState(false);
   const [auditSuccess, setAuditSuccess] = reactExports.useState("");
@@ -45211,7 +45242,7 @@ function AppRouter() {
           columnNumber: 33
         }, this);
       case "seo":
-        return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV((typeof window !== "undefined" && window.__SEOCenter) || SEOCenterPage, {}, void 0, false, {
+        return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(SEOCenterPage, { onNavigate: setActivePage }, void 0, false, {
           fileName: "/app/workspace/src/App.tsx",
           lineNumber: 64,
           columnNumber: 26
