@@ -27209,7 +27209,13 @@ function Tooltip({ children }) {
     columnNumber: 10
   }, this);
 }
-function TooltipTrigger({ children, className, ...props }) {
+function TooltipTrigger({ children, className, asChild, ...props }) {
+  if (asChild && reactExports.isValidElement(children)) {
+    return reactExports.cloneElement(children, {
+      ...props,
+      className: cn(children.props?.className, className)
+    });
+  }
   return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className, ...props, children }, void 0, false, {
     fileName: "/app/workspace/src/components/ui/tooltip.tsx",
     lineNumber: 20,
