@@ -105,8 +105,8 @@ async function startServer() {
     res.json({ success: true, latency: 138 });
   });
 
-  // AI Router & Factory endpoints fallback
-  app.all("/api/*", (_req, res) => {
+  // AI Router & Factory & Admin endpoints fallback
+  app.all(["/api/*", "/ai/*", "/auth/*", "/admin/*", "/audit-logs", "/organizations/*", "/dashboard/*"], (_req, res) => {
     res.json({ success: true });
   });
 

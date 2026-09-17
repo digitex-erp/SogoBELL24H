@@ -189,8 +189,16 @@ export function initMockApi() {
   window.fetch = async function (input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
     const urlStr = typeof input === "string" ? input : input instanceof URL ? input.toString() : input.url;
 
-    // Check if this request is for our /api endpoint or auth endpoint
-    if (urlStr.startsWith("/api/") || urlStr.startsWith("/auth/")) {
+    // Check if this request is for our api/auth/ai/admin/audit/org endpoints
+    if (
+      urlStr.startsWith("/api/") ||
+      urlStr.startsWith("/auth/") ||
+      urlStr.startsWith("/ai/") ||
+      urlStr.startsWith("/admin/") ||
+      urlStr.startsWith("/audit-logs") ||
+      urlStr.startsWith("/dashboard/") ||
+      urlStr.startsWith("/organizations/")
+    ) {
       const parsed = new URL(urlStr, window.location.origin);
       const pathname = parsed.pathname;
       const method = (init?.method || "GET").toUpperCase();
@@ -362,7 +370,7 @@ export function initMockApi() {
         });
       }
 
-      if (pathname === "/api/prompt-library") {
+      if (pathname === "/api/prompt-library" || pathname === "/prompt-library") {
         if (method === "GET") return jsonResponse({ prompts: state.prompts });
         if (method === "POST") {
           const newPrompt = {
@@ -381,7 +389,88 @@ export function initMockApi() {
         }
       }
 
-      if (pathname === "/api/prompt-templates") {
+      if (pathname.includes("/prompt-library/") && pathname.endsWith("/export")) {
+        const id = pathname.split("/").slice(-2)[0];
+        const p = state.prompts.find(x => x.id === id) || state.prompts[0];
+        return jsonResponse(p || { id, name: "Exported Prompt", content: "Exported content" });
+      }
+
+      if (pathname.includes("/prompt-library/") && method === "PATCH") {
+        const id = pathname.split("/").pop();
+        const p = state.prompts.find(x => x.id === id);
+        if (p) {
+          if (body.name) p.name = body.name;
+          if (body.content) p.content = body.content;
+          if (body.category) p.category = body.category;
+          if (body.tags) p.tags = body.tags;
+          if (body.folderId) p.folderId = body.folderId;
+          saveState(state);
+          return jsonResponse({ prompt: p, success: true });
+        }
+        return jsonResponse({ success: true });
+      }
+
+      if (pathname.includes("/prompt-library/") && method === "DELETE") {
+        const id = pathname.split("/").pop();
+        state.prompts = state.prompts.filter(x => x.id !== id);
+        saveState(state);
+        return jsonResponse({ success: true });
+      }
+
+      if ((pathname.includes("/ai/prompts/") || pathname.includes("/prompts/")) && pathname.endsWith("/favorite")) {
+        const parts = pathname.split("/");
+        const id = parts[parts.length - 2];
+        const p = state.prompts.find(x => x.id === id);
+        if (p) {
+          p.isFavorite = !p.isFavorite;
+          saveState(state);
+          return jsonResponse({ success: true, isFavorite: p.isFavorite });
+        }
+        return jsonResponse({ success: true, isFavorite: true });
+      }
+
+      if ((pathname.includes("/ai/prompts/") || pathname.includes("/prompts/")) && pathname.endsWith("/duplicate")) {
+        const parts = pathname.split("/");
+        const id = parts[parts.length - 2];
+        const p = state.prompts.find(x => x.id === id);
+        const dup = {
+          id: "p-" + Date.now(),
+          name: (p?.name || "Prompt") + " (Copy)",
+          content: p?.content || "",
+          category: p?.category || "General",
+          folderId: p?.folderId || "f-1",
+          isFavorite: false,
+          tags: p ? [...p.tags] : ["Copy"],
+          createdAt: new Date().toISOString()
+        };
+        state.prompts.unshift(dup);
+        saveState(state);
+        return jsonResponse({ success: true, prompt: dup });
+      }
+
+      if (pathname.includes("/ai/prompts/import") || pathname.includes("/prompts/import")) {
+        if (body.exportData) {
+          const item = Array.isArray(body.exportData) ? body.exportData[0] : body.exportData;
+          state.prompts.unshift({
+            id: "p-" + Date.now(),
+            name: item.name || "Imported Prompt",
+            content: item.content || "",
+            category: item.category || "Imported",
+            folderId: "f-1",
+            isFavorite: false,
+            tags: ["Imported"],
+            createdAt: new Date().toISOString()
+          });
+          saveState(state);
+        }
+        return jsonResponse({ success: true });
+      }
+
+      if (pathname.includes("/ai/prompts/") && pathname.includes("/rollback/")) {
+        return jsonResponse({ success: true, message: "Prompt rolled back successfully" });
+      }
+
+      if (pathname === "/api/prompt-templates" || pathname === "/prompt-templates") {
         return jsonResponse({
           templates: [
             { id: "t-1", name: "RFQ Quotation Generator", description: "Generates export quotations with FOB/CIF calculations, packaging specs, and shipping schedules.", category: "Sales", template: "Generate formal proforma invoice quotation for {{buyer_name}} in {{country}} for product {{item_name}} with MOQ {{quantity}}." },
@@ -391,7 +480,10 @@ export function initMockApi() {
         });
       }
 
-      if (pathname === "/api/ai/folders") {
+      if (pathname === "/api/ai/folders" || pathname === "/ai/folders") {
+        if (method === "POST") {
+          return jsonResponse({ success: true, id: "f-" + Date.now(), name: body.name || "New Folder" });
+        }
         return jsonResponse({
           folders: [
             { id: "f-1", name: "Export Trade & Customs", count: 8 },
@@ -566,6 +658,22 @@ export function initMockApi() {
         const id = pathname.split("/")[4];
         state.assets = state.assets.filter(x => x.id !== id);
         saveState(state);
+        return jsonResponse({ success: true });
+      }
+
+      if (pathname.includes("/image-factory/edit/")) {
+        return jsonResponse({ success: true, message: "Applied edit operation" });
+      }
+
+      if (pathname.includes("/image-factory/assets/") && pathname.endsWith("/version")) {
+        return jsonResponse({ success: true, version: 2 });
+      }
+
+      if (pathname === "/api/image-factory/queue/process" || pathname === "/image-factory/queue/process") {
+        return jsonResponse({ success: true, processed: 1 });
+      }
+
+      if (pathname.includes("/budget-alerts/") && method === "DELETE") {
         return jsonResponse({ success: true });
       }
 
@@ -777,8 +885,18 @@ export function initMockApi() {
         });
       }
 
-      if (pathname.includes("/api/video-factory/assets/") && pathname.endsWith("/favorite")) {
-        const id = pathname.split("/")[4];
+      if (pathname === "/api/video-factory/tests" || pathname === "/video-factory/tests") {
+        return jsonResponse({
+          tests: [
+            { provider: "runway-gen3", latencyMs: 1420, successRate: 99.2, status: "passed" },
+            { provider: "luma-dream", latencyMs: 2100, successRate: 98.5, status: "passed" },
+            { provider: "kling-1.5", latencyMs: 3200, successRate: 97.8, status: "passed" }
+          ]
+        });
+      }
+
+      if (pathname.includes("/video-factory/assets/") && pathname.endsWith("/favorite")) {
+        const id = pathname.split("/").slice(-2)[0];
         const v = state.videoAssets.find(x => x.id === id);
         if (v) {
           v.isFavorite = !v.isFavorite;
@@ -787,15 +905,19 @@ export function initMockApi() {
         return jsonResponse({ success: true });
       }
 
-      if (pathname.includes("/api/video-factory/assets/") && pathname.endsWith("/soft-delete")) {
-        const id = pathname.split("/")[4];
+      if (pathname.includes("/video-factory/assets/") && pathname.endsWith("/soft-delete")) {
+        const id = pathname.split("/").slice(-2)[0];
         state.videoAssets = state.videoAssets.filter(x => x.id !== id);
         saveState(state);
         return jsonResponse({ success: true });
       }
 
       // ADMIN USERS & AUDIT LOGS
-      if (pathname === "/api/admin/users") {
+      if (pathname.includes("/users/") && pathname.endsWith("/role") && method === "PATCH") {
+        return jsonResponse({ success: true, role: body.role });
+      }
+
+      if (pathname === "/api/admin/users" || pathname === "/admin/users") {
         return jsonResponse({
           users: [
             { id: "u-admin-1", name: state.user.name, email: state.user.email, role: "super_admin", orgRole: "super_admin", organizationId: "org-1", status: "active", createdAt: "2024-01-10T08:00:00Z" },
@@ -807,7 +929,7 @@ export function initMockApi() {
         });
       }
 
-      if (pathname === "/api/audit-logs") {
+      if (pathname === "/api/audit-logs" || pathname === "/audit-logs") {
         return jsonResponse({
           logs: [
             { id: "log-1", action: "auth.login_success", resource: "Session Token Generated", userId: "u-admin-1", ipAddress: "103.21.124.88", userAgent: "Chrome 122.0 (macOS)", createdAt: new Date(Date.now() - 1000 * 60 * 10).toISOString(), status: "success" },
@@ -820,10 +942,10 @@ export function initMockApi() {
       }
 
       // ORGANIZATIONS
-      if (pathname.startsWith("/api/organizations/")) {
-        const parts = pathname.split("/");
-        const orgId = parts[3];
-        const subRoute = parts[4];
+      if (pathname.startsWith("/api/organizations/") || pathname.startsWith("/organizations/")) {
+        const parts = pathname.replace("/api/", "/").split("/");
+        const orgId = parts[2];
+        const subRoute = parts[3];
 
         if (subRoute === "members") {
           if (method === "GET") {
