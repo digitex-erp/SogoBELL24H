@@ -1,0 +1,2090 @@
+// SHOGO:CUSTOM-START prisma-header
+// Managed by Shogo. Do not add a datasource `url` or change the generator `provider` — the database URL is configured in prisma.config.ts (Prisma 7+).
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+// SHOGO:CUSTOM-END
+
+model User {
+  id             String    @id @default(cuid())
+  email          String    @unique
+  name           String?
+  passwordHash   String    @map("password_hash")
+  role           String    @default("viewer")
+  organizationId String?   @map("organization_id")
+  emailVerified  Boolean   @default(false) @map("email_verified")
+  avatarUrl      String?   @map("avatar_url")
+  lastLoginAt    DateTime? @map("last_login_at")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+
+  campaigns      Campaign[]
+  contents       Content[]
+  images         ImageAsset[]
+  jobs           Job[]
+  leads          Lead[]
+  activities     Activity[]
+  auditLogs      AuditLog[]
+  apiKeys        ApiProviderKey[]
+
+  @@map("users")
+}
+
+model Organization {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  plan        String   @default("free")
+  timezone    String   @default("Asia/Kolkata")
+  currency    String   @default("INR")
+  logoUrl     String?  @map("logo_url")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  members     OrgMember[]
+
+  @@map("organizations")
+}
+
+model OrgMember {
+  id             String   @id @default(cuid())
+  organizationId String   @map("organization_id")
+  userId         String   @map("user_id")
+  role           String   @default("viewer")
+  invitedAt      DateTime @default(now()) @map("invited_at")
+  joinedAt       DateTime? @map("joined_at")
+
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@unique([organizationId, userId])
+  @@map("org_members")
+}
+
+model ApiProviderKey {
+  id             String   @id @default(cuid())
+  userId         String   @map("user_id")
+  provider       String
+  apiKeyEncrypted String @map("api_key_encrypted")
+  model          String?
+  isEnabled      Boolean  @default(true) @map("is_enabled")
+  priority       Int      @default(1)
+  rateLimit      Int?     @map("rate_limit")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  user           User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, provider])
+  @@map("api_provider_keys")
+}
+
+model ProviderUsage {
+  id             String   @id @default(cuid())
+  userId         String   @map("user_id")
+  provider       String
+  model          String?
+  inputTokens    Int      @default(0) @map("input_tokens")
+  outputTokens   Int      @default(0) @map("output_tokens")
+  costUsd        Float    @default(0) @map("cost_usd")
+  latencyMs      Int?     @map("latency_ms")
+  success        Boolean  @default(true)
+  recordedAt     DateTime @default(now()) @map("recorded_at")
+
+  @@map("provider_usage")
+}
+
+model Campaign {
+  id           String   @id @default(cuid())
+  name         String
+  status       String   @default("draft")
+  objective    String?
+  budget       Float    @default(0)
+  spent        Float    @default(0)
+  currency     String   @default("INR")
+  startDate    DateTime? @map("start_date")
+  endDate      DateTime? @map("end_date")
+  impressions  Int      @default(0)
+  clicks       Int      @default(0)
+  conversions  Int      @default(0)
+  userId       String?  @map("user_id")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  user         User?    @relation(fields: [userId], references: [id])
+  contents     Content[]
+
+  @@map("campaigns")
+}
+
+model Content {
+  id          String   @id @default(cuid())
+  title       String
+  type        String   @default("blog_post")
+  body        String?
+  status      String   @default("draft")
+  language    String   @default("en")
+  platform    String?
+  url         String?
+  wordCount   Int      @default(0) @map("word_count")
+  campaignId  String?  @map("campaign_id")
+  userId      String?  @map("user_id")
+  publishedAt DateTime? @map("published_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  campaign    Campaign? @relation(fields: [campaignId], references: [id])
+  user        User?    @relation(fields: [userId], references: [id])
+
+  @@map("contents")
+}
+
+model ImageAsset {
+  id              String   @id @default(cuid())
+  title           String?
+  description     String?
+  prompt          String?
+  negativePrompt  String?  @map("negative_prompt")
+  url             String
+  thumbnail       String?
+  width           Int?
+  height          Int?
+  aspectRatio     String?  @map("aspect_ratio")
+  fileSize        Int?     @map("file_size")
+  format          String?  @default("png")
+  provider        String?
+  model           String?
+  generationType  String   @default("text_to_image") @map("generation_type")
+  seed            Int?
+  cfg             Float?
+  steps           Int?
+  quality         String?
+  numOutputs      Int      @default(1) @map("num_outputs")
+  costUsd         Float?   @map("cost_usd")
+  latencyMs       Int?     @map("latency_ms")
+  status          String   @default("completed")
+  errorMsg        String?  @map("error_msg")
+  brandKitId      String?  @map("brand_kit_id")
+  collectionId    String?  @map("collection_id")
+  campaignId      String?  @map("campaign_id")
+  tags            String?
+  metadata        String?
+  isFavorite      Boolean  @default(false) @map("is_favorite")
+  isArchived      Boolean  @default(false) @map("is_archived")
+  version         Int      @default(1)
+  parentId        String?  @map("parent_id")
+  userId          String   @map("user_id")
+  orgId           String?  @map("org_id")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  user            User?    @relation(fields: [userId], references: [id])
+  collection      ImageCollection? @relation(fields: [collectionId], references: [id])
+  brandKit        BrandKit? @relation(fields: [brandKitId], references: [id])
+  versions        ImageVersion[]
+  edits           ImageEdit[]
+  costRecords     ImageCostRecord[]
+
+  @@index([userId])
+  @@index([collectionId])
+  @@index([provider])
+  @@index([status])
+  @@index([createdAt])
+  @@map("image_assets")
+}
+
+model Job {
+  id          String   @id @default(cuid())
+  type        String
+  status      String   @default("queued")
+  priority    Int      @default(2)
+  payload     String?
+  result      String?
+  error       String?
+  attempts    Int      @default(0)
+  maxAttempts Int      @default(3) @map("max_attempts")
+  userId      String?  @map("user_id")
+  startedAt   DateTime? @map("started_at")
+  completedAt DateTime? @map("completed_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user        User?    @relation(fields: [userId], references: [id])
+
+  @@map("jobs")
+}
+
+model Lead {
+  id          String   @id @default(cuid())
+  name        String
+  email       String?
+  phone       String?
+  company     String?
+  status      String   @default("new")
+  source      String?
+  score       Int      @default(0)
+  value       Float    @default(0)
+  tags        String?
+  notes       String?
+  userId      String?  @map("user_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  user        User?    @relation(fields: [userId], references: [id])
+  activities  Activity[]
+  deals       Deal[]
+
+  @@map("leads")
+}
+
+model Activity {
+  id          String   @id @default(cuid())
+  type        String
+  title       String
+  description String?
+  leadId      String?  @map("lead_id")
+  userId      String?  @map("user_id")
+  scheduledAt DateTime? @map("scheduled_at")
+  completedAt DateTime? @map("completed_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  lead        Lead?    @relation(fields: [leadId], references: [id])
+  user        User?    @relation(fields: [userId], references: [id])
+
+  @@map("activities")
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  action      String
+  resource    String
+  resourceId  String?  @map("resource_id")
+  details     String?
+  userId      String?  @map("user_id")
+  ipAddress   String?  @map("ip_address")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user        User?    @relation(fields: [userId], references: [id])
+
+  @@map("audit_logs")
+}
+
+model Notification {
+  id          String   @id @default(cuid())
+  title       String
+  message     String
+  type        String   @default("info")
+  read        Boolean  @default(false)
+  actionUrl   String?  @map("action_url")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("notifications")
+}
+
+model SystemMetric {
+  id          String   @id @default(cuid())
+  name        String
+  value       Float
+  labels      String?
+  recordedAt  DateTime @default(now()) @map("recorded_at")
+
+  @@map("system_metrics")
+}
+
+// ═══════════════════════════════════════════════════════════
+// SPRINT 2: Prompt Library & AI Studio Models
+// ═══════════════════════════════════════════════════════════
+
+model Prompt {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  category    String   @default("general")
+  content     String
+  variables   String?
+  systemPrompt String?  @map("system_prompt")
+  isTemplate  Boolean  @default(false) @map("is_template")
+  isPublic    Boolean  @default(false) @map("is_public")
+  isArchived  Boolean  @default(false) @map("is_archived")
+  tags        String?
+  folderId    String?  @map("folder_id")
+  userId      String   @map("user_id")
+  orgId       String?  @map("org_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  versions    PromptVersion[]
+  executions  PromptExecution[]
+  favorites   PromptFavorite[]
+  folder      PromptFolder? @relation(fields: [folderId], references: [id])
+
+  @@map("prompts")
+}
+
+model PromptFolder {
+  id        String   @id @default(cuid())
+  name      String
+  icon      String?  @default("folder")
+  color     String?  @default("#6366f1")
+  parentId  String?  @map("parent_id")
+  userId    String   @map("user_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  prompts   Prompt[]
+
+  @@map("prompt_folders")
+}
+
+model PromptFavorite {
+  id        String   @id @default(cuid())
+  promptId  String   @map("prompt_id")
+  userId    String   @map("user_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  prompt    Prompt   @relation(fields: [promptId], references: [id], onDelete: Cascade)
+
+  @@unique([promptId, userId])
+  @@map("prompt_favorites")
+}
+
+model PromptVersion {
+  id        String   @id @default(cuid())
+  promptId  String   @map("prompt_id")
+  version   Int      @default(1)
+  content   String
+  variables String?
+  systemPrompt String? @map("system_prompt")
+  changelog String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  prompt    Prompt   @relation(fields: [promptId], references: [id], onDelete: Cascade)
+
+  @@unique([promptId, version])
+  @@map("prompt_versions")
+}
+
+model PromptExecution {
+  id              String   @id @default(cuid())
+  promptId        String?  @map("prompt_id")
+  provider        String
+  model           String
+  inputTokens     Int      @default(0) @map("input_tokens")
+  outputTokens    Int      @default(0) @map("output_tokens")
+  totalTokens     Int      @default(0) @map("total_tokens")
+  costUsd         Float    @default(0) @map("cost_usd")
+  latencyMs       Int      @default(0) @map("latency_ms")
+  input           String?
+  output          String?
+  systemPrompt    String?  @map("system_prompt")
+  temperature     Float?
+  topP            Float?   @map("top_p")
+  frequencyPenalty Float?  @map("frequency_penalty")
+  presencePenalty  Float?  @map("presence_penalty")
+  status          String   @default("success")
+  errorMsg        String?  @map("error_msg")
+  userId          String   @map("user_id")
+  orgId           String?  @map("org_id")
+  ipAddress       String?  @map("ip_address")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  prompt          Prompt?  @relation(fields: [promptId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([provider])
+  @@index([createdAt])
+  @@map("prompt_executions")
+}
+
+model BudgetAlert {
+  id          String   @id @default(cuid())
+  userId      String   @map("user_id")
+  orgId       String?  @map("org_id")
+  name        String
+  threshold   Float
+  period      String   @default("monthly")
+  provider    String?
+  metric      String   @default("cost")
+  channel     String   @default("notification")
+  isActive    Boolean  @default(true) @map("is_active")
+  lastTriggered DateTime? @map("last_triggered")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("budget_alerts")
+}
+
+model RateLimitRecord {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  provider  String
+  requests  Int      @default(0)
+  windowStart DateTime @map("window_start")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([userId, provider, windowStart])
+  @@map("rate_limit_records")
+}
+
+model ModelCatalog {
+  id              String   @id @default(cuid())
+  provider        String
+  modelId         String   @map("model_id")
+  name            String
+  description     String?
+  inputPricePer1k Float    @map("input_price_per_1k")
+  outputPricePer1k Float   @map("output_price_per_1k")
+  maxTokens       Int      @map("max_tokens")
+  contextWindow   Int      @map("context_window")
+  capabilities    String?
+  isActive        Boolean  @default(true) @map("is_active")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  @@unique([provider, modelId])
+  @@map("model_catalog")
+}
+
+// ═══════════════════════════════════════════════════════════
+// SPRINT 3: Enterprise Image Factory
+// ═══════════════════════════════════════════════════════════
+
+model ImageCollection {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  icon        String?  @default("folder")
+  color       String?  @default("#6366f1")
+  parentId    String?  @map("parent_id")
+  userId      String   @map("user_id")
+  orgId       String?  @map("org_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  images      ImageAsset[]
+
+  @@map("image_collections")
+}
+
+model ImageVersion {
+  id          String   @id @default(cuid())
+  imageId     String   @map("image_id")
+  version     Int      @default(1)
+  url         String
+  thumbnail   String?
+  prompt      String?
+  negativePrompt String? @map("negative_prompt")
+  seed        Int?
+  cfg         Float?
+  steps       Int?
+  quality     String?
+  provider    String?
+  model       String?
+  costUsd     Float?   @map("cost_usd")
+  latencyMs   Int?     @map("latency_ms")
+  editParams  String?  @map("edit_params")
+  changelog   String?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  image       ImageAsset @relation(fields: [imageId], references: [id], onDelete: Cascade)
+
+  @@unique([imageId, version])
+  @@map("image_versions")
+}
+
+model ImageEdit {
+  id          String   @id @default(cuid())
+  imageId     String   @map("image_id")
+  type        String
+  params      String?
+  inputUrl    String?  @map("input_url")
+  outputUrl   String?  @map("output_url")
+  provider    String?
+  model       String?
+  costUsd     Float?   @map("cost_usd")
+  latencyMs   Int?     @map("latency_ms")
+  status      String   @default("completed")
+  errorMsg    String?  @map("error_msg")
+  userId      String   @map("user_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  image       ImageAsset @relation(fields: [imageId], references: [id], onDelete: Cascade)
+
+  @@map("image_edits")
+}
+
+model ImageCostRecord {
+  id          String   @id @default(cuid())
+  imageId     String?  @map("image_id")
+  userId      String   @map("user_id")
+  orgId       String?  @map("org_id")
+  provider    String
+  model       String
+  operation   String
+  costUsd     Float    @default(0) @map("cost_usd")
+  credits     Int      @default(0)
+  inputTokens Int?     @map("input_tokens")
+  outputTokens Int?    @map("output_tokens")
+  metadata    String?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  image       ImageAsset? @relation(fields: [imageId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([provider])
+  @@index([createdAt])
+  @@map("image_cost_records")
+}
+
+model BrandKit {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  logoUrl     String?  @map("logo_url")
+  logoUrls    String?  @map("logo_urls")
+  colors      String?
+  fonts       String?
+  brandVoice  String?  @map("brand_voice")
+  templates   String?
+  backgrounds String?
+  watermarks  String?
+  safeZones   String?  @map("safe_zones")
+  guidelines  String?
+  isDefault   Boolean  @default(false) @map("is_default")
+  userId      String   @map("user_id")
+  orgId       String?  @map("org_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  images      ImageAsset[]
+
+  @@map("brand_kits")
+}
+
+model ImageTemplate {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  category    String   @default("general")
+  platform    String?
+  width       Int
+  height      Int
+  aspectRatio String?  @map("aspect_ratio")
+  prompt      String?
+  negativePrompt String? @map("negative_prompt")
+  thumbnail   String?
+  tags        String?
+  isSystem    Boolean  @default(false) @map("is_system")
+  isPublic    Boolean  @default(true) @map("is_public")
+  userId      String?  @map("user_id")
+  usageCount  Int      @default(0) @map("usage_count")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("image_templates")
+}
+
+model ImageQueueJob {
+  id          String   @id @default(cuid())
+  type        String   @default("generate")
+  status      String   @default("queued")
+  priority    Int      @default(2)
+  progress    Int      @default(0)
+  prompt      String?
+  negativePrompt String? @map("negative_prompt")
+  provider    String?
+  model       String?
+  params      String?
+  resultUrl   String?  @map("result_url")
+  thumbnail   String?
+  error       String?
+  attempts    Int      @default(0)
+  maxAttempts Int      @default(3) @map("max_attempts")
+  estimatedMs Int?     @map("estimated_ms")
+  startedAt   DateTime? @map("started_at")
+  completedAt DateTime? @map("completed_at")
+  pausedAt    DateTime? @map("paused_at")
+  userId      String   @map("user_id")
+  orgId       String?  @map("org_id")
+  campaignId  String?  @map("campaign_id")
+  collectionId String? @map("collection_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@index([status, priority])
+  @@index([userId])
+  @@map("image_queue_jobs")
+}
+
+model ImageEditorState {
+  id          String   @id @default(cuid())
+  imageId     String   @map("image_id")
+  state       String
+  history     String?
+  currentStep Int      @default(0) @map("current_step")
+  userId      String   @map("user_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("image_editor_states")
+}
+
+// ═══════════════════════════════════════════════════════════
+// SPRINT 3A: Enterprise AI Router Hardening
+// ═══════════════════════════════════════════════════════════
+
+model RoutingPolicy {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  type        String   @default("system")  // system | custom
+  strategy    String   // fastest | cheapest | highest_quality | balanced | fallback_only
+  config      String?  // JSON: { maxCostPerToken, minQualityScore, requiredCapabilities, regionRestrictions, etc. }
+  isActive    Boolean  @default(true) @map("is_active")
+  priority    Int      @default(0)
+  userId      String?  @map("user_id")
+  orgId       String?  @map("org_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  telemetry   RouterTelemetry[]
+
+  @@map("routing_policies")
+}
+
+model ProviderCapability {
+  id          String   @id @default(cuid())
+  provider    String
+  capability  String   // chat | vision | images | audio_in | audio_out | video | embeddings | json_mode | reasoning | function_calling
+  modelId     String?  @map("model_id")
+  region      String?  // global | us | eu | in | cn | private
+  isAvailable Boolean  @default(true) @map("is_available")
+  metadata    String?  // JSON: { maxResolution, supportedFormats, rateLimit, etc. }
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@unique([provider, capability, modelId])
+  @@index([provider])
+  @@index([capability])
+  @@map("provider_capabilities")
+}
+
+model CircuitBreaker {
+  id               String   @id @default(cuid())
+  provider         String
+  userId           String   @map("user_id")
+  state            String   @default("closed")  // closed | open | half_open
+  failureCount     Int      @default(0) @map("failure_count")
+  successCount     Int      @default(0) @map("success_count")
+  failureThreshold Int      @default(5) @map("failure_threshold")
+  recoveryTimeoutMs Int     @default(300000) @map("recovery_timeout_ms")  // 5 minutes default
+  lastFailureAt    DateTime? @map("last_failure_at")
+  lastSuccessAt    DateTime? @map("last_success_at")
+  halfOpenMaxCalls Int      @default(3) @map("half_open_max_calls")
+  halfOpenAttempts Int      @default(0) @map("half_open_attempts")
+  totalTrips       Int      @default(0) @map("total_trips")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  @@unique([provider, userId])
+  @@index([provider])
+  @@map("circuit_breakers")
+}
+
+model ProviderBenchmark {
+  id          String   @id @default(cuid())
+  provider    String
+  modelId     String   @map("model_id")
+  userId      String?  @map("user_id")
+  qualityScore Float   @default(0) @map("quality_score")    // 0-100
+  latencyMs   Int      @default(0) @map("latency_ms")
+  costPer1k   Float    @default(0) @map("cost_per_1k")
+  reliability Float    @default(100)  // 0-100 success rate
+  availability Float   @default(100) // 0-100 uptime
+  successRate Float    @default(100) @map("success_rate")
+  sampleSize  Int      @default(0) @map("sample_size")
+  compositeScore Float @default(0) @map("composite_score") // weighted score
+  benchmarkType String @default("live") @map("benchmark_type") // live | synthetic | historical
+  metadata    String?  // JSON
+  recordedAt  DateTime @default(now()) @map("recorded_at")
+
+  @@index([provider, modelId])
+  @@index([recordedAt])
+  @@map("provider_benchmarks")
+}
+
+model RouterTelemetry {
+  id           String   @id @default(cuid())
+  requestId    String   @map("request_id")
+  correlationId String? @map("correlation_id")
+  userId       String?  @map("user_id")
+  orgId        String?  @map("org_id")
+  policyId     String?  @map("policy_id")
+  workflowType String?  @map("workflow_type") // chat | image | video | voice | embeddings | reasoning | coding
+  requestedProvider String? @map("requested_provider")
+  actualProvider    String? @map("actual_provider")
+  model        String?
+  status       String   // success | error | fallback | timeout | circuit_broken
+  latencyMs    Int      @default(0) @map("latency_ms")
+  queueTimeMs  Int      @default(0) @map("queue_time_ms")
+  inputTokens  Int      @default(0) @map("input_tokens")
+  outputTokens Int      @default(0) @map("output_tokens")
+  costUsd      Float    @default(0) @map("cost_usd")
+  errorMsg     String?  @map("error_msg")
+  metadata     String?  // JSON: { circuitBreakerState, fallbackChain, policyDecision, etc. }
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  policy       RoutingPolicy? @relation(fields: [policyId], references: [id])
+
+  @@index([requestId])
+  @@index([correlationId])
+  @@index([userId])
+  @@index([actualProvider])
+  @@index([workflowType])
+  @@index([createdAt])
+  @@map("router_telemetry")
+}
+
+model AIBudget {
+  id           String   @id @default(cuid())
+  name         String
+  description  String?
+  orgId        String?  @map("org_id")
+  departmentId String?  @map("department_id")
+  projectId    String?  @map("project_id")
+  campaignId   String?  @map("campaign_id")
+  userId       String?  @map("user_id")
+  amount       Float    // budget limit in USD
+  spent        Float    @default(0)
+  period       String   @default("monthly") // daily | weekly | monthly | quarterly | yearly
+  provider     String?  // null = all providers
+  workflowType String?  @map("workflow_type") // null = all workflows
+  alertThreshold Float  @default(0.8) @map("alert_threshold") // percentage (0.8 = 80%)
+  hardLimit    Boolean  @default(false) @map("hard_limit") // block vs warn
+  isActive     Boolean  @default(true) @map("is_active")
+  startDate    DateTime? @map("start_date")
+  endDate      DateTime? @map("end_date")
+  lastAlertAt  DateTime? @map("last_alert_at")
+  userId_owner String?  @map("owner_user_id")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@index([orgId])
+  @@index([userId])
+  @@index([campaignId])
+  @@map("ai_budgets")
+}
+
+model ProviderAdapter {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  baseUrl     String?  @map("base_url")
+  authType    String   @default("api_key") @map("auth_type") // api_key | oauth | bearer | custom
+  adapterType String   @default("rest") @map("adapter_type") // rest | graphql | grpc | websocket
+  capabilities String?  // JSON array of supported capabilities
+  config      String?  // JSON: adapter-specific config
+  isSystem    Boolean  @default(false) @map("is_system")
+  isActive    Boolean  @default(true) @map("is_active")
+  version     String?
+  healthUrl   String?  @map("health_url")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("provider_adapters")
+}
+
+// ═══════════════════════════════════════════════════════════
+// SPRINT 5: Enterprise Video Factory
+// ═══════════════════════════════════════════════════════════
+
+model VideoAsset {
+  id              String    @id @default(cuid())
+  title           String
+  description     String?
+  prompt          String
+  negativePrompt  String?   @map("negative_prompt")
+  provider        String
+  model           String?
+  duration        Float     @default(4)
+  width           Int       @default(1280)
+  height          Int       @default(720)
+  fps             Int       @default(24)
+  aspectRatio     String?   @map("aspect_ratio")
+  format          String    @default("mp4")
+  codec           String?
+  bitrate         Int?
+  fileSize        Int?      @map("file_size")
+  url             String?
+  thumbnailUrl    String?   @map("thumbnail_url")
+  previewUrl      String?   @map("preview_url")
+  seed            Int?
+  guidanceScale   Float?    @map("guidance_scale")
+  numFrames       Int?      @map("num_frames")
+  status          String    @default("completed")
+  errorMsg        String?   @map("error_msg")
+  requestId       String?   @map("request_id")
+  generationTimeMs Int?     @map("generation_time_ms")
+  costUsd         Float     @default(0) @map("cost_usd")
+  isFavorite      Boolean   @default(false) @map("is_favorite")
+  isArchived      Boolean   @default(false) @map("is_archived")
+  isDeleted       Boolean   @default(false) @map("is_deleted")
+  campaignId      String?   @map("campaign_id")
+  brandKitId      String?   @map("brand_kit_id")
+  tags            String?
+  metadata        String?
+  userId          String    @map("user_id")
+  orgId           String?   @map("org_id")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  versions        VideoVersion[]
+  costs           VideoCostRecord[]
+  edits           VideoEdit[]
+
+  @@index([userId])
+  @@index([orgId])
+  @@index([provider])
+  @@index([status])
+  @@index([campaignId])
+  @@index([createdAt(sort: Desc)])
+  @@map("video_assets")
+}
+
+model VideoVersion {
+  id            String   @id @default(cuid())
+  videoId       String   @map("video_id")
+  version       Int      @default(1)
+  url           String?
+  prompt        String?
+  provider      String?
+  model         String?
+  duration      Float?
+  width         Int?
+  height        Int?
+  fps           Int?
+  costUsd       Float    @default(0) @map("cost_usd")
+  changelog     String?
+  metadata      String?
+  userId        String   @map("user_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  video         VideoAsset @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  @@index([videoId])
+  @@index([userId])
+  @@map("video_versions")
+}
+
+model VideoCostRecord {
+  id            String   @id @default(cuid())
+  videoId       String   @map("video_id")
+  userId        String   @map("user_id")
+  provider      String
+  model         String?
+  operation     String   @default("generation")
+  costUsd       Float    @map("cost_usd")
+  credits       Int      @default(0)
+  requestId     String?  @map("request_id")
+  metadata      String?
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  video         VideoAsset @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  @@index([videoId])
+  @@index([userId])
+  @@index([provider])
+  @@map("video_cost_records")
+}
+
+model VideoEdit {
+  id            String   @id @default(cuid())
+  videoId       String   @map("video_id")
+  type          String
+  params        String?
+  inputUrl      String?  @map("input_url")
+  outputUrl     String?  @map("output_url")
+  status        String   @default("completed")
+  errorMsg      String?  @map("error_msg")
+  costUsd       Float    @default(0) @map("cost_usd")
+  metadata      String?
+  userId        String   @map("user_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  video         VideoAsset @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  @@index([videoId])
+  @@index([userId])
+  @@map("video_edits")
+}
+
+model VideoQueueJob {
+  id            String   @id @default(cuid())
+  type          String   @default("generate")
+  prompt        String
+  negativePrompt String?  @map("negative_prompt")
+  provider      String?
+  model         String?
+  duration      Float    @default(4)
+  width         Int      @default(1280)
+  height        Int      @default(720)
+  fps           Int      @default(24)
+  aspectRatio   String?  @map("aspect_ratio")
+  seed          Int?
+  guidanceScale Float?   @map("guidance_scale")
+  priority      Int      @default(3)
+  status        String   @default("queued")
+  progress      Int      @default(0)
+  errorMsg      String?  @map("error_msg")
+  requestId     String?  @map("request_id")
+  videoId       String?  @map("video_id")
+  resultUrl     String?  @map("result_url")
+  costUsd       Float    @default(0) @map("cost_usd")
+  retries       Int      @default(0)
+  maxRetries    Int      @default(3) @map("max_retries")
+  campaignId    String?  @map("campaign_id")
+  metadata      String?
+  userId        String   @map("user_id")
+  orgId         String?  @map("org_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([status])
+  @@index([priority])
+  @@map("video_queue_jobs")
+}
+
+// ═══════════════════════════════════════════════════════════
+// SPRINT 5D: Enterprise SEO Center
+// ═══════════════════════════════════════════════════════════
+
+model SeoKeyword {
+  id            String   @id @default(cuid())
+  keyword       String
+  searchVolume  Int      @default(0) @map("search_volume")
+  difficulty    Int      @default(0) // 0-100
+  position      Int?     // current ranking position
+  prevPosition  Int?     @map("prev_position")
+  intent        String   @default("informational") // informational | navigational | commercial | transactional
+  cpc           Float    @default(0)
+  competition   Float    @default(0) // 0-1
+  clicks        Int      @default(0)
+  impressions   Int      @default(0)
+  ctr           Float    @default(0)
+  cluster       String?  // topic cluster name
+  isGated       Boolean  @default(false) @map("is_gated") // GEO-relevant
+  tags          String?
+  status        String   @default("active") // active | paused | archived
+  targetUrl     String?  @map("target_url")
+  notes         String?
+  userId        String   @map("user_id")
+  orgId         String?  @map("org_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([intent])
+  @@index([cluster])
+  @@map("seo_keywords")
+}
+
+model SeoSiteAudit {
+  id            String   @id @default(cuid())
+  siteUrl       String   @map("site_url")
+  status        String   @default("completed") // pending | running | completed | failed
+  score         Int      @default(0) // 0-100
+  totalPages    Int      @default(0) @map("total_pages")
+  criticalIssues Int     @default(0) @map("critical_issues")
+  warnings      Int      @default(0)
+  notices       Int      @default(0)
+  issues        String?  // JSON: [{severity, category, title, description, url, fix}]
+  metadata      String?  // JSON: { loadTime, pageSize, requests }
+  triggeredBy   String?  @map("triggered_by")
+  completedAt   DateTime? @map("completed_at")
+  userId        String   @map("user_id")
+  orgId         String?  @map("org_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([siteUrl])
+  @@map("seo_site_audits")
+}
+
+model SeoMetaTag {
+  id            String   @id @default(cuid())
+  url           String
+  title         String?
+  titleLength   Int      @default(0) @map("title_length")
+  description   String?
+  descLength    Int      @default(0) @map("desc_length")
+  ogTitle       String?  @map("og_title")
+  ogDescription String?  @map("og_description")
+  ogImage       String?  @map("og_image")
+  ogType        String?  @map("og_type")
+  twitterCard   String?  @map("twitter_card")
+  twitterTitle  String?  @map("twitter_title")
+  twitterDesc   String?  @map("twitter_description")
+  canonical     String?
+  robots        String?  // index, follow, noindex, nofollow
+  schemaType    String?  @map("schema_type")
+  issues        String?  // JSON: [{type, severity, message, fix}]
+  score         Int      @default(0) // 0-100
+  status        String   @default("active") // active | needs_review | fixed
+  userId        String   @map("user_id")
+  orgId         String?  @map("org_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([url])
+  @@map("seo_meta_tags")
+}
+
+model SeoBacklink {
+  id            String   @id @default(cuid())
+  sourceUrl     String   @map("source_url")
+  sourceDomain  String   @map("source_domain")
+  targetUrl     String   @map("target_url")
+  anchorText    String?  @map("anchor_text")
+  linkType      String   @default("dofollow") // dofollow | nofollow | redirect | mention
+  authority     Float    @default(0) // domain authority 0-100
+  relevance     Float    @default(0) // topical relevance 0-100
+  isToxic       Boolean  @default(false) @map("is_toxic")
+  status        String   @default("active") // active | broken | removed | toxic
+  firstSeenAt   DateTime? @map("first_seen_at")
+  lastSeenAt    DateTime? @map("last_seen_at")
+  discoveredBy  String?  @map("discovered_by") // gsc | manual | crawler
+  userId        String   @map("user_id")
+  orgId         String?  @map("org_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([sourceDomain])
+  @@index([isToxic])
+  @@map("seo_backlinks")
+}
+
+model SeoSchemaMarkup {
+  id            String   @id @default(cuid())
+  url           String
+  schemaType    String   @map("schema_type") // Article | Product | FAQ | HowTo | LocalBusiness | Organization | BreadcrumbList
+  jsonLd        String   @map("json_ld") // the JSON-LD code
+  status        String   @default("valid") // valid | has_errors | missing_fields | not_implemented
+  errors        String?  // JSON: [{field, error}]
+  richResultType String? @map("rich_result_type") // which Google rich result it targets
+  isImplemented Boolean  @default(false) @map("is_implemented")
+  validatedAt   DateTime? @map("validated_at")
+  userId        String   @map("user_id")
+  orgId         String?  @map("org_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([url])
+  @@index([schemaType])
+  @@map("seo_schema_markup")
+}
+
+model SeoContentPlan {
+  id            String   @id @default(cuid())
+  title         String
+  type          String   @default("blog_post") // blog_post | landing_page | product_page | faq | how_to | comparison | review
+  status        String   @default("draft") // draft | outlined | writing | review | published | archived
+  targetKeyword String?  @map("target_keyword")
+  secondaryKeywords String? @map("secondary_keywords")
+  searchVolume  Int      @default(0) @map("search_volume")
+  difficulty    Int      @default(0)
+  intent        String?  // informational | navigational | commercial | transactional
+  targetUrl     String?  @map("target_url")
+  brief         String?  // content brief / outline
+  wordCountTarget Int?   @map("word_count_target")
+  wordCount     Int      @default(0) @map("word_count")
+  publishDate   DateTime? @map("publish_date")
+  priority      Int      @default(2) // 1=urgent, 2=high, 3=medium, 4=low
+  cluster       String?  // topic cluster
+  persona       String?  // target persona
+  campaignId    String?  @map("campaign_id")
+  userId        String   @map("user_id")
+  orgId         String?  @map("org_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([status])
+  @@index([cluster])
+  @@map("seo_content_plans")
+}
+
+model SeoCompetitor {
+  id            String   @id @default(cuid())
+  domain        String
+  name          String?
+  url           String?
+  description   String?
+  domainAuthority Float @default(0) @map("domain_authority")
+  topKeywords   String?  @map("top_keywords") // JSON: [{keyword, position, volume}]
+  topPages      String?  @map("top_pages") // JSON: [{url, title, clicks, impressions}]
+  backlinks     Int      @default(0)
+  organicTraffic Int     @default(0) @map("organic_traffic")
+  overlapScore  Float    @default(0) @map("overlap_score") // keyword overlap 0-100
+  notes         String?
+  tags          String?
+  isTracked     Boolean  @default(true) @map("is_tracked")
+  userId        String   @map("user_id")
+  orgId         String?  @map("org_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@unique([domain, userId])
+  @@map("seo_competitors")
+}
+
+model SeoPageAudit {
+  id            String   @id @default(cuid())
+  url           String
+  siteAuditId   String?  @map("site_audit_id")
+  title         String?
+  statusCode    Int      @default(200) @map("status_code")
+  loadTimeMs    Int?     @map("load_time_ms")
+  pageSizeKb    Int?     @map("page_size_kb")
+  wordCount     Int      @default(0) @map("word_count")
+  h1Count       Int      @default(0) @map("h1_count")
+  h2Count       Int      @default(0) @map("h2_count")
+  imageCount    Int      @default(0) @map("image_count")
+  imagesWithoutAlt Int   @default(0) @map("images_without_alt")
+  internalLinks Int      @default(0) @map("internal_links")
+  externalLinks Int      @default(0) @map("external_links")
+  brokenLinks   Int      @default(0) @map("broken_links")
+  hasRobotsTxt  Boolean  @default(false) @map("has_robots_txt")
+  hasSitemap    Boolean  @default(false) @map("has_sitemap")
+  hasCanonical  Boolean  @default(false) @map("has_canonical")
+  hasViewport   Boolean  @default(false) @map("has_viewport")
+  hasSchema     Boolean  @default(false) @map("has_schema")
+  hasOpenGraph  Boolean  @default(false) @map("has_open_graph")
+  hasHttps      Boolean  @default(false) @map("has_https")
+  issues        String?  // JSON: [{severity, category, message, fix}]
+  score         Int      @default(0) // 0-100
+  crawledAt     DateTime @default(now()) @map("crawled_at")
+  userId        String   @map("user_id")
+  orgId         String?  @map("org_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([url])
+  @@index([siteAuditId])
+  @@map("seo_page_audits")
+}
+
+model SeoSitemap {
+  id            String   @id @default(cuid())
+  siteUrl       String   @map("site_url")
+  sitemapUrl    String   @map("sitemap_url")
+  status        String   @default("valid") // valid | has_errors | not_found | unreachable
+  totalUrls     Int      @default(0) @map("total_urls")
+  indexedUrls   Int      @default(0) @map("indexed_urls")
+  errorUrls     Int      @default(0) @map("error_urls")
+  issues        String?  // JSON: [{type, url, message}]
+  lastChecked   DateTime? @map("last_checked")
+  lastModified  DateTime? @map("last_modified")
+  robotsTxt     String?  @map("robots_txt")
+  userId        String   @map("user_id")
+  orgId         String?  @map("org_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([siteUrl])
+  @@map("seo_sitemaps")
+}
+
+model SeoLocalBusiness {
+  id            String   @id @default(cuid())
+  name          String
+  address       String?
+  city          String?
+  state         String?
+  country       String?
+  postalCode    String?  @map("postal_code")
+  phone         String?
+  email         String?
+  website       String?
+  latitude      Float?
+  longitude     Float?
+  hours         String?  // JSON: {monday: "9:00-17:00", ...}
+  category      String?
+  description   String?
+  schemaJson    String?  @map("schema_json") // generated LocalBusiness JSON-LD
+  gbpUrl        String?  @map("gbp_url") // Google Business Profile URL
+  reviews       Int      @default(0)
+  rating        Float    @default(0)
+  napConsistent Boolean  @default(true) @map("nap_consistent") // Name, Address, Phone
+  userId        String   @map("user_id")
+  orgId         String?  @map("org_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@map("seo_local_businesses")
+}
+
+model SeoRankTracking {
+  id            String   @id @default(cuid())
+  keyword       String
+  url           String
+  position      Int?
+  prevPosition  Int?     @map("prev_position")
+  searchEngine  String   @default("google") @map("search_engine")
+  device        String   @default("desktop") // desktop | mobile
+  location      String?
+  clicks        Int      @default(0)
+  impressions   Int      @default(0)
+  ctr           Float    @default(0)
+  snapshotDate  DateTime @map("snapshot_date")
+  userId        String   @map("user_id")
+  orgId         String?  @map("org_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([keyword, url])
+  @@index([snapshotDate])
+  @@map("seo_rank_tracking")
+}
+
+model SeoGEOAudit {
+  id            String   @id @default(cuid())
+  url           String
+  score         Int      @default(0) // 0-100 GEO score
+  citationScore Float    @default(0) @map("citation_score") // AI citation probability 0-100
+  authorityScore Float   @default(0) @map("authority_score") // E-E-A-T signals 0-100
+  structureScore Float   @default(0) @map("structure_score") // content structure for AI 0-100
+  evidenceScore Float    @default(0) @map("evidence_score") // real data/citations 0-100
+  freshnessScore Float   @default(0) @map("freshness_score") // content freshness 0-100
+  aiEngines     String?  @map("ai_engines") // JSON: {chatgpt: true, perplexity: true, gemini: true, claude: true}
+  issues        String?  // JSON: [{type, severity, message, fix, impact}]
+  recommendations String? // JSON: [{action, priority, expectedImpact}]
+  contentAnalysis String? @map("content_analysis") // JSON: word count, reading level, entity count, etc.
+  crawledAt     DateTime @default(now()) @map("crawled_at")
+  userId        String   @map("user_id")
+  orgId         String?  @map("org_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([url])
+  @@map("seo_geo_audits")
+}
+
+model SeoBrokenLink {
+  id            String   @id @default(cuid())
+  sourceUrl     String   @map("source_url")
+  targetUrl     String   @map("target_url")
+  statusCode    Int      @map("status_code") // 404, 500, etc.
+  linkType      String   @default("external") // internal | external
+  anchorText    String?  @map("anchor_text")
+  status        String   @default("broken") // broken | fixed | removed | redirect
+  checkedAt     DateTime @default(now()) @map("checked_at")
+  fixedAt       DateTime? @map("fixed_at")
+  userId        String   @map("user_id")
+  orgId         String?  @map("org_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([statusCode])
+  @@index([linkType])
+  @@map("seo_broken_links")
+}
+
+// ═══════════════════════════════════════════════════════════
+// SPRINT 6: CRM, Marketplace, Settings, Deals, Scheduling
+// ═══════════════════════════════════════════════════════════
+
+model Deal {
+  id          String   @id @default(cuid())
+  title       String
+  value       Float    @default(0)
+  currency    String   @default("INR")
+  status      String   @default("prospect") // prospect | proposal | negotiation | closed_won | closed_lost
+  stage       String   @default("discovery") // discovery | qualification | proposal | negotiation | closed
+  probability Int      @default(0) // 0-100
+  closeDate   DateTime? @map("close_date")
+  leadId      String?  @map("lead_id")
+  contactName String?  @map("contact_name")
+  contactEmail String? @map("contact_email")
+  contactPhone String? @map("contact_phone")
+  company     String?
+  notes       String?
+  tags        String?
+  userId      String?  @map("user_id")
+  orgId       String?  @map("org_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  lead        Lead?    @relation(fields: [leadId], references: [id])
+
+  @@index([userId])
+  @@index([status])
+  @@index([leadId])
+  @@map("deals")
+}
+
+model Supplier {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String?
+  description String?
+  location    String?
+  city        String?
+  state       String?
+  country     String?  @default("India")
+  phone       String?
+  email       String?
+  website     String?
+  logoUrl     String?  @map("logo_url")
+  rating      Float    @default(0)
+  reviewCount Int      @default(0) @map("review_count")
+  productCount Int     @default(0) @map("product_count")
+  categories  String?  // JSON array
+  tags        String?
+  verified    Boolean  @default(false)
+  isPremium   Boolean  @default(false) @map("is_premium")
+  responseTime String? @map("response_time") // "< 1 hour", "Within 24 hours"
+  minOrder    String?  @map("min_order")
+  shippingFrom String? @map("shipping_from")
+  userId      String?  @map("user_id")
+  orgId       String?  @map("org_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  rfqs        RFQ[]
+
+  @@index([userId])
+  @@index([verified])
+  @@map("suppliers")
+}
+
+model Buyer {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String?
+  description String?
+  location    String?
+  city        String?
+  state       String?
+  country     String?  @default("India")
+  phone       String?
+  email       String?
+  website     String?
+  logoUrl     String?  @map("logo_url")
+  industry    String?
+  companySize String?  @map("company_size")
+  annualRevenue String? @map("annual_revenue")
+  totalOrders Int      @default(0) @map("total_orders")
+  totalSpent  Float    @default(0) @map("total_spent")
+  tags        String?
+  verified    Boolean  @default(false)
+  isPremium   Boolean  @default(false) @map("is_premium")
+  userId      String?  @map("user_id")
+  orgId       String?  @map("org_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  rfqs        RFQ[]
+
+  @@index([userId])
+  @@index([verified])
+  @@map("buyers")
+}
+
+model RFQ {
+  id            String   @id @default(cuid())
+  title         String
+  description   String?
+  category      String?
+  quantity      String
+  unit          String?  @default("pieces")
+  budget        Float?
+  currency      String   @default("INR")
+  deadline      DateTime?
+  status        String   @default("open") // open | quoted | awarded | closed | cancelled
+  priority      Int      @default(2) // 1=urgent, 2=high, 3=medium, 4=low
+  specs         String?  // JSON: detailed specifications
+  attachments   String?  // JSON array of file URLs
+  quotesCount   Int      @default(0) @map("quotes_count")
+  buyerId       String?  @map("buyer_id")
+  supplierId    String?  @map("supplier_id")
+  buyerName     String?  @map("buyer_name")
+  supplierName  String?  @map("supplier_name")
+  tags          String?
+  shippingTo    String?  @map("shipping_to")
+  paymentTerms  String?  @map("payment_terms")
+  userId        String?  @map("user_id")
+  orgId         String?  @map("org_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  buyer         Buyer?   @relation(fields: [buyerId], references: [id])
+  supplier      Supplier? @relation(fields: [supplierId], references: [id])
+
+  @@index([userId])
+  @@index([status])
+  @@index([category])
+  @@map("rfqs")
+}
+
+model ScheduledPost {
+  id            String   @id @default(cuid())
+  title         String
+  content       String?
+  type          String   @default("social") // social | email | blog | ad | whatsapp
+  platform      String?  // facebook, instagram, linkedin, twitter, youtube, etc.
+  scheduledAt   DateTime @map("scheduled_at")
+  publishedAt   DateTime? @map("published_at")
+  status        String   @default("draft") // draft | scheduled | publishing | published | failed
+  mediaUrls     String?  @map("media_urls") // JSON array
+  campaignId    String?  @map("campaign_id")
+  contentId     String?  @map("content_id")
+  errorMsg      String?  @map("error_msg")
+  metadata      String?  // JSON
+  userId        String   @map("user_id")
+  orgId         String?  @map("org_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([status])
+  @@index([scheduledAt])
+  @@map("scheduled_posts")
+}
+
+model Integration {
+  id            String   @id @default(cuid())
+  name          String
+  slug          String   @unique
+  type          String   // oauth | api_key | webhook | custom
+  provider      String?  // google, facebook, linkedin, twitter, shopify, etc.
+  category      String?  // social | analytics | ecommerce | email | crm
+  description   String?
+  icon          String?
+  status        String   @default("disconnected") // disconnected | connected | error | pending
+  config        String?  // JSON: provider-specific config
+  credentials   String?  // JSON: encrypted tokens (server-side only)
+  lastSyncAt    DateTime? @map("last_sync_at")
+  errorMsg      String?  @map("error_msg")
+  metadata      String?  // JSON
+  userId        String   @map("user_id")
+  orgId         String?  @map("org_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([provider])
+  @@index([status])
+  @@map("integrations")
+}
+
+// ─── P1: Automation Rules ───
+model AutomationRule {
+  id          String   @id @default(cuid())
+  userId      String   @map("user_id")
+  orgId       String?  @map("org_id")
+  name        String
+  description String?
+  triggerType String   @map("trigger_type")
+  triggerConfig String? @map("trigger_config")
+  actionType  String   @map("action_type")
+  actionConfig String? @map("action_config")
+  conditions  String?
+  enabled     Boolean  @default(true)
+  lastRun     DateTime? @map("last_run")
+  runCount    Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([enabled])
+  @@map("automation_rules")
+}
+
+// ─── P1: Workflows ───
+model Workflow {
+  id          String   @id @default(cuid())
+  userId      String   @map("user_id")
+  orgId       String?  @map("org_id")
+  name        String
+  description String?
+  status      String   @default("draft")
+  nodes       String   @default("[]")
+  edges       String   @default("[]")
+  triggers    String?
+  lastRun     DateTime? @map("last_run")
+  runCount    Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([status])
+  @@map("workflows")
+}
+
+// ─── P1: Knowledge Base Articles ───
+model KnowledgeArticle {
+  id          String   @id @default(cuid())
+  userId      String   @map("user_id")
+  orgId       String?  @map("org_id")
+  title       String
+  slug        String?
+  content     String?
+  category    String   @default("general")
+  tags        String?
+  status      String   @default("draft")
+  views       Int      @default(0)
+  helpful     Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([category])
+  @@index([status])
+  @@map("knowledge_articles")
+}
+
+// ─── Enterprise SEO: Projects ───
+model SeoProject {
+  id            String   @id @default(cuid())
+  userId        String   @map("user_id")
+  orgId         String?  @map("org_id")
+  name          String
+  domain        String
+  description   String?
+  status        String   @default("active")
+  defaultLocale String   @default("en") @map("default_locale")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([orgId])
+  @@map("seo_projects")
+}
+
+// ─── Enterprise SEO: Keyword Groups ───
+model SeoKeywordGroup {
+  id          String   @id @default(cuid())
+  userId      String   @map("user_id")
+  orgId       String?  @map("org_id")
+  name        String
+  description String?
+  color       String?
+  keywordCount Int     @default(0) @map("keyword_count")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@map("seo_keyword_groups")
+}
+
+// ─── Enterprise SEO: Competitor Keywords ───
+model SeoCompetitorKeyword {
+  id              String   @id @default(cuid())
+  userId          String   @map("user_id")
+  orgId           String?  @map("org_id")
+  competitorId    String   @map("competitor_id")
+  keyword         String
+  competitorRank  Int?     @map("competitor_rank")
+  ourRank         Int?     @map("our_rank")
+  searchVolume    Int?     @map("search_volume")
+  difficulty      Float?
+  opportunity     Float?
+  status          String   @default("tracked")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([competitorId])
+  @@map("seo_competitor_keywords")
+}
+
+// ─── Enterprise SEO: GEO Citations ───
+model SeoGeoCitation {
+  id          String   @id @default(cuid())
+  userId      String   @map("user_id")
+  orgId       String?  @map("org_id")
+  auditId     String?  @map("audit_id")
+  source      String
+  quote       String
+  url         String?
+  confidence  Float?
+  engine      String?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([auditId])
+  @@map("seo_geo_citations")
+}
+
+// ─── Enterprise SEO: Reports ───
+model SeoReport {
+  id          String   @id @default(cuid())
+  userId      String   @map("user_id")
+  orgId       String?  @map("org_id")
+  title       String
+  type        String
+  data        String?
+  format      String   @default("json")
+  status      String   @default("completed")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([type])
+  @@map("seo_reports")
+}
+
+// ─── Enterprise SEO: Alerts ───
+model SeoAlert {
+  id          String   @id @default(cuid())
+  userId      String   @map("user_id")
+  orgId       String?  @map("org_id")
+  title       String
+  message     String
+  severity    String   @default("info")
+  category    String?
+  source      String?
+  read        Boolean  @default(false)
+  actionUrl   String?  @map("action_url")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([severity])
+  @@index([read])
+  @@map("seo_alerts")
+}
+
+// ═══════════════════════════════════════════════════════════
+// INDUSTRY INTELLIGENCE LAYER
+// The shared knowledge base that answers "what does this industry need?".
+// It is the upstream input for SEO, Campaign and Performance intelligence.
+// ═══════════════════════════════════════════════════════════
+
+model IndustryProfile {
+  id              String   @id @default(cuid())
+  orgId           String?  @map("org_id")
+  name            String
+  slug            String   @unique
+  sector          String
+  description     String?
+  marketSizeUsd   Float?   @map("market_size_usd")
+  growthRatePct   Float?   @map("growth_rate_pct")
+  demandIndex     Float    @default(50) @map("demand_index")
+  competitionIndex Float   @default(50) @map("competition_index")
+  avgCplUsd       Float?   @map("avg_cpl_usd")
+  seasonality     String?
+  topChannels     String?  @map("top_channels")
+  keywordClusters String?  @map("keyword_clusters")
+  contentStyles   String?  @map("content_styles")
+  riskFlags       String?  @map("risk_flags")
+  status          String   @default("active")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  signals IndustrySignal[]
+
+  @@index([sector])
+  @@index([orgId])
+  @@map("industry_profiles")
+}
+
+model IndustrySignal {
+  id         String   @id @default(cuid())
+  profileId  String   @map("profile_id")
+  type       String   @default("trend")
+  title      String
+  summary    String?
+  magnitude  Float    @default(0)
+  confidence Float    @default(0)
+  source     String?
+  observedAt DateTime @default(now()) @map("observed_at")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  profile IndustryProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([profileId])
+  @@index([type])
+  @@map("industry_signals")
+}
+
+// ═══════════════════════════════════════════════════════════
+// EXPLAINABILITY LEDGER (SHAP / LIME)
+// Append-only. Every persisted row is bound to an AuditLog entry so a decision
+// can be reconstructed and defended months later.
+// ═══════════════════════════════════════════════════════════
+
+model ExplanationRecord {
+  id              String   @id @default(cuid())
+  orgId           String?  @map("org_id")
+  userId          String?  @map("user_id")
+  subjectType     String   @map("subject_type")
+  subjectId       String   @map("subject_id")
+  decision        String
+  outcome         Float    @default(0)
+  confidence      Float    @default(0)
+  method          String   @default("shap")
+  modelId         String?  @map("model_id")
+  explainerVersion String  @default("bell24h-xai/1.0.0") @map("explainer_version")
+  humanSummary    String?  @map("human_summary")
+  features        String?
+  shap            String?
+  lime            String?
+  auditLogId      String?  @map("audit_log_id")
+  contractCompliant   Boolean @default(true) @map("contract_compliant")
+  contractViolations  String? @map("contract_violations")
+  latencyMs       Int      @default(0) @map("latency_ms")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  @@index([subjectType])
+  @@index([subjectId])
+  @@index([orgId])
+  @@index([createdAt])
+  @@map("explanation_records")
+}
+
+// ═══════════════════════════════════════════════════════════
+// AI VOICE & COMMUNICATION CENTER
+//
+// PROTOTYPE / SIMULATION ONLY. Nothing in this domain touches real
+// telephony: no SIP registration, no carrier credentials, no PSTN egress.
+// Every "call" is a deterministic simulated record so the screens, the
+// queue state machine and the operating model can be validated before the
+// self-hosted voice stack (Dograh-style) is wired in behind it.
+// ═══════════════════════════════════════════════════════════
+
+model VoiceAgent {
+  id                  String   @id @default(cuid())
+  orgId               String?  @map("org_id")
+  key                 String   @unique
+  name                String
+  purpose             String
+  role                String   @default("outbound")
+  language            String   @default("en-IN")
+  voiceName           String?  @map("voice_name")
+  personality         String?
+  businessContext     String?  @map("business_context")
+  systemObjective     String?  @map("system_objective")
+  knowledgeBase       String?  @map("knowledge_base")
+  allowedActions      String?  @map("allowed_actions")
+  restrictedActions   String?  @map("restricted_actions")
+  tools               String?
+  decisionRules       String?  @map("decision_rules")
+  callFlow            String?  @map("call_flow")
+  successCriteria     String?  @map("success_criteria")
+  failureCriteria     String?  @map("failure_criteria")
+  escalationRules     String?  @map("escalation_rules")
+  workingHours        String?  @map("working_hours")
+  maxCallsPerDay      Int      @default(60) @map("max_calls_per_day")
+  escalationThreshold Float    @default(0.55) @map("escalation_threshold")
+  status              String   @default("active")
+  approvalState       String   @default("approved") @map("approval_state")
+  totalCalls          Int      @default(0) @map("total_calls")
+  resolutionRate      Float    @default(0) @map("resolution_rate")
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt @map("updated_at")
+
+  @@index([orgId])
+  @@index([status])
+  @@map("voice_agents")
+}
+
+model VoiceCampaign {
+  id             String   @id @default(cuid())
+  orgId          String?  @map("org_id")
+  code           String   @unique
+  name           String
+  campaignType   String   @default("outbound") @map("campaign_type")
+  targetAudience String?  @map("target_audience")
+  contactSource  String?  @map("contact_source")
+  objective      String?
+  agentKey       String?  @map("agent_key")
+  scriptCode     String?  @map("script_code")
+  language       String   @default("en-IN")
+  voiceName      String?  @map("voice_name")
+  maxCallsPerDay Int      @default(120) @map("max_calls_per_day")
+  callingHours   String?  @map("calling_hours")
+  retryPolicy    String?  @map("retry_policy")
+  maxAttempts    Int      @default(3) @map("max_attempts")
+  escalationRule String?  @map("escalation_rule")
+  successCondition String? @map("success_condition")
+  failureCondition String? @map("failure_condition")
+  status         String   @default("draft")
+  totalTargets   Int      @default(0) @map("total_targets")
+  totalCalled    Int      @default(0) @map("total_called")
+  totalConnected Int      @default(0) @map("total_connected")
+  totalSuccess   Int      @default(0) @map("total_success")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@index([orgId])
+  @@index([status])
+  @@map("voice_campaigns")
+}
+
+model VoiceCall {
+  id             String   @id @default(cuid())
+  orgId          String?  @map("org_id")
+  ref            String   @unique
+  campaignId     String?  @map("campaign_id")
+  agentKey       String?  @map("agent_key")
+  contactName    String   @map("contact_name")
+  company        String?
+  contactRole    String?  @map("contact_role")
+  phoneMasked    String   @map("phone_masked")
+  entityType     String   @default("supplier") @map("entity_type")
+  entityId       String?  @map("entity_id")
+  direction      String   @default("outbound")
+  status         String   @default("queued")
+  state          String?
+  intent         String?
+  objective      String?
+  sentiment      String?
+  confidence     Float    @default(0)
+  durationSec    Int      @default(0) @map("duration_sec")
+  outcome        String?
+  nextAction     String?  @map("next_action")
+  summary        String?
+  extractedData  String?  @map("extracted_data")
+  rfqNumber      String?  @map("rfq_number")
+  quoteAmount    Float?   @map("quote_amount")
+  recordingUrl   String?  @map("recording_url")
+  recordingState String   @default("simulated") @map("recording_state")
+  language       String   @default("en-IN")
+  costUsd        Float    @default(0) @map("cost_usd")
+  attempt        Int      @default(1)
+  startedAt      DateTime? @map("started_at")
+  endedAt        DateTime? @map("ended_at")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  messages VoiceCallMessage[]
+
+  @@index([orgId])
+  @@index([status])
+  @@index([direction])
+  @@index([createdAt])
+  @@map("voice_calls")
+}
+
+model VoiceCallMessage {
+  id        String   @id @default(cuid())
+  callId    String   @map("call_id")
+  seq       Int
+  speaker   String
+  text      String
+  atSec     Int      @default(0) @map("at_sec")
+  sentiment String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  call VoiceCall @relation(fields: [callId], references: [id], onDelete: Cascade)
+
+  @@index([callId])
+  @@map("voice_call_messages")
+}
+
+model VoiceQueueJob {
+  id           String   @id @default(cuid())
+  orgId        String?  @map("org_id")
+  ref          String   @unique
+  contactName  String   @map("contact_name")
+  company      String?
+  phoneMasked  String   @map("phone_masked")
+  campaignCode String?  @map("campaign_code")
+  agentKey     String?  @map("agent_key")
+  priority     String   @default("normal")
+  status       String   @default("pending")
+  attempt      Int      @default(1)
+  scheduledFor DateTime? @map("scheduled_for")
+  nextAction   String?  @map("next_action")
+  reason       String?
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@index([orgId])
+  @@index([status])
+  @@map("voice_queue_jobs")
+}
+
+model VoiceScript {
+  id          String   @id @default(cuid())
+  orgId       String?  @map("org_id")
+  code        String   @unique
+  name        String
+  agentKey    String?  @map("agent_key")
+  language    String   @default("en-IN")
+  tone        String   @default("professional")
+  opening     String?
+  verification String?
+  purpose     String?
+  questions   String?
+  objections  String?
+  negotiation String?
+  closing     String?
+  escalation  String?
+  fallback    String?
+  variables   String?
+  status      String   @default("published")
+  version     Int      @default(1)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@index([orgId])
+  @@map("voice_scripts")
+}
+
+model VoiceProvider {
+  id           String   @id @default(cuid())
+  orgId        String?  @map("org_id")
+  key          String   @unique
+  name         String
+  category     String
+  vendor       String?
+  status       String   @default("enabled")
+  latencyMs    Int      @default(0) @map("latency_ms")
+  costPerUnit  Float    @default(0) @map("cost_per_unit")
+  costUnit     String   @default("per minute") @map("cost_unit")
+  health       Float    @default(100)
+  isDefault    Boolean  @default(false) @map("is_default")
+  isFallback   Boolean  @default(false) @map("is_fallback")
+  region       String?
+  notes        String?
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@index([orgId])
+  @@index([category])
+  @@map("voice_providers")
+}
+
+model VoiceProfile {
+  id        String   @id @default(cuid())
+  orgId     String?  @map("org_id")
+  key       String   @unique
+  name      String
+  language  String
+  gender    String
+  style     String   @default("neutral")
+  speed     Float    @default(1)
+  pitch     Float    @default(1)
+  provider  String?
+  accent    String?
+  status    String   @default("enabled")
+  isDefault Boolean  @default(false) @map("is_default")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([orgId])
+  @@index([language])
+  @@map("voice_profiles")
+}
+
+model VoiceNumber {
+  id          String   @id @default(cuid())
+  orgId       String?  @map("org_id")
+  key         String   @unique
+  label       String
+  masked      String
+  channel     String   @default("sip")
+  provider    String?
+  region      String?
+  assignedTo  String?  @map("assigned_to")
+  capacity    Int      @default(10)
+  status      String   @default("enabled")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@index([orgId])
+  @@map("voice_numbers")
+}
+
+model VoiceEscalation {
+  id           String   @id @default(cuid())
+  orgId        String?  @map("org_id")
+  ref          String   @unique
+  callRef      String?  @map("call_ref")
+  contactName  String   @map("contact_name")
+  company      String?
+  reason       String
+  severity     String   @default("medium")
+  transcript   String?
+  recommendation String?
+  summary      String?
+  rfqNumber    String?  @map("rfq_number")
+  status       String   @default("open")
+  assignedTo   String?  @map("assigned_to")
+  raisedAt     DateTime @default(now()) @map("raised_at")
+  resolvedAt   DateTime? @map("resolved_at")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@index([orgId])
+  @@index([status])
+  @@map("voice_escalations")
+}
+
+model VoiceAutomationRule {
+  id          String   @id @default(cuid())
+  orgId       String?  @map("org_id")
+  code        String   @unique
+  name        String
+  trigger     String
+  conditions  String?
+  aiDecision  String?  @map("ai_decision")
+  action      String
+  agentKey    String?  @map("agent_key")
+  channel     String   @default("voice")
+  status      String   @default("enabled")
+  runCount    Int      @default(0) @map("run_count")
+  lastRunAt   DateTime? @map("last_run_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@index([orgId])
+  @@index([status])
+  @@map("voice_automation_rules")
+}
+
+model VoicePolicy {
+  id          String   @id @default(cuid())
+  orgId       String?  @map("org_id")
+  key         String   @unique
+  label       String
+  category    String   @default("safety")
+  value       String
+  valueType   String   @default("string") @map("value_type")
+  unit        String?
+  description String?
+  enforced    Boolean  @default(true)
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@index([orgId])
+  @@map("voice_policies")
+}
+
+model CommEvent {
+  id          String   @id @default(cuid())
+  orgId       String?  @map("org_id")
+  ref         String   @unique
+  channel     String
+  direction   String   @default("outbound")
+  contactName String   @map("contact_name")
+  company     String?
+  subject     String?
+  body        String?
+  outcome     String?
+  callRef     String?  @map("call_ref")
+  entityType  String?  @map("entity_type")
+  rfqNumber   String?  @map("rfq_number")
+  occurredAt  DateTime @default(now()) @map("occurred_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@index([orgId])
+  @@index([channel])
+  @@index([occurredAt])
+  @@map("comm_events")
+}
+
